@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  purchase: one
+  cardtrader_blueprint_id: 1
+  cardtrader_product_id: 1
+  cardtrader_expansion_id: 1
+  game_id: 1
+  category_id: 1
+  scryfall_id: MyString
+  cardmarket_id: MyString
+  card_name: MyString
+  set_name: MyString
+  condition: MyString
+  language: MyString
+  is_foil: false
+  image_url: MyString
+  allocated_cost_cents: 1
+  status: MyString
+
+two:
+  purchase: two
+  cardtrader_blueprint_id: 1
+  cardtrader_product_id: 1
+  cardtrader_expansion_id: 1
+  game_id: 1
+  category_id: 1
+  scryfall_id: MyString
+  cardmarket_id: MyString
+  card_name: MyString
+  set_name: MyString
+  condition: MyString
+  language: MyString
+  is_foil: false
+  image_url: MyString
+  allocated_cost_cents: 1
+  status: MyString
