@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   end
 
   resources :purchases do
+    collection do
+      get :import_from_cardtrader
+    end
+
     resources :inventory_items, only: %i[create destroy], shallow: true
   end
 

@@ -15,7 +15,7 @@ module Cardtrader
           CardtraderBlueprint.search(query).limit(RESULTS_LIMIT)
         end
 
-      render json: results.as_json(only: %i[cardtrader_id name expansion_name image_url])
+      render json: results.as_json(only: %i[cardtrader_id name expansion_name image_url category_id])
     end
   end
 end

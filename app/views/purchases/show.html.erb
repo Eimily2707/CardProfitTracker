@@ -29,23 +29,57 @@
     <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
   <% end %>
 
-  <!-- KPI -->
-  <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo totale speso</p>
-      <p class="mt-1 text-xl font-semibold text-gray-900"><%= format_money(@purchase.total_spent_cents, currency: @purchase.currency) %></p>
-    </div>
-    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo attribuito totale</p>
-      <p class="mt-1 text-xl font-semibold text-gray-900"><%= format_money(@purchase.allocated_cost_cents, currency: @purchase.currency) %></p>
-    </div>
-    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo rimanente da allocare</p>
-      <p class="mt-1 text-xl font-semibold <%= @purchase.remaining_to_allocate_cents.negative? ? "text-red-600" : "text-gray-900" %>">
-        <%= format_money(@purchase.remaining_to_allocate_cents, currency: @purchase.currency) %>
+  <% if alert %>
+    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
+  <% end %>
+
+  <% if @purchase.keep_sealed? %>
+    <!-- Sealed product -->
+    <div class="rounded-lg border border-indigo-200 bg-indigo-50 p-6">
+      <span class="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+        &#128230; Prodotto Sigillato in Inventario
+      </span>
+
+      <% if (item = @purchase.sealed_inventory_item) %>
+        <div class="mt-4 flex items-center gap-4">
+          <% if item.image_url.present? %>
+            <%= image_tag item.image_url, alt: item.card_name, class: "h-16 w-16 rounded object-contain bg-white" %>
+          <% end %>
+          <div>
+            <p class="text-sm font-medium text-gray-900"><%= item.card_name %></p>
+            <p class="text-sm text-gray-500">
+              Costo allocato: <%= format_money(item.allocated_cost_cents, currency: @purchase.currency) %>
+              &middot; Stato: <%= item.status.humanize %>
+            </p>
+          </div>
+        </div>
+      <% else %>
+        <p class="mt-4 text-sm text-gray-600">Il prodotto sigillato verr&agrave; creato al salvataggio dell'acquisto.</p>
+      <% end %>
+
+      <p class="mt-4 text-sm text-gray-500">
+        Per spacchettarlo e inserire le singole carte estratte, cambia la strategia in
+        &laquo;Spacchetta e Vendi&raquo; dalla <%= link_to "modifica dell'acquisto", edit_purchase_path(@purchase), class: "text-indigo-600 hover:text-indigo-900" %>.
       </p>
     </div>
-  </div>
+  <% else %>
+    <!-- KPI -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo totale speso</p>
+        <p class="mt-1 text-xl font-semibold text-gray-900"><%= format_money(@purchase.total_spent_cents, currency: @purchase.currency) %></p>
+      </div>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo attribuito totale</p>
+        <p class="mt-1 text-xl font-semibold text-gray-900"><%= format_money(@purchase.allocated_cost_cents, currency: @purchase.currency) %></p>
+      </div>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo rimanente da allocare</p>
+        <p class="mt-1 text-xl font-semibold <%= @purchase.remaining_to_allocate_cents.negative? ? "text-red-600" : "text-gray-900" %>">
+          <%= format_money(@purchase.remaining_to_allocate_cents, currency: @purchase.currency) %>
+        </p>
+      </div>
+    </div>
 
   <!-- Unboxing -->
   <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
@@ -173,4 +207,5 @@
       </table>
     </div>
   </div>
+  <% end %>
 </div>

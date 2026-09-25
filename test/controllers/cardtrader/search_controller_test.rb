@@ -12,7 +12,8 @@ module Cardtrader
       assert_equal cardtrader_blueprints(:elsa_blueprint).cardtrader_id, json.first["cardtrader_id"]
       assert_equal "Elsa - Snow Queen", json.first["name"]
       assert_equal "Rise of the Floodborn", json.first["expansion_name"]
-      assert_equal %w[cardtrader_id name expansion_name image_url], json.first.keys
+      assert_equal %w[cardtrader_id name expansion_name image_url category_id], json.first.keys
+      assert_equal cardtrader_blueprints(:elsa_blueprint).category_id, json.first["category_id"]
     end
 
     test "search is case-insensitive" do

@@ -1,12 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Live autocomplete against the local Cardtrader::SearchController#index
-// endpoint. Selecting a result fills the hidden fields the unboxing form
-// submits (blueprint id, image url, card name, set name) and shows a preview.
+// endpoint. Selecting a result fills whichever hidden fields are present
+// (blueprint id, category id, image url, card name, set name) and shows a
+// preview. Every target is optional so this controller works both on the
+// unboxing form (full target set) and the "keep sealed" purchase form
+// (blueprint id/category id/image url only).
 export default class extends Controller {
   static targets = [
     "query", "results",
-    "blueprintId", "imageUrl", "cardName", "setName",
+    "blueprintId", "categoryId", "imageUrl", "cardName", "setName",
     "preview", "previewImage", "previewName", "previewSet"
   ]
   static values = { url: String }
@@ -74,15 +77,18 @@ export default class extends Controller {
   }
 
   select(result) {
-    this.blueprintIdTarget.value = result.cardtrader_id
-    this.imageUrlTarget.value = result.image_url ?? ""
-    this.cardNameTarget.value = result.name
-    this.setNameTarget.value = result.expansion_name ?? ""
+    if (this.hasBlueprintIdTarget) this.blueprintIdTarget.value = result.cardtrader_id
+    if (this.hasCategoryIdTarget) this.categoryIdTarget.value = result.category_id ?? ""
+    if (this.hasImageUrlTarget) this.imageUrlTarget.value = result.image_url ?? ""
+    if (this.hasCardNameTarget) this.cardNameTarget.value = result.name
+    if (this.hasSetNameTarget) this.setNameTarget.value = result.expansion_name ?? ""
 
-    this.previewImageTarget.src = result.image_url ?? ""
-    this.previewNameTarget.textContent = result.name
-    this.previewSetTarget.textContent = result.expansion_name ?? ""
-    this.previewTarget.classList.remove("hidden")
+    if (this.hasPreviewTarget) {
+      this.previewImageTarget.src = result.image_url ?? ""
+      this.previewNameTarget.textContent = result.name
+      this.previewSetTarget.textContent = result.expansion_name ?? ""
+      this.previewTarget.classList.remove("hidden")
+    }
 
     this.queryTarget.value = result.name
     this.hideResults()

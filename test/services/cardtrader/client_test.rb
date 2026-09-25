@@ -53,6 +53,37 @@ module Cardtrader
       assert_equal "Elsa - Snow Queen", result.first["name"]
     end
 
+    test "orders defaults to the buyer role and default pagination" do
+      stub = stub_request(:get, "https://api.cardtrader.com/api/v2/orders")
+             .with(query: { "order_as" => "buyer", "limit" => "20", "page" => "1" })
+             .to_return(status: 200, body: [ { "id" => 1 } ].to_json)
+
+      result = @client.orders
+
+      assert_requested stub
+      assert_equal 1, result.length
+    end
+
+    test "orders forwards custom pagination and role" do
+      stub = stub_request(:get, "https://api.cardtrader.com/api/v2/orders")
+             .with(query: { "order_as" => "seller", "limit" => "5", "page" => "2" })
+             .to_return(status: 200, body: "[]")
+
+      @client.orders(order_as: "seller", limit: 5, page: 2)
+
+      assert_requested stub
+    end
+
+    test "order fetches a single order by id" do
+      stub = stub_request(:get, "https://api.cardtrader.com/api/v2/orders/42")
+             .to_return(status: 200, body: { "id" => 42, "state" => "paid" }.to_json)
+
+      result = @client.order(42)
+
+      assert_requested stub
+      assert_equal "paid", result["state"]
+    end
+
     test "raises an ApiError on a non-2xx response" do
       stub_request(:get, "https://api.cardtrader.com/api/v2/games")
         .to_return(status: 429, body: '{"error":"Too many requests: max 200 requests per 10 seconds"}')

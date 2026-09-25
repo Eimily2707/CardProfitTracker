@@ -3,12 +3,20 @@
 <div class="w-full max-w-6xl mx-auto">
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-2xl font-semibold text-gray-900">Acquisti</h1>
-    <%= link_to "Nuovo acquisto", new_purchase_path,
-        class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500" %>
+    <div class="flex gap-3">
+      <%= link_to "Importa da CardTrader", import_from_cardtrader_purchases_path,
+          class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+      <%= link_to "Nuovo acquisto", new_purchase_path,
+          class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500" %>
+    </div>
   </div>
 
   <% if notice %>
     <p class="mb-4 rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+
+  <% if alert %>
+    <p class="mb-4 rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
   <% end %>
 
   <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">

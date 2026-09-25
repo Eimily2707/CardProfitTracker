@@ -32,6 +32,14 @@ module Cardtrader
       get("/blueprints/export", expansion_id: expansion_id)
     end
 
+    def orders(order_as: "buyer", limit: 20, page: 1)
+      get("/orders", order_as: order_as, limit: limit, page: page)
+    end
+
+    def order(id)
+      get("/orders/#{id}")
+    end
+
     private
 
     def get(path, params = {})

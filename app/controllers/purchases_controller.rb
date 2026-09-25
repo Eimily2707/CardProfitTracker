@@ -36,8 +36,27 @@ class PurchasesController < ApplicationController
   end
 
   def destroy
-    @purchase.destroy
-    redirect_to purchases_path, notice: "Acquisto eliminato.", status: :see_other
+    if @purchase.destroy
+      redirect_to purchases_path, notice: "Acquisto eliminato.", status: :see_other
+    else
+      redirect_to @purchase,
+                  alert: "Impossibile eliminare l'acquisto: il prodotto sigillato risulta già venduto.",
+                  status: :see_other
+    end
+  end
+
+  # GET /purchases/import_from_cardtrader            -> lista degli ultimi ordini
+  # GET /purchases/import_from_cardtrader?order_id=1 -> precompila il form "new"
+  def import_from_cardtrader
+    if params[:order_id].present?
+      @purchase = Cardtrader::OrderImporter.new.build_purchase(order_id: params[:order_id])
+      render :new
+    else
+      @recent_orders = Cardtrader::OrderImporter.new.recent_orders
+    end
+  rescue Cardtrader::Client::ApiError => e
+    redirect_to params[:order_id].present? ? import_from_cardtrader_purchases_path : new_purchase_path,
+                alert: "Impossibile importare da CardTrader: #{e.message}"
   end
 
   private
@@ -50,7 +69,8 @@ class PurchasesController < ApplicationController
     params.require(:purchase).permit(
       :name, :source, :product_type, :purchase_date,
       :total_price, :shipping_cost, :tax, :currency,
-      :via_cardtrader_zero, :cardtrader_order_id, :notes
+      :via_cardtrader_zero, :cardtrader_order_id, :notes,
+      :intent_type, :cardtrader_blueprint_id, :category_id, :blueprint_image_url
     )
   end
 end

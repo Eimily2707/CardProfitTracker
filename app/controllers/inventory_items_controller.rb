@@ -16,8 +16,15 @@ class InventoryItemsController < ApplicationController
 
   def destroy
     @purchase = @inventory_item.purchase
-    @inventory_item.destroy
-    redirect_to @purchase, notice: "Carta rimossa dall'inventario.", status: :see_other
+    redirect_target = @purchase || purchases_path
+
+    if @inventory_item.destroy
+      redirect_to redirect_target, notice: "Carta rimossa dall'inventario.", status: :see_other
+    else
+      redirect_to redirect_target,
+                  alert: "Impossibile rimuovere la carta: risulta già venduta.",
+                  status: :see_other
+    end
   end
 
   private

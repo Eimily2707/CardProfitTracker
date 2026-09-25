@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_21_144151) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_22_155356) do
   create_table "cardtrader_blueprints", force: :cascade do |t|
     t.string "cardmarket_id"
     t.integer "cardtrader_id", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_144151) do
     t.integer "game_id"
     t.string "image_url"
     t.boolean "is_foil", default: false, null: false
+    t.boolean "is_sealed_product", default: false, null: false
     t.string "language"
     t.integer "purchase_id"
     t.string "scryfall_id"
@@ -48,12 +49,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_144151) do
     t.index ["cardtrader_blueprint_id"], name: "index_inventory_items_on_cardtrader_blueprint_id"
     t.index ["cardtrader_product_id"], name: "index_inventory_items_on_cardtrader_product_id"
     t.index ["purchase_id"], name: "index_inventory_items_on_purchase_id"
+    t.index ["purchase_id"], name: "index_inventory_items_on_purchase_id_when_sealed", unique: true, where: "is_sealed_product = 1"
   end
 
   create_table "purchases", force: :cascade do |t|
     t.integer "cardtrader_order_id"
     t.datetime "created_at", null: false
     t.string "currency", default: "EUR", null: false
+    t.string "intent_type", default: "crack_and_sell", null: false
     t.string "name", null: false
     t.text "notes"
     t.string "product_type"
