@@ -19,6 +19,11 @@ gem "tailwindcss-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+# Pin to the 2.x series: json 3.x drops the two-argument JSON.parse(source, opts)
+# form that Rails' session cookie decryption (ActiveSupport::JSON.decode) still calls,
+# which breaks every request that round-trips a session cookie.
+gem "json", "~> 2.9"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 

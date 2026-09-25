@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_21_143319) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_144151) do
+  create_table "cardtrader_blueprints", force: :cascade do |t|
+    t.string "cardmarket_id"
+    t.integer "cardtrader_id", null: false
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.string "expansion_name"
+    t.integer "game_id"
+    t.string "image_url"
+    t.string "name", null: false
+    t.string "scryfall_id"
+    t.datetime "updated_at", null: false
+    t.index ["cardtrader_id"], name: "index_cardtrader_blueprints_on_cardtrader_id", unique: true
+    t.index ["name"], name: "index_cardtrader_blueprints_on_name"
+  end
+
   create_table "inventory_items", force: :cascade do |t|
     t.integer "allocated_cost_cents"
     t.string "card_name", null: false

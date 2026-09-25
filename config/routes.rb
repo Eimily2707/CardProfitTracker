@@ -9,6 +9,14 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  namespace :cardtrader do
+    get "search", to: "search#index"
+  end
+
+  resources :purchases do
+    resources :inventory_items, only: %i[create destroy], shallow: true
+  end
+
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "purchases#index"
 end

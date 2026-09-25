@@ -1,0 +1,176 @@
+<% content_for :title, @purchase.name %>
+
+<div class="w-full max-w-5xl mx-auto space-y-8">
+  <div>
+    <%= link_to "← Tutti gli acquisti", purchases_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+
+    <div class="mt-2 flex items-start justify-between">
+      <div>
+        <h1 class="text-2xl font-semibold text-gray-900"><%= @purchase.name %></h1>
+        <p class="mt-1 text-sm text-gray-500">
+          <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= source_badge_classes(@purchase.source) %>">
+            <%= @purchase.source %>
+          </span>
+          <%= @purchase.product_type&.humanize %> &middot; <%= @purchase.purchase_date&.strftime("%d/%m/%Y") %>
+          <% if @purchase.via_cardtrader_zero? %> &middot; CardTrader Zero<% end %>
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <%= link_to "Modifica", edit_purchase_path(@purchase), class: "text-sm text-indigo-600 hover:text-indigo-900" %>
+        <%= link_to "Elimina", purchase_path(@purchase), data: {
+              turbo_method: :delete,
+              turbo_confirm: "Eliminare questo acquisto e tutti i riferimenti alle carte collegate?"
+            }, class: "text-sm text-red-600 hover:text-red-900" %>
+      </div>
+    </div>
+  </div>
+
+  <% if notice %>
+    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+
+  <!-- KPI -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo totale speso</p>
+      <p class="mt-1 text-xl font-semibold text-gray-900"><%= format_money(@purchase.total_spent_cents, currency: @purchase.currency) %></p>
+    </div>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo attribuito totale</p>
+      <p class="mt-1 text-xl font-semibold text-gray-900"><%= format_money(@purchase.allocated_cost_cents, currency: @purchase.currency) %></p>
+    </div>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase tracking-wide text-gray-500">Costo rimanente da allocare</p>
+      <p class="mt-1 text-xl font-semibold <%= @purchase.remaining_to_allocate_cents.negative? ? "text-red-600" : "text-gray-900" %>">
+        <%= format_money(@purchase.remaining_to_allocate_cents, currency: @purchase.currency) %>
+      </p>
+    </div>
+  </div>
+
+  <!-- Unboxing -->
+  <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-medium text-gray-900">Spacchettamento</h2>
+    <p class="mt-1 text-sm text-gray-500">Cerca una carta nel catalogo CardTrader e aggiungila all'inventario di questo acquisto.</p>
+
+    <%= form_with model: [@purchase, @new_inventory_item],
+        data: { controller: "cardtrader-search", cardtrader_search_url_value: cardtrader_search_path },
+        class: "mt-4 space-y-4" do |f| %>
+
+      <% if @new_inventory_item.errors.any? %>
+        <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+          <p class="font-medium">Correggi i seguenti errori:</p>
+          <ul class="mt-1 list-disc list-inside">
+            <% @new_inventory_item.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="relative">
+        <label class="block text-sm font-medium text-gray-700">Cerca carta</label>
+        <input type="text" autocomplete="off" placeholder="Inizia a digitare il nome della carta..."
+               data-cardtrader-search-target="query" data-action="input->cardtrader-search#search"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+
+        <div data-cardtrader-search-target="results"
+             class="hidden absolute z-10 mt-1 max-h-64 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg"></div>
+      </div>
+
+      <div data-cardtrader-search-target="preview" class="hidden flex items-center gap-3 rounded-md border border-gray-100 bg-gray-50 p-3">
+        <img data-cardtrader-search-target="previewImage" src="" alt="" class="h-16 w-16 rounded object-contain bg-white">
+        <div>
+          <p data-cardtrader-search-target="previewName" class="text-sm font-medium text-gray-900"></p>
+          <p data-cardtrader-search-target="previewSet" class="text-xs text-gray-500"></p>
+        </div>
+      </div>
+
+      <%= f.hidden_field :cardtrader_blueprint_id, data: { cardtrader_search_target: "blueprintId" } %>
+      <%= f.hidden_field :image_url, data: { cardtrader_search_target: "imageUrl" } %>
+      <%= f.hidden_field :card_name, data: { cardtrader_search_target: "cardName" } %>
+      <%= f.hidden_field :set_name, data: { cardtrader_search_target: "setName" } %>
+
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+        <div>
+          <%= f.label :condition, "Condizione", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :condition, InventoryItem::CONDITIONS, { include_blank: true },
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div>
+          <%= f.label :language, "Lingua", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :language, InventoryItem::LANGUAGES, { include_blank: true },
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div class="flex items-end pb-2">
+          <div class="flex items-center">
+            <%= f.check_box :is_foil, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+            <%= f.label :is_foil, "Foil", class: "ml-2 block text-sm text-gray-700" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :allocated_cost, "Costo attribuito (€)", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.number_field :allocated_cost, step: 0.01, min: 0, placeholder: "0.00",
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+
+      <%= f.submit "Aggiungi carta all'inventario",
+          class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <!-- Inventory list -->
+  <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+    <h2 class="px-6 pt-6 text-lg font-medium text-gray-900">Carte estratte (<%= @inventory_items.size %>)</h2>
+
+    <div class="mt-4 overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"></th>
+            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Carta</th>
+            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Condizione</th>
+            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Lingua</th>
+            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Foil</th>
+            <th class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Costo attribuito</th>
+            <th class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Azioni</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @inventory_items.each do |item| %>
+            <tr>
+              <td class="px-4 py-3">
+                <% if item.image_url.present? %>
+                  <%= image_tag item.image_url, alt: item.card_name, class: "h-12 w-12 rounded object-contain bg-gray-50" %>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-sm">
+                <p class="font-medium text-gray-900"><%= item.card_name %></p>
+                <p class="text-xs text-gray-500"><%= item.set_name %></p>
+              </td>
+              <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= item.condition %></td>
+              <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= item.language %></td>
+              <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= item.is_foil? ? "Sì" : "No" %></td>
+              <td class="whitespace-nowrap px-4 py-3 text-right text-sm text-gray-900"><%= format_money(item.allocated_cost_cents, currency: @purchase.currency) %></td>
+              <td class="whitespace-nowrap px-4 py-3 text-right text-sm">
+                <%= link_to "Elimina", inventory_item_path(item), data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "Rimuovere questa carta dall'inventario?"
+                    }, class: "text-red-600 hover:text-red-900" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @inventory_items.empty? %>
+            <tr>
+              <td colspan="7" class="px-4 py-10 text-center text-sm text-gray-500">Nessuna carta ancora estratta da questo acquisto.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

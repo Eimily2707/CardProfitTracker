@@ -1,5 +1,10 @@
 class InventoryItem < ApplicationRecord
+  include Monetizable
+
   CONDITIONS = %w[NM EX GD LP PL PO].freeze
+  LANGUAGES = %w[EN IT JP DE FR ES].freeze
+
+  monetize :allocated_cost
 
   belongs_to :purchase, optional: true
   has_one :sale, dependent: :restrict_with_error
