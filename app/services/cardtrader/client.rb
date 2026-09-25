@@ -37,7 +37,9 @@ module Cardtrader
     def get(path, params = {})
       raise ApiError, "CARDTRADER_API_TOKEN non configurato" if @token.blank?
 
-      uri = URI.join(BASE_URL, path)
+      # URI.join(BASE_URL, path) would treat a leading "/" in path as absolute
+      # and drop the "/api/v2" prefix, so build the URI from a plain concatenation.
+      uri = URI("#{BASE_URL}#{path}")
       uri.query = URI.encode_www_form(params) if params.present?
 
       request = Net::HTTP::Get.new(uri)

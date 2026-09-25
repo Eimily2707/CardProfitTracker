@@ -1,21 +1,26 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  cardtrader_id: 1
-  name: MyString
-  expansion_name: MyString
-  game_id: 1
+elsa_blueprint:
+  cardtrader_id: 501
+  name: "Elsa - Snow Queen"
+  expansion_name: "Rise of the Floodborn"
+  game_id: 5
   category_id: 1
-  image_url: MyString
-  scryfall_id: MyString
-  cardmarket_id: MyString
+  image_url: "https://example.com/images/elsa-snow-queen.jpg"
 
-two:
-  cardtrader_id: 1
-  name: MyString
-  expansion_name: MyString
+mickey_blueprint:
+  cardtrader_id: 502
+  name: "Mickey Mouse - Brave Little Tailor"
+  expansion_name: "Rise of the Floodborn"
+  game_id: 5
+  category_id: 1
+  image_url: "https://example.com/images/mickey-brave.jpg"
+
+teferi_blueprint:
+  cardtrader_id: 601
+  name: "Teferi, Time Raveler"
+  expansion_name: "War of the Spark"
   game_id: 1
   category_id: 1
-  image_url: MyString
-  scryfall_id: MyString
-  cardmarket_id: MyString
+  image_url: "https://example.com/images/teferi.jpg"
+  scryfall_id: "abc123"
