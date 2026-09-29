@@ -1,0 +1,14 @@
+acme_owner:
+  account: acme
+  user: elena
+  role: owner
+
+acme_admin:
+  account: acme
+  user: sara
+  role: admin
+
+globex_owner:
+  account: globex
+  user: marco
+  role: owner

@@ -1,0 +1,42 @@
+---
+fr:
+  activerecord:
+    attributes:
+      account:
+        base_currency: Devise de base
+        country: Pays
+        name: Nom
+        time_zone: Fuseau horaire
+      membership:
+        role: Rôle
+      user:
+        email: E-mail
+        time_zone: Fuseau horaire
+    errors:
+      models:
+        account:
+          attributes:
+            time_zone:
+              invalid: n'est pas un fuseau horaire valide
+        membership:
+          attributes:
+            role:
+              cannot_demote_last_owner: impossible de supprimer le dernier propriétaire
+                du compte
+              owner_already_exists: il ne peut y avoir qu'un seul propriétaire par
+                compte
+        user:
+          attributes:
+            time_zone:
+              invalid: n'est pas un fuseau horaire valide
+  app:
+    name: CardProfitTracker
+  enums:
+    membership:
+      role:
+        admin: Administrateur
+        operator: Opérateur
+        owner: Propriétaire
+        viewer: Observateur
+  pundit:
+    not_authorized: Vous n'êtes pas autorisé à faire cela.
