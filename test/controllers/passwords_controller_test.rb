@@ -46,7 +46,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     end
 
     follow_redirect!
-    assert_notice "Password has been reset"
+    assert_notice "Your password has been reset"
   end
 
   test "update with non matching passwords" do

@@ -1,0 +1,19 @@
+<% if Current.user %>
+  <% memberships = Current.user.memberships.includes(:account).order(:id) %>
+
+  <% if memberships.size > 1 %>
+    <%= form_with url: switch_account_path, method: :post, data: { controller: "account-switcher" }, class: "inline-block" do %>
+      <label for="account_id" class="sr-only"><%= t("layouts.account_switcher.label") %></label>
+      <select name="account_id" id="account_id" data-action="change->account-switcher#submit"
+              class="rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        <% memberships.each do |membership| %>
+          <option value="<%= membership.account_id %>" <%= "selected" if Current.account == membership.account %>>
+            <%= membership.account.name %>
+          </option>
+        <% end %>
+      </select>
+    <% end %>
+  <% elsif memberships.one? %>
+    <span class="text-sm text-gray-500"><%= memberships.first.account.name %></span>
+  <% end %>
+<% end %>

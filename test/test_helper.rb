@@ -17,6 +17,19 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
+    # Cardtrader::Client.new (used with no explicit token override by every
+    # Cardtrader job/service) reads this to authenticate. Without it, every
+    # call raises Client::AuthenticationError - which discard_on then
+    # swallows silently, making a job look like it "succeeded" while doing
+    # nothing. Individual tests can still override it to test the no-token case.
+    setup do
+      ENV["CARDTRADER_API_TOKEN"] = "test-token"
+    end
+
+    teardown do
+      ENV.delete("CARDTRADER_API_TOKEN")
+    end
+
     # Add more helper methods to be used by all tests here...
   end
 end

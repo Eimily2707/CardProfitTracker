@@ -30,6 +30,17 @@ it:
               invalid: non è un fuso orario valido
   app:
     name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: Tutte le categorie
+      all_expansions: Tutte le espansioni
+      all_games: Tutti i giochi
+      category: Categoria
+      empty: Nessuna carta trovata.
+      expansion: Espansione
+      game: Gioco
+      query: Cerca una carta...
+      title: Catalogo carte
   enums:
     membership:
       role:
@@ -37,5 +48,90 @@ it:
         operator: Operatore
         owner: Proprietario
         viewer: Visualizzatore
+  invitation_mailer:
+    invite:
+      body: Sei stato invitato a collaborare su %{account} in CardProfitTracker. Questo
+        invito scade tra 7 giorni.
+      cta: Accetta invito
+      subject: Sei stato invitato a unirti a %{account} su CardProfitTracker
+      title: Sei stato invitato a unirti a %{account}
+  invitations:
+    accept:
+      already_accepted: Questo invito è già stato accettato.
+      expired: Questo invito è scaduto.
+      not_found: Il link di invito non è valido.
+      success: Sei entrato a far parte di %{account}.
+    create:
+      success: Invito inviato.
+    destroy:
+      success: Invito revocato.
+    index:
+      email: Email
+      empty: Nessun invito in sospeso.
+      expires_at: Scade
+      invited_by: Invitato da
+      revoke: Revoca
+      role: Ruolo
+      title: Inviti in sospeso
+    new:
+      email: Email
+      role: Ruolo
+      submit: Invia invito
+      title: Invita un collaboratore
+    show:
+      email: Email
+      existing_user_notice: Accedi con il tuo account esistente per accettare.
+      name: Nome
+      new_user_notice: Crea il tuo account per accettare l'invito.
+      password: Password
+      sign_in_link: Accedi
+      submit: Accetta invito
+      title: Sei stato invitato a unirti a %{account}
+  layouts:
+    account_switcher:
+      label: Spazio di lavoro
+  passwords:
+    create:
+      instructions_sent: Istruzioni per il reset inviate (se esiste un utente con
+        questa email).
+    edit:
+      password: Nuova password
+      password_confirmation: Ripeti la nuova password
+      submit: Salva
+      title: Aggiorna la password
+    invalid_or_expired_token: Il link per reimpostare la password non è valido o è
+      scaduto.
+    new:
+      email: Email
+      submit: Invia le istruzioni per il reset
+      title: Password dimenticata?
+    update:
+      mismatch: Le password non coincidono.
+      success: La password è stata reimpostata.
   pundit:
     not_authorized: Non sei autorizzato a farlo.
+  registrations:
+    create:
+      success: Benvenuto! Il tuo account è stato creato.
+    disabled: La registrazione pubblica è al momento solo su invito. Se hai un invito,
+      controlla la tua email per il link.
+    new:
+      account_name: Nome dello spazio di lavoro
+      already_have_account: Hai già un account?
+      country: Paese
+      email: Email
+      name: Nome
+      password: Password
+      sign_in_link: Accedi
+      submit: Crea account
+      title: Crea il tuo account
+  sessions:
+    create:
+      invalid_credentials: Email o password non validi.
+    new:
+      email: Email
+      forgot_password: Password dimenticata?
+      password: Password
+      submit: Accedi
+      title: Accedi
+    rate_limited: Riprova più tardi.

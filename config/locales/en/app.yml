@@ -29,6 +29,17 @@ en:
               invalid: is not a valid time zone
   app:
     name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: All categories
+      all_expansions: All expansions
+      all_games: All games
+      category: Category
+      empty: No cards found.
+      expansion: Expansion
+      game: Game
+      query: Search for a card...
+      title: Card catalog
   enums:
     membership:
       role:
@@ -36,5 +47,89 @@ en:
         operator: Operator
         owner: Owner
         viewer: Viewer
+  invitation_mailer:
+    invite:
+      body: You've been invited to collaborate on %{account} in CardProfitTracker.
+        This invitation expires in 7 days.
+      cta: Accept invitation
+      subject: You've been invited to join %{account} on CardProfitTracker
+      title: You've been invited to join %{account}
+  invitations:
+    accept:
+      already_accepted: This invitation has already been accepted.
+      expired: This invitation has expired.
+      not_found: This invitation link is invalid.
+      success: You've joined %{account}.
+    create:
+      success: Invitation sent.
+    destroy:
+      success: Invitation revoked.
+    index:
+      email: Email
+      empty: No pending invitations.
+      expires_at: Expires
+      invited_by: Invited by
+      revoke: Revoke
+      role: Role
+      title: Pending invitations
+    new:
+      email: Email
+      role: Role
+      submit: Send invitation
+      title: Invite a collaborator
+    show:
+      email: Email
+      existing_user_notice: Sign in with your existing account to accept.
+      name: Name
+      new_user_notice: Create your account to accept the invitation.
+      password: Password
+      sign_in_link: Sign in
+      submit: Accept invitation
+      title: You've been invited to join %{account}
+  layouts:
+    account_switcher:
+      label: Workspace
+  passwords:
+    create:
+      instructions_sent: Password reset instructions sent (if a user with that email
+        address exists).
+    edit:
+      password: New password
+      password_confirmation: Repeat new password
+      submit: Save
+      title: Update your password
+    invalid_or_expired_token: This password reset link is invalid or has expired.
+    new:
+      email: Email
+      submit: Email reset instructions
+      title: Forgot your password?
+    update:
+      mismatch: Passwords did not match.
+      success: Your password has been reset.
   pundit:
     not_authorized: You are not authorized to do that.
+  registrations:
+    create:
+      success: Welcome! Your account has been created.
+    disabled: Public sign-up is currently invite-only. If you have an invitation,
+      check your email for the link.
+    new:
+      account_name: Workspace name
+      already_have_account: Already have an account?
+      country: Country
+      email: Email
+      name: Name
+      password: Password
+      sign_in_link: Sign in
+      submit: Create account
+      title: Create your account
+  sessions:
+    create:
+      invalid_credentials: Try another email address or password.
+    new:
+      email: Email
+      forgot_password: Forgot password?
+      password: Password
+      submit: Sign in
+      title: Sign in
+    rate_limited: Try again later.

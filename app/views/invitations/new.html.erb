@@ -1,0 +1,32 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-md mx-auto">
+  <h1 class="mb-6 text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
+
+  <%= form_with model: @invitation, class: "space-y-4" do |f| %>
+    <% if @invitation.errors.any? %>
+      <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+        <ul class="list-disc list-inside">
+          <% @invitation.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :email, t(".email"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, required: true,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :role, t(".role"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :role, Invitation::ROLES.map { |role| [ I18n.t(role, scope: "enums.membership.role"), role ] },
+          {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <%= f.submit t(".submit"),
+        class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
+  <% end %>
+</div>
