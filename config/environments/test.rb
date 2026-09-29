@@ -50,4 +50,12 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Active Record Encryption (User#otp_secret) normally reads its keys from
+  # encrypted credentials, which need RAILS_MASTER_KEY - not available (and
+  # not needed) in CI/test. Fixed, non-secret keys here are fine since the
+  # test database is wiped between runs and never holds real data.
+  config.active_record.encryption.primary_key = "test_primary_key_test_primary_key"
+  config.active_record.encryption.deterministic_key = "test_deterministic_key_test_key"
+  config.active_record.encryption.key_derivation_salt = "test_key_derivation_salt_test_key"
 end
