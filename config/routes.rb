@@ -9,6 +9,17 @@ Rails.application.routes.draw do
 
   post "account_switch", to: "account_switches#create", as: :switch_account
 
+  resources :channels, except: %i[show]
+
+  resources :purchases do
+    member do
+      post :confirm
+      post :confirm_received
+      post :receive
+      post :cancel
+    end
+  end
+
   get "catalog", to: "catalog#index"
   namespace :catalog do
     get "search", to: "search#index"

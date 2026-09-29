@@ -13,6 +13,15 @@ class Account < ApplicationRecord
   has_many :memberships, dependent: :delete_all
   has_many :users, through: :memberships
   has_many :invitations, dependent: :destroy
+  # delete_all: same reasoning as memberships above - the system-channel
+  # "can't be deleted, only deactivated" guard exists to protect a live
+  # account from losing a channel it needs, not to block tearing the whole
+  # account down.
+  has_many :channels, dependent: :delete_all
+  has_many :purchases, dependent: :restrict_with_error
+  has_many :inventory_items, dependent: :restrict_with_error
+
+  after_create -> { Channel.seed_defaults_for!(self) }
 
   validates :name, presence: true
   validates :base_currency, presence: true, length: { is: 3 }

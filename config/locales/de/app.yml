@@ -18,12 +18,29 @@ de:
           attributes:
             time_zone:
               invalid: ist keine gültige Zeitzone
+        channel:
+          attributes:
+            base:
+              system_channel_not_deletable: vorinstallierte Kanäle können nicht gelöscht,
+                nur deaktiviert werden
         membership:
           attributes:
             role:
               cannot_demote_last_owner: der letzte Inhaber des Kontos kann nicht entfernt
                 werden
               owner_already_exists: es kann nur einen Inhaber pro Konto geben
+        purchase:
+          attributes:
+            base:
+              no_active_lines: muss mindestens eine aktive Position haben, um bestätigt
+                zu werden
+              only_drafts_can_be_deleted: nur Entwürfe können gelöscht werden; storniere
+                stattdessen den Einkauf
+        purchase_charge:
+          attributes:
+            amount_cents:
+              must_be_negative: muss für einen Rabatt negativ sein
+              must_be_positive: muss positiv sein
         user:
           attributes:
             time_zone:
@@ -41,13 +58,92 @@ de:
       game: Spiel
       query: Karte suchen...
       title: Kartenkatalog
+  channels:
+    active: Aktiv
+    create:
+      success: Kanal erstellt.
+    credit_timing: Gutschrift
+    destroy:
+      success: Kanal gelöscht.
+    edit:
+      title: Kanal bearbeiten
+    index:
+      active: Aktiv
+      destroy: Löschen
+      edit: Bearbeiten
+      kind: Art
+      name: Name
+      'no': Nein
+      system_badge: Vorinstalliert
+      title: Kanäle
+      'yes': Ja
+    kind: Art
+    name: Name
+    new:
+      title: Neuer Kanal
+    submit: Speichern
+    update:
+      success: Kanal aktualisiert.
+    usage: Verwendung
   enums:
+    channel:
+      credit_timing:
+        immediate: Sofort
+        manual: Zu bestätigen
+      kind:
+        fair: Messe
+        marketplace: Marktplatz
+        online_shop: Online-Shop
+        other: Sonstiges
+        physical_shop: Ladengeschäft
+        private: Privat
+        social: Social Media
+      usage:
+        both: Einkauf und Verkauf
+        purchase: Einkauf
+        sale: Verkauf
+    condition:
+      heavily_played: Stark bespielt (HP)
+      mint: Makellos (MT)
+      moderately_played: Bespielt (MP)
+      near_mint: Fast makellos (NM)
+      played: Bespielt (PL)
+      poor: Schlecht (PO)
+      slightly_played: Leicht bespielt (SP)
     membership:
       role:
         admin: Administrator
         operator: Bediener
         owner: Inhaber
         viewer: Betrachter
+    purchase:
+      status:
+        cancelled: Storniert
+        draft: Entwurf
+        ordered: Bestellt
+        received: Erhalten
+    purchase_charge:
+      kind:
+        ct_zero_fee: CT-Zero-Gebühr
+        discount: Rabatt
+        other: Sonstiges
+        payment_fee: Zahlungsgebühr
+        platform_fee: Plattformgebühr
+        safeguard_fee: Sicherheitsgebühr
+        shipping: Versand
+        tax_duty: Steuern/Zoll
+    purchase_line:
+      intent:
+        crack: Zum Öffnen
+        keep_sealed: Versiegelt behalten
+        personal: Persönliche Sammlung
+        sell: Zum Verkauf
+      kind:
+        accessory: Zubehör
+        bulk_lot: Bulk-Posten
+        other: Sonstiges
+        sealed: Versiegelt
+        single: Einzeln
   invitation_mailer:
     invite:
       body: Du wurdest eingeladen, bei %{account} in CardProfitTracker mitzuarbeiten.
@@ -110,6 +206,82 @@ de:
       success: Dein Passwort wurde zurückgesetzt.
   pundit:
     not_authorized: Du bist nicht berechtigt, das zu tun.
+  purchases:
+    cancel:
+      cancelled: Einkauf storniert.
+    confirm:
+      confirmed: Einkauf bestätigt.
+    confirm_received:
+      received: Einkauf bestätigt und erhalten.
+    create:
+      success: Einkauf erstellt.
+    destroy:
+      success: Einkauf gelöscht.
+    edit:
+      title: Einkauf bearbeiten
+    form:
+      add_charge: Kosten hinzufügen
+      add_line: Position hinzufügen
+      channel: Kanal
+      charge_amount: Betrag
+      charge_kind: Kostenart
+      charges: Nebenkosten
+      condition: Zustand
+      currency: Währung
+      description: Beschreibung
+      expansion_name: Erweiterung
+      foil: Foil
+      fx_rate: Wechselkurs
+      fx_rate_hint: gegenüber %{currency}
+      intent: Absicht
+      kind: Art
+      language: Sprache
+      line: Position
+      lines: Positionen
+      notes: Notizen
+      ordered_at: Bestelldatum
+      preview_charges: Kosten
+      preview_subtotal: Zwischensumme
+      preview_total: Gesamt
+      quantity: Menge
+      remove_charge: Entfernen
+      remove_line: Entfernen
+      search_card: Karte suchen...
+      seller_ref: Verkäufer
+      submit: Speichern
+      title: Titel
+      unit_price: Einzelpreis
+    index:
+      channel: Kanal
+      empty: Noch keine Einkäufe erfasst.
+      status: Status
+      title: Einkäufe
+      title_column: Titel
+      total: Gesamt
+    new:
+      title: Neuer Einkauf
+    receive:
+      received: Einkauf erhalten.
+    show:
+      cancel: Stornieren
+      charge_amount: Betrag
+      charge_kind: Art
+      charges_total: Nebenkosten
+      confirm: Bestätigen
+      confirm_received: Bestätigen und erhalten
+      destroy: Löschen
+      edit: Bearbeiten
+      line_description: Karte
+      line_items: Erzeugte Items
+      line_quantity: Menge
+      line_total: Positionssumme
+      line_unit_price: Einzelpreis
+      receive: Erhalten
+      subtotal: Zwischensumme
+      total: Gesamt
+      total_base: Anschaffungskosten (Basiswährung)
+    update:
+      success: Einkauf aktualisiert.
   registrations:
     create:
       success: Willkommen! Dein Konto wurde erstellt.

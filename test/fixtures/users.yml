@@ -31,3 +31,19 @@ guest:
   locale: en
   time_zone: UTC
   confirmed_at: <%= 1.day.ago %>
+
+operator_user:
+  email: operator@example.com
+  password_digest: <%= password_digest %>
+  name: Olga
+  locale: it
+  time_zone: Europe/Rome
+  confirmed_at: <%= 1.day.ago %>
+
+viewer_user:
+  email: viewer@example.com
+  password_digest: <%= password_digest %>
+  name: Vito
+  locale: it
+  time_zone: Europe/Rome
+  confirmed_at: <%= 1.day.ago %>

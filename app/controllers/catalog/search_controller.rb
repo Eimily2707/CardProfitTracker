@@ -20,6 +20,7 @@ module Catalog
 
     def serialize(blueprint)
       {
+        id: blueprint.id,
         ct_id: blueprint.ct_id,
         name: blueprint.name,
         version: blueprint.version,
