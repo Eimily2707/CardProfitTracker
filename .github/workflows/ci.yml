@@ -28,6 +28,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # bin/importmap boots the full app (config/application.rb), which
+      # loads every gem including ruby-vips - it needs the native libvips
+      # library at require time, not just its Ruby bindings.
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips
+
       - name: Checkout code
         uses: actions/checkout@v6
 
