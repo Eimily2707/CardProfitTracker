@@ -1,6 +1,18 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
+  resource :registration, only: %i[new create]
+
+  resources :invitations, only: %i[index new create destroy]
+  get "invitations/:token", to: "invitations#show", as: :invitation_preview
+  post "invitations/:token/accept", to: "invitations#accept", as: :accept_invitation
+
+  post "account_switch", to: "account_switches#create", as: :switch_account
+
+  get "catalog", to: "catalog#index"
+  namespace :catalog do
+    get "search", to: "search#index"
+  end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

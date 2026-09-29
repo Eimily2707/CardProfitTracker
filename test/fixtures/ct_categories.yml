@@ -1,0 +1,6 @@
+magic_single:
+  ct_id: 1
+  ct_game_id: 1
+  name: "Magic Single"
+  properties: []
+  synced_at: <%= 1.hour.ago %>

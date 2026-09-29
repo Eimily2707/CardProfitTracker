@@ -30,6 +30,17 @@ es:
               invalid: no es una zona horaria válida
   app:
     name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: Todas las categorías
+      all_expansions: Todas las expansiones
+      all_games: Todos los juegos
+      category: Categoría
+      empty: No se encontraron cartas.
+      expansion: Expansión
+      game: Juego
+      query: Buscar una carta...
+      title: Catálogo de cartas
   enums:
     membership:
       role:
@@ -37,5 +48,90 @@ es:
         operator: Operador
         owner: Propietario
         viewer: Visor
+  invitation_mailer:
+    invite:
+      body: Has sido invitado a colaborar en %{account} en CardProfitTracker. Esta
+        invitación caduca en 7 días.
+      cta: Aceptar invitación
+      subject: Has sido invitado a unirte a %{account} en CardProfitTracker
+      title: Has sido invitado a unirte a %{account}
+  invitations:
+    accept:
+      already_accepted: Esta invitación ya ha sido aceptada.
+      expired: Esta invitación ha caducado.
+      not_found: Este enlace de invitación no es válido.
+      success: Te has unido a %{account}.
+    create:
+      success: Invitación enviada.
+    destroy:
+      success: Invitación revocada.
+    index:
+      email: Correo electrónico
+      empty: No hay invitaciones pendientes.
+      expires_at: Caduca
+      invited_by: Invitado por
+      revoke: Revocar
+      role: Rol
+      title: Invitaciones pendientes
+    new:
+      email: Correo electrónico
+      role: Rol
+      submit: Enviar invitación
+      title: Invitar a un colaborador
+    show:
+      email: Correo electrónico
+      existing_user_notice: Inicia sesión con tu cuenta existente para aceptar.
+      name: Nombre
+      new_user_notice: Crea tu cuenta para aceptar la invitación.
+      password: Contraseña
+      sign_in_link: Iniciar sesión
+      submit: Aceptar invitación
+      title: Has sido invitado a unirte a %{account}
+  layouts:
+    account_switcher:
+      label: Espacio de trabajo
+  passwords:
+    create:
+      instructions_sent: Instrucciones de restablecimiento enviadas (si existe un
+        usuario con ese correo).
+    edit:
+      password: Nueva contraseña
+      password_confirmation: Repite la nueva contraseña
+      submit: Guardar
+      title: Actualiza tu contraseña
+    invalid_or_expired_token: Este enlace para restablecer la contraseña no es válido
+      o ha caducado.
+    new:
+      email: Correo electrónico
+      submit: Enviar instrucciones de restablecimiento
+      title: "¿Olvidaste tu contraseña?"
+    update:
+      mismatch: Las contraseñas no coinciden.
+      success: Tu contraseña se ha restablecido.
   pundit:
     not_authorized: No estás autorizado a hacer eso.
+  registrations:
+    create:
+      success: "¡Bienvenido! Tu cuenta ha sido creada."
+    disabled: El registro público es actualmente solo por invitación. Si tienes una
+      invitación, revisa tu correo para el enlace.
+    new:
+      account_name: Nombre del espacio de trabajo
+      already_have_account: "¿Ya tienes una cuenta?"
+      country: País
+      email: Correo electrónico
+      name: Nombre
+      password: Contraseña
+      sign_in_link: Iniciar sesión
+      submit: Crear cuenta
+      title: Crea tu cuenta
+  sessions:
+    create:
+      invalid_credentials: Correo electrónico o contraseña incorrectos.
+    new:
+      email: Correo electrónico
+      forgot_password: "¿Olvidaste tu contraseña?"
+      password: Contraseña
+      submit: Iniciar sesión
+      title: Iniciar sesión
+    rate_limited: Inténtalo de nuevo más tarde.

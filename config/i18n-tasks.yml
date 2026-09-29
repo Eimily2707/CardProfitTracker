@@ -18,3 +18,13 @@ ignore_unused:
   - "activerecord.attributes.*"
   # Membership#role_label looks these up as I18n.t(role, scope: "enums.membership.role")
   - "enums.membership.role.*"
+  # t(".success") in InvitationsController#accept_for_existing_user!/accept_with_new_user!
+  # resolves against action_name ("accept"), not the enclosing method name, so the static
+  # scanner can't see this usage.
+  - "invitations.accept.success"
+
+ignore_missing:
+  # False positives from the same relative-scope call above: i18n-tasks guesses the scope
+  # from the enclosing method name instead of the actual action_name at runtime.
+  - "invitations.accept_for_existing_user!.success"
+  - "invitations.accept_with_new_user!.success"

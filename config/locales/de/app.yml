@@ -30,6 +30,17 @@ de:
               invalid: ist keine gültige Zeitzone
   app:
     name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: Alle Kategorien
+      all_expansions: Alle Erweiterungen
+      all_games: Alle Spiele
+      category: Kategorie
+      empty: Keine Karten gefunden.
+      expansion: Erweiterung
+      game: Spiel
+      query: Karte suchen...
+      title: Kartenkatalog
   enums:
     membership:
       role:
@@ -37,5 +48,90 @@ de:
         operator: Bediener
         owner: Inhaber
         viewer: Betrachter
+  invitation_mailer:
+    invite:
+      body: Du wurdest eingeladen, bei %{account} in CardProfitTracker mitzuarbeiten.
+        Diese Einladung läuft in 7 Tagen ab.
+      cta: Einladung annehmen
+      subject: Du wurdest eingeladen, %{account} auf CardProfitTracker beizutreten
+      title: Du wurdest eingeladen, %{account} beizutreten
+  invitations:
+    accept:
+      already_accepted: Diese Einladung wurde bereits angenommen.
+      expired: Diese Einladung ist abgelaufen.
+      not_found: Dieser Einladungslink ist ungültig.
+      success: Du bist %{account} beigetreten.
+    create:
+      success: Einladung gesendet.
+    destroy:
+      success: Einladung widerrufen.
+    index:
+      email: E-Mail
+      empty: Keine ausstehenden Einladungen.
+      expires_at: Läuft ab
+      invited_by: Eingeladen von
+      revoke: Widerrufen
+      role: Rolle
+      title: Ausstehende Einladungen
+    new:
+      email: E-Mail
+      role: Rolle
+      submit: Einladung senden
+      title: Mitarbeiter einladen
+    show:
+      email: E-Mail
+      existing_user_notice: Melde dich mit deinem bestehenden Konto an, um anzunehmen.
+      name: Name
+      new_user_notice: Erstelle dein Konto, um die Einladung anzunehmen.
+      password: Passwort
+      sign_in_link: Anmelden
+      submit: Einladung annehmen
+      title: Du wurdest eingeladen, %{account} beizutreten
+  layouts:
+    account_switcher:
+      label: Arbeitsbereich
+  passwords:
+    create:
+      instructions_sent: Anweisungen zum Zurücksetzen wurden gesendet (falls ein Nutzer
+        mit dieser E-Mail existiert).
+    edit:
+      password: Neues Passwort
+      password_confirmation: Neues Passwort wiederholen
+      submit: Speichern
+      title: Passwort aktualisieren
+    invalid_or_expired_token: Dieser Link zum Zurücksetzen des Passworts ist ungültig
+      oder abgelaufen.
+    new:
+      email: E-Mail
+      submit: Anweisungen zum Zurücksetzen senden
+      title: Passwort vergessen?
+    update:
+      mismatch: Die Passwörter stimmen nicht überein.
+      success: Dein Passwort wurde zurückgesetzt.
   pundit:
     not_authorized: Du bist nicht berechtigt, das zu tun.
+  registrations:
+    create:
+      success: Willkommen! Dein Konto wurde erstellt.
+    disabled: Die öffentliche Registrierung ist derzeit nur auf Einladung möglich.
+      Falls du eine Einladung hast, prüfe deine E-Mails auf den Link.
+    new:
+      account_name: Name des Arbeitsbereichs
+      already_have_account: Hast du schon ein Konto?
+      country: Land
+      email: E-Mail
+      name: Name
+      password: Passwort
+      sign_in_link: Anmelden
+      submit: Konto erstellen
+      title: Konto erstellen
+  sessions:
+    create:
+      invalid_credentials: E-Mail oder Passwort ist falsch.
+    new:
+      email: E-Mail
+      forgot_password: Passwort vergessen?
+      password: Passwort
+      submit: Anmelden
+      title: Anmelden
+    rate_limited: Bitte versuche es später erneut.

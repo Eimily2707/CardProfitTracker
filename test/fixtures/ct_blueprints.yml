@@ -1,0 +1,31 @@
+teferi:
+  ct_id: 501
+  name: "Teferi, Time Raveler"
+  ct_game_id: 1
+  ct_category_id: 1
+  ct_expansion_id: 10
+  collector_number: "221"
+  rarity: mythic
+  search_text: "teferi, time raveler war of the spark war"
+  synced_at: <%= 1.hour.ago %>
+
+narset:
+  ct_id: 502
+  name: "Narset, Parter of Veils"
+  ct_game_id: 1
+  ct_category_id: 1
+  ct_expansion_id: 10
+  collector_number: "222"
+  rarity: mythic
+  search_text: "narset, parter of veils war of the spark war"
+  synced_at: <%= 1.hour.ago %>
+
+removed_blueprint:
+  ct_id: 503
+  name: "Removed Card"
+  ct_game_id: 1
+  ct_category_id: 1
+  ct_expansion_id: 10
+  search_text: "removed card war of the spark war"
+  synced_at: <%= 2.days.ago %>
+  removed_at: <%= 1.day.ago %>

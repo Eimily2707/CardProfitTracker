@@ -32,5 +32,12 @@ module CardProfitTracker
     config.i18n.available_locales = %i[it en fr es de]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [ :en ]
+
+    # "Fase personale": public sign-up is off, accounts/owners are created via
+    # bin/rails accounts:setup or by accepting an invitation (spec §2.1).
+    # Flip on for a later phase without deploying new code.
+    config.x.public_registration_enabled = ActiveModel::Type::Boolean.new.cast(
+      ENV.fetch("PUBLIC_REGISTRATION_ENABLED", "false")
+    )
   end
 end

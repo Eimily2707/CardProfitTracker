@@ -1,0 +1,13 @@
+magic:
+  ct_id: 1
+  name: magic
+  display_name: "Magic: The Gathering"
+  enabled: true
+  synced_at: <%= 1.hour.ago %>
+
+pokemon:
+  ct_id: 2
+  name: pokemon
+  display_name: "Pokémon"
+  enabled: false
+  synced_at: <%= 1.hour.ago %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_062513) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_29_080712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -47,6 +47,88 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_062513) do
     t.datetime "updated_at", null: false
     t.index ["cardtrader_id"], name: "index_cardtrader_blueprints_on_cardtrader_id", unique: true
     t.index ["name"], name: "index_cardtrader_blueprints_on_name"
+  end
+
+  create_table "catalog_sync_runs", force: :cascade do |t|
+    t.integer "blueprints_removed", default: 0, null: false
+    t.integer "blueprints_upserted", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.integer "expansions_done", default: 0, null: false
+    t.integer "expansions_total", default: 0, null: false
+    t.datetime "finished_at"
+    t.datetime "started_at"
+    t.string "status", default: "pending", null: false
+    t.jsonb "sync_errors", default: [], null: false
+    t.string "trigger", null: false
+    t.bigint "triggered_by_id"
+    t.datetime "updated_at", null: false
+    t.index ["triggered_by_id"], name: "index_catalog_sync_runs_on_triggered_by_id"
+  end
+
+  create_table "ct_blueprints", force: :cascade do |t|
+    t.integer "card_market_ids", default: [], null: false, array: true
+    t.string "collector_number"
+    t.datetime "created_at", null: false
+    t.integer "ct_category_id", null: false
+    t.integer "ct_expansion_id"
+    t.integer "ct_game_id", null: false
+    t.integer "ct_id", null: false
+    t.jsonb "editable_properties", default: {}, null: false
+    t.jsonb "fixed_properties", default: {}, null: false
+    t.string "image_url"
+    t.string "name", null: false
+    t.string "rarity"
+    t.datetime "removed_at"
+    t.string "scryfall_id"
+    t.text "search_text"
+    t.datetime "synced_at"
+    t.string "tcg_player_id"
+    t.datetime "updated_at", null: false
+    t.string "version"
+    t.index ["card_market_ids"], name: "index_ct_blueprints_on_card_market_ids", using: :gin
+    t.index ["collector_number"], name: "index_ct_blueprints_on_collector_number"
+    t.index ["ct_expansion_id", "ct_category_id"], name: "index_ct_blueprints_on_ct_expansion_id_and_ct_category_id"
+    t.index ["ct_id"], name: "index_ct_blueprints_on_ct_id", unique: true
+    t.index ["scryfall_id"], name: "index_ct_blueprints_on_scryfall_id"
+    t.index ["search_text"], name: "index_ct_blueprints_on_search_text_trgm", opclass: :gin_trgm_ops, using: :gin
+    t.index ["tcg_player_id"], name: "index_ct_blueprints_on_tcg_player_id"
+  end
+
+  create_table "ct_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "ct_game_id", null: false
+    t.integer "ct_id", null: false
+    t.string "name", null: false
+    t.jsonb "properties", default: {}, null: false
+    t.datetime "synced_at"
+    t.datetime "updated_at", null: false
+    t.index ["ct_game_id"], name: "index_ct_categories_on_ct_game_id"
+    t.index ["ct_id"], name: "index_ct_categories_on_ct_id", unique: true
+  end
+
+  create_table "ct_expansions", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.integer "ct_game_id", null: false
+    t.integer "ct_id", null: false
+    t.string "export_status", default: "ok", null: false
+    t.string "name", null: false
+    t.datetime "removed_at"
+    t.datetime "synced_at"
+    t.datetime "updated_at", null: false
+    t.index ["ct_game_id"], name: "index_ct_expansions_on_ct_game_id"
+    t.index ["ct_id"], name: "index_ct_expansions_on_ct_id", unique: true
+  end
+
+  create_table "ct_games", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "ct_id", null: false
+    t.string "display_name"
+    t.boolean "enabled", default: true, null: false
+    t.string "name", null: false
+    t.datetime "synced_at"
+    t.datetime "updated_at", null: false
+    t.index ["ct_id"], name: "index_ct_games_on_ct_id", unique: true
   end
 
   create_table "inventory_items", force: :cascade do |t|
@@ -305,6 +387,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_062513) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "catalog_sync_runs", "users", column: "triggered_by_id"
   add_foreign_key "invitations", "accounts"
   add_foreign_key "invitations", "users", column: "invited_by_id"
   add_foreign_key "memberships", "accounts"

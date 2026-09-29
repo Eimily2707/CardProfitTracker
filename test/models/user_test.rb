@@ -6,6 +6,18 @@ class UserTest < ActiveSupport::TestCase
     assert_equal("downcased@example.com", user.email)
   end
 
+  test "requires an email" do
+    user = User.new(email: "", password: "password", time_zone: "UTC")
+    assert_not user.valid?
+    assert_includes user.errors[:email], "can't be blank"
+  end
+
+  test "requires a unique email, case-insensitively (citext)" do
+    duplicate = User.new(email: users(:elena).email.upcase, password: "password", time_zone: "UTC")
+    assert_not duplicate.valid?
+    assert_includes duplicate.errors[:email], "has already been taken"
+  end
+
   test "valid with the required attributes" do
     user = User.new(email: "new@example.com", password: "password", time_zone: "UTC")
     assert user.valid?

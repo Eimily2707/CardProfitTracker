@@ -31,6 +31,17 @@ fr:
               invalid: n'est pas un fuseau horaire valide
   app:
     name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: Toutes les catégories
+      all_expansions: Toutes les extensions
+      all_games: Tous les jeux
+      category: Catégorie
+      empty: Aucune carte trouvée.
+      expansion: Extension
+      game: Jeu
+      query: Rechercher une carte...
+      title: Catalogue de cartes
   enums:
     membership:
       role:
@@ -38,5 +49,90 @@ fr:
         operator: Opérateur
         owner: Propriétaire
         viewer: Observateur
+  invitation_mailer:
+    invite:
+      body: Vous avez été invité à collaborer sur %{account} dans CardProfitTracker.
+        Cette invitation expire dans 7 jours.
+      cta: Accepter l'invitation
+      subject: Vous avez été invité à rejoindre %{account} sur CardProfitTracker
+      title: Vous avez été invité à rejoindre %{account}
+  invitations:
+    accept:
+      already_accepted: Cette invitation a déjà été acceptée.
+      expired: Cette invitation a expiré.
+      not_found: Ce lien d'invitation n'est pas valide.
+      success: Vous avez rejoint %{account}.
+    create:
+      success: Invitation envoyée.
+    destroy:
+      success: Invitation révoquée.
+    index:
+      email: E-mail
+      empty: Aucune invitation en attente.
+      expires_at: Expire
+      invited_by: Invité par
+      revoke: Révoquer
+      role: Rôle
+      title: Invitations en attente
+    new:
+      email: E-mail
+      role: Rôle
+      submit: Envoyer l'invitation
+      title: Inviter un collaborateur
+    show:
+      email: E-mail
+      existing_user_notice: Connectez-vous avec votre compte existant pour accepter.
+      name: Nom
+      new_user_notice: Créez votre compte pour accepter l'invitation.
+      password: Mot de passe
+      sign_in_link: Se connecter
+      submit: Accepter l'invitation
+      title: Vous avez été invité à rejoindre %{account}
+  layouts:
+    account_switcher:
+      label: Espace de travail
+  passwords:
+    create:
+      instructions_sent: Instructions de réinitialisation envoyées (si un utilisateur
+        avec cet e-mail existe).
+    edit:
+      password: Nouveau mot de passe
+      password_confirmation: Répétez le nouveau mot de passe
+      submit: Enregistrer
+      title: Mettre à jour le mot de passe
+    invalid_or_expired_token: Ce lien de réinitialisation du mot de passe n'est plus
+      valide ou a expiré.
+    new:
+      email: E-mail
+      submit: Envoyer les instructions de réinitialisation
+      title: Mot de passe oublié ?
+    update:
+      mismatch: Les mots de passe ne correspondent pas.
+      success: Votre mot de passe a été réinitialisé.
   pundit:
     not_authorized: Vous n'êtes pas autorisé à faire cela.
+  registrations:
+    create:
+      success: Bienvenue ! Votre compte a été créé.
+    disabled: L'inscription publique est actuellement sur invitation uniquement. Si
+      vous avez une invitation, consultez votre e-mail pour le lien.
+    new:
+      account_name: Nom de l'espace de travail
+      already_have_account: Vous avez déjà un compte ?
+      country: Pays
+      email: E-mail
+      name: Nom
+      password: Mot de passe
+      sign_in_link: Se connecter
+      submit: Créer le compte
+      title: Créez votre compte
+  sessions:
+    create:
+      invalid_credentials: E-mail ou mot de passe incorrect.
+    new:
+      email: E-mail
+      forgot_password: Mot de passe oublié ?
+      password: Mot de passe
+      submit: Se connecter
+      title: Connexion
+    rate_limited: Réessayez plus tard.

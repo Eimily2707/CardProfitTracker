@@ -24,7 +24,21 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <% if Current.user %>
+      <header class="border-b border-gray-200 bg-white">
+        <div class="container mx-auto flex items-center justify-between px-5 py-3">
+          <%= link_to t("app.name"), root_path, class: "text-sm font-semibold text-gray-900" %>
+          <div class="flex items-center gap-4">
+            <%= render "shared/account_switcher" %>
+            <% if Current.membership&.admin? || Current.membership&.owner? %>
+              <%= link_to t("invitations.index.title"), invitations_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+            <% end %>
+          </div>
+        </div>
+      </header>
+    <% end %>
+
+    <main class="container mx-auto mt-16 px-5 flex">
       <%= yield %>
     </main>
   </body>

@@ -1,0 +1,53 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-5xl mx-auto space-y-4"
+     data-controller="catalog-search"
+     data-catalog-search-url-value="<%= catalog_search_path %>">
+  <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
+
+  <div class="grid gap-3 sm:grid-cols-4">
+    <div class="sm:col-span-2">
+      <label for="catalog_query" class="sr-only"><%= t(".query") %></label>
+      <input type="search" id="catalog_query" placeholder="<%= t(".query") %>"
+             data-catalog-search-target="query" data-action="input->catalog-search#search"
+             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+    </div>
+
+    <div>
+      <label for="catalog_game" class="sr-only"><%= t(".game") %></label>
+      <select id="catalog_game" data-catalog-search-target="game" data-action="change->catalog-search#filter"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        <option value=""><%= t(".all_games") %></option>
+        <% @games.each do |game| %>
+          <option value="<%= game.ct_id %>"><%= game.display_name.presence || game.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div>
+      <label for="catalog_expansion" class="sr-only"><%= t(".expansion") %></label>
+      <select id="catalog_expansion" data-catalog-search-target="expansion" data-action="change->catalog-search#filter"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        <option value=""><%= t(".all_expansions") %></option>
+        <% @expansions.each do |expansion| %>
+          <option value="<%= expansion.ct_id %>"><%= expansion.name %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <div class="sm:w-1/4">
+    <label for="catalog_category" class="sr-only"><%= t(".category") %></label>
+    <select id="catalog_category" data-catalog-search-target="category" data-action="change->catalog-search#filter"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+      <option value=""><%= t(".all_categories") %></option>
+      <% @categories.each do |category| %>
+        <option value="<%= category.ct_id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <p data-catalog-search-target="empty" class="hidden text-sm text-gray-500"><%= t(".empty") %></p>
+
+  <div data-catalog-search-target="results" class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6"></div>
+</div>

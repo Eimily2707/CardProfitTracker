@@ -1,0 +1,5 @@
+<%= t(".title", account: @invitation.account.name) %>
+
+<%= t(".body", account: @invitation.account.name) %>
+
+<%= t(".cta") %>: <%= invitation_preview_url(token: @token) %>
