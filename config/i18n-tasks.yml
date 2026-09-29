@@ -18,6 +18,13 @@ ignore_unused:
   - "activerecord.attributes.*"
   # Membership#role_label looks these up as I18n.t(role, scope: "enums.membership.role")
   - "enums.membership.role.*"
+  # Rendered dynamically as I18n.t(value, scope: "enums.<namespace>") next to a
+  # Channel/PurchaseLine/PurchaseCharge/Purchase enum's own constant list (views).
+  - "enums.channel.*"
+  - "enums.condition.*"
+  - "enums.purchase.status.*"
+  - "enums.purchase_charge.kind.*"
+  - "enums.purchase_line.*"
   # t(".success") in InvitationsController#accept_for_existing_user!/accept_with_new_user!
   # resolves against action_name ("accept"), not the enclosing method name, so the static
   # scanner can't see this usage.

@@ -18,12 +18,28 @@ it:
           attributes:
             time_zone:
               invalid: non è un fuso orario valido
+        channel:
+          attributes:
+            base:
+              system_channel_not_deletable: i canali precaricati non si possono eliminare,
+                solo disattivare
         membership:
           attributes:
             role:
               cannot_demote_last_owner: non è possibile rimuovere l'ultimo proprietario
                 dell'account
               owner_already_exists: può esistere un solo proprietario per account
+        purchase:
+          attributes:
+            base:
+              no_active_lines: deve avere almeno una riga attiva per essere confermato
+              only_drafts_can_be_deleted: solo le bozze possono essere eliminate;
+                annulla l'acquisto invece
+        purchase_charge:
+          attributes:
+            amount_cents:
+              must_be_negative: deve essere negativo per uno sconto
+              must_be_positive: deve essere positivo
         user:
           attributes:
             time_zone:
@@ -41,13 +57,92 @@ it:
       game: Gioco
       query: Cerca una carta...
       title: Catalogo carte
+  channels:
+    active: Attivo
+    create:
+      success: Canale creato.
+    credit_timing: Accredito
+    destroy:
+      success: Canale eliminato.
+    edit:
+      title: Modifica canale
+    index:
+      active: Attivo
+      destroy: Elimina
+      edit: Modifica
+      kind: Tipo
+      name: Nome
+      'no': 'No'
+      system_badge: Precaricato
+      title: Canali
+      'yes': Sì
+    kind: Tipo
+    name: Nome
+    new:
+      title: Nuovo canale
+    submit: Salva
+    update:
+      success: Canale aggiornato.
+    usage: Utilizzo
   enums:
+    channel:
+      credit_timing:
+        immediate: Immediato
+        manual: Da confermare
+      kind:
+        fair: Fiera
+        marketplace: Marketplace
+        online_shop: Negozio online
+        other: Altro
+        physical_shop: Negozio fisico
+        private: Privato
+        social: Social
+      usage:
+        both: Acquisti e vendite
+        purchase: Acquisti
+        sale: Vendite
+    condition:
+      heavily_played: Molto giocata (HP)
+      mint: Perfetta (MT)
+      moderately_played: Giocata (MP)
+      near_mint: Quasi perfetta (NM)
+      played: Giocata (PL)
+      poor: Pessima (PO)
+      slightly_played: Leggermente giocata (SP)
     membership:
       role:
         admin: Amministratore
         operator: Operatore
         owner: Proprietario
         viewer: Visualizzatore
+    purchase:
+      status:
+        cancelled: Annullato
+        draft: Bozza
+        ordered: Ordinato
+        received: Ricevuto
+    purchase_charge:
+      kind:
+        ct_zero_fee: Commissione CT Zero
+        discount: Sconto
+        other: Altro
+        payment_fee: Commissione di pagamento
+        platform_fee: Commissione piattaforma
+        safeguard_fee: Commissione di garanzia
+        shipping: Spedizione
+        tax_duty: Tasse/dogana
+    purchase_line:
+      intent:
+        crack: Da aprire
+        keep_sealed: Da tenere sigillato
+        personal: Collezione personale
+        sell: Da vendere
+      kind:
+        accessory: Accessorio
+        bulk_lot: Lotto bulk
+        other: Altro
+        sealed: Sigillato
+        single: Singola
   invitation_mailer:
     invite:
       body: Sei stato invitato a collaborare su %{account} in CardProfitTracker. Questo
@@ -110,6 +205,82 @@ it:
       success: La password è stata reimpostata.
   pundit:
     not_authorized: Non sei autorizzato a farlo.
+  purchases:
+    cancel:
+      cancelled: Acquisto annullato.
+    confirm:
+      confirmed: Acquisto confermato.
+    confirm_received:
+      received: Acquisto confermato e ricevuto.
+    create:
+      success: Acquisto creato.
+    destroy:
+      success: Acquisto eliminato.
+    edit:
+      title: Modifica acquisto
+    form:
+      add_charge: Aggiungi spesa
+      add_line: Aggiungi riga
+      channel: Canale
+      charge_amount: Importo
+      charge_kind: Tipo di spesa
+      charges: Spese accessorie
+      condition: Condizione
+      currency: Valuta
+      description: Descrizione
+      expansion_name: Espansione
+      foil: Foil
+      fx_rate: Tasso di cambio
+      fx_rate_hint: verso %{currency}
+      intent: Intento
+      kind: Tipo
+      language: Lingua
+      line: Riga
+      lines: Righe
+      notes: Note
+      ordered_at: Data ordine
+      preview_charges: Spese
+      preview_subtotal: Subtotale
+      preview_total: Totale
+      quantity: Quantità
+      remove_charge: Rimuovi
+      remove_line: Rimuovi
+      search_card: Cerca una carta...
+      seller_ref: Venditore
+      submit: Salva
+      title: Titolo
+      unit_price: Prezzo unitario
+    index:
+      channel: Canale
+      empty: Nessun acquisto registrato.
+      status: Stato
+      title: Acquisti
+      title_column: Titolo
+      total: Totale
+    new:
+      title: Nuovo acquisto
+    receive:
+      received: Acquisto ricevuto.
+    show:
+      cancel: Annulla
+      charge_amount: Importo
+      charge_kind: Tipo
+      charges_total: Spese accessorie
+      confirm: Conferma
+      confirm_received: Conferma e ricevi
+      destroy: Elimina
+      edit: Modifica
+      line_description: Carta
+      line_items: Item generati
+      line_quantity: Quantità
+      line_total: Totale riga
+      line_unit_price: Prezzo unitario
+      receive: Ricevi
+      subtotal: Subtotale
+      total: Totale
+      total_base: Costo di carico (valuta base)
+    update:
+      success: Acquisto aggiornato.
   registrations:
     create:
       success: Benvenuto! Il tuo account è stato creato.

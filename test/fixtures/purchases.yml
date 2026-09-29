@@ -1,0 +1,15 @@
+acme_draft:
+  account: acme
+  channel: acme_fair
+  origin: manual
+  title: "Bulk da fiera"
+  currency: EUR
+  status: draft
+
+globex_draft:
+  account: globex
+  channel: globex_fair
+  origin: manual
+  title: "Con Local Shop"
+  currency: USD
+  status: draft

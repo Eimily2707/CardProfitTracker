@@ -18,6 +18,11 @@ fr:
           attributes:
             time_zone:
               invalid: n'est pas un fuseau horaire valide
+        channel:
+          attributes:
+            base:
+              system_channel_not_deletable: les canaux préchargés ne peuvent pas être
+                supprimés, seulement désactivés
         membership:
           attributes:
             role:
@@ -25,6 +30,17 @@ fr:
                 du compte
               owner_already_exists: il ne peut y avoir qu'un seul propriétaire par
                 compte
+        purchase:
+          attributes:
+            base:
+              no_active_lines: doit avoir au moins une ligne active pour être confirmé
+              only_drafts_can_be_deleted: seuls les brouillons peuvent être supprimés
+                ; annulez plutôt l'achat
+        purchase_charge:
+          attributes:
+            amount_cents:
+              must_be_negative: doit être négatif pour une remise
+              must_be_positive: doit être positif
         user:
           attributes:
             time_zone:
@@ -42,13 +58,92 @@ fr:
       game: Jeu
       query: Rechercher une carte...
       title: Catalogue de cartes
+  channels:
+    active: Actif
+    create:
+      success: Canal créé.
+    credit_timing: Accréditation
+    destroy:
+      success: Canal supprimé.
+    edit:
+      title: Modifier le canal
+    index:
+      active: Actif
+      destroy: Supprimer
+      edit: Modifier
+      kind: Type
+      name: Nom
+      'no': Non
+      system_badge: Préchargé
+      title: Canaux
+      'yes': Oui
+    kind: Type
+    name: Nom
+    new:
+      title: Nouveau canal
+    submit: Enregistrer
+    update:
+      success: Canal mis à jour.
+    usage: Utilisation
   enums:
+    channel:
+      credit_timing:
+        immediate: Immédiat
+        manual: À confirmer
+      kind:
+        fair: Foire
+        marketplace: Marketplace
+        online_shop: Boutique en ligne
+        other: Autre
+        physical_shop: Boutique physique
+        private: Privé
+        social: Réseau social
+      usage:
+        both: Achats et ventes
+        purchase: Achats
+        sale: Ventes
+    condition:
+      heavily_played: Très jouée (HP)
+      mint: Parfaite (MT)
+      moderately_played: Jouée (MP)
+      near_mint: Presque parfaite (NM)
+      played: Jouée (PL)
+      poor: Mauvaise (PO)
+      slightly_played: Légèrement jouée (SP)
     membership:
       role:
         admin: Administrateur
         operator: Opérateur
         owner: Propriétaire
         viewer: Observateur
+    purchase:
+      status:
+        cancelled: Annulé
+        draft: Brouillon
+        ordered: Commandé
+        received: Reçu
+    purchase_charge:
+      kind:
+        ct_zero_fee: Commission CT Zero
+        discount: Remise
+        other: Autre
+        payment_fee: Frais de paiement
+        platform_fee: Frais de plateforme
+        safeguard_fee: Frais de garantie
+        shipping: Livraison
+        tax_duty: Taxes/douane
+    purchase_line:
+      intent:
+        crack: À ouvrir
+        keep_sealed: À garder scellé
+        personal: Collection personnelle
+        sell: À vendre
+      kind:
+        accessory: Accessoire
+        bulk_lot: Lot en vrac
+        other: Autre
+        sealed: Scellé
+        single: Unité
   invitation_mailer:
     invite:
       body: Vous avez été invité à collaborer sur %{account} dans CardProfitTracker.
@@ -111,6 +206,82 @@ fr:
       success: Votre mot de passe a été réinitialisé.
   pundit:
     not_authorized: Vous n'êtes pas autorisé à faire cela.
+  purchases:
+    cancel:
+      cancelled: Achat annulé.
+    confirm:
+      confirmed: Achat confirmé.
+    confirm_received:
+      received: Achat confirmé et reçu.
+    create:
+      success: Achat créé.
+    destroy:
+      success: Achat supprimé.
+    edit:
+      title: Modifier l'achat
+    form:
+      add_charge: Ajouter une dépense
+      add_line: Ajouter une ligne
+      channel: Canal
+      charge_amount: Montant
+      charge_kind: Type de dépense
+      charges: Dépenses accessoires
+      condition: État
+      currency: Devise
+      description: Description
+      expansion_name: Extension
+      foil: Foil
+      fx_rate: Taux de change
+      fx_rate_hint: vers %{currency}
+      intent: Intention
+      kind: Type
+      language: Langue
+      line: Ligne
+      lines: Lignes
+      notes: Notes
+      ordered_at: Date de commande
+      preview_charges: Dépenses
+      preview_subtotal: Sous-total
+      preview_total: Total
+      quantity: Quantité
+      remove_charge: Retirer
+      remove_line: Retirer
+      search_card: Rechercher une carte...
+      seller_ref: Vendeur
+      submit: Enregistrer
+      title: Titre
+      unit_price: Prix unitaire
+    index:
+      channel: Canal
+      empty: Aucun achat enregistré.
+      status: Statut
+      title: Achats
+      title_column: Titre
+      total: Total
+    new:
+      title: Nouvel achat
+    receive:
+      received: Achat reçu.
+    show:
+      cancel: Annuler
+      charge_amount: Montant
+      charge_kind: Type
+      charges_total: Dépenses accessoires
+      confirm: Confirmer
+      confirm_received: Confirmer et recevoir
+      destroy: Supprimer
+      edit: Modifier
+      line_description: Carte
+      line_items: Items générés
+      line_quantity: Quantité
+      line_total: Total de la ligne
+      line_unit_price: Prix unitaire
+      receive: Recevoir
+      subtotal: Sous-total
+      total: Total
+      total_base: Coût de revient (devise de base)
+    update:
+      success: Achat mis à jour.
   registrations:
     create:
       success: Bienvenue ! Votre compte a été créé.

@@ -89,4 +89,10 @@ class ApplicationPolicy
   def admin_or_owner?
     owner? || admin?
   end
+
+  # Day-to-day operational data (purchases, channels, inventory): everyone
+  # except viewer, who is read-only (§2.1).
+  def operator_or_above?
+    owner? || admin? || operator?
+  end
 end

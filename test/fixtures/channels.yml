@@ -1,0 +1,28 @@
+acme_fair:
+  account: acme
+  name: "Fiera"
+  kind: fair
+  system_key: fair
+  usage: both
+  credit_timing: immediate
+  allows_bundles: true
+  active: true
+
+acme_private:
+  account: acme
+  name: "Privato Mario"
+  kind: private
+  usage: purchase
+  credit_timing: immediate
+  allows_bundles: true
+  active: true
+
+globex_fair:
+  account: globex
+  name: "Fair"
+  kind: fair
+  system_key: fair
+  usage: both
+  credit_timing: immediate
+  allows_bundles: true
+  active: true
