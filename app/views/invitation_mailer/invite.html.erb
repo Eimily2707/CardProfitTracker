@@ -1,0 +1,7 @@
+<h1><%= t(".title", account: @invitation.account.name) %></h1>
+
+<p><%= t(".body", account: @invitation.account.name) %></p>
+
+<p>
+  <%= link_to t(".cta"), invitation_preview_url(token: @token) %>
+</p>

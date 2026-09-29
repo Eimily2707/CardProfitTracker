@@ -1,0 +1,308 @@
+---
+es:
+  activerecord:
+    attributes:
+      account:
+        base_currency: Moneda base
+        country: País
+        name: Nombre
+        time_zone: Zona horaria
+      membership:
+        role: Rol
+      user:
+        email: Correo electrónico
+        time_zone: Zona horaria
+    errors:
+      models:
+        account:
+          attributes:
+            time_zone:
+              invalid: no es una zona horaria válida
+        channel:
+          attributes:
+            base:
+              system_channel_not_deletable: los canales precargados no se pueden eliminar,
+                solo desactivar
+        membership:
+          attributes:
+            role:
+              cannot_demote_last_owner: no se puede eliminar al último propietario
+                de la cuenta
+              owner_already_exists: solo puede haber un propietario por cuenta
+        purchase:
+          attributes:
+            base:
+              no_active_lines: debe tener al menos una línea activa para confirmarse
+              only_drafts_can_be_deleted: solo los borradores se pueden eliminar;
+                cancela la compra en su lugar
+        purchase_charge:
+          attributes:
+            amount_cents:
+              must_be_negative: debe ser negativo para un descuento
+              must_be_positive: debe ser positivo
+        user:
+          attributes:
+            time_zone:
+              invalid: no es una zona horaria válida
+  app:
+    name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: Todas las categorías
+      all_expansions: Todas las expansiones
+      all_games: Todos los juegos
+      category: Categoría
+      empty: No se encontraron cartas.
+      expansion: Expansión
+      game: Juego
+      query: Buscar una carta...
+      title: Catálogo de cartas
+  channels:
+    active: Activo
+    create:
+      success: Canal creado.
+    credit_timing: Acreditación
+    destroy:
+      success: Canal eliminado.
+    edit:
+      title: Editar canal
+    index:
+      active: Activo
+      destroy: Eliminar
+      edit: Editar
+      kind: Tipo
+      name: Nombre
+      'no': 'No'
+      system_badge: Precargado
+      title: Canales
+      'yes': Sí
+    kind: Tipo
+    name: Nombre
+    new:
+      title: Nuevo canal
+    submit: Guardar
+    update:
+      success: Canal actualizado.
+    usage: Uso
+  enums:
+    channel:
+      credit_timing:
+        immediate: Inmediato
+        manual: Por confirmar
+      kind:
+        fair: Feria
+        marketplace: Marketplace
+        online_shop: Tienda online
+        other: Otro
+        physical_shop: Tienda física
+        private: Privado
+        social: Social
+      usage:
+        both: Compras y ventas
+        purchase: Compras
+        sale: Ventas
+    condition:
+      heavily_played: Muy jugada (HP)
+      mint: Perfecta (MT)
+      moderately_played: Jugada (MP)
+      near_mint: Casi perfecta (NM)
+      played: Jugada (PL)
+      poor: Mala (PO)
+      slightly_played: Ligeramente jugada (SP)
+    membership:
+      role:
+        admin: Administrador
+        operator: Operador
+        owner: Propietario
+        viewer: Visor
+    purchase:
+      status:
+        cancelled: Cancelado
+        draft: Borrador
+        ordered: Pedido
+        received: Recibido
+    purchase_charge:
+      kind:
+        ct_zero_fee: Comisión CT Zero
+        discount: Descuento
+        other: Otro
+        payment_fee: Comisión de pago
+        platform_fee: Comisión de plataforma
+        safeguard_fee: Comisión de garantía
+        shipping: Envío
+        tax_duty: Impuestos/aduana
+    purchase_line:
+      intent:
+        crack: Para abrir
+        keep_sealed: Para mantener sellado
+        personal: Colección personal
+        sell: Para vender
+      kind:
+        accessory: Accesorio
+        bulk_lot: Lote a granel
+        other: Otro
+        sealed: Sellado
+        single: Individual
+  invitation_mailer:
+    invite:
+      body: Has sido invitado a colaborar en %{account} en CardProfitTracker. Esta
+        invitación caduca en 7 días.
+      cta: Aceptar invitación
+      subject: Has sido invitado a unirte a %{account} en CardProfitTracker
+      title: Has sido invitado a unirte a %{account}
+  invitations:
+    accept:
+      already_accepted: Esta invitación ya ha sido aceptada.
+      expired: Esta invitación ha caducado.
+      not_found: Este enlace de invitación no es válido.
+      success: Te has unido a %{account}.
+    create:
+      success: Invitación enviada.
+    destroy:
+      success: Invitación revocada.
+    index:
+      email: Correo electrónico
+      empty: No hay invitaciones pendientes.
+      expires_at: Caduca
+      invited_by: Invitado por
+      revoke: Revocar
+      role: Rol
+      title: Invitaciones pendientes
+    new:
+      email: Correo electrónico
+      role: Rol
+      submit: Enviar invitación
+      title: Invitar a un colaborador
+    show:
+      email: Correo electrónico
+      existing_user_notice: Inicia sesión con tu cuenta existente para aceptar.
+      name: Nombre
+      new_user_notice: Crea tu cuenta para aceptar la invitación.
+      password: Contraseña
+      sign_in_link: Iniciar sesión
+      submit: Aceptar invitación
+      title: Has sido invitado a unirte a %{account}
+  layouts:
+    account_switcher:
+      label: Espacio de trabajo
+  passwords:
+    create:
+      instructions_sent: Instrucciones de restablecimiento enviadas (si existe un
+        usuario con ese correo).
+    edit:
+      password: Nueva contraseña
+      password_confirmation: Repite la nueva contraseña
+      submit: Guardar
+      title: Actualiza tu contraseña
+    invalid_or_expired_token: Este enlace para restablecer la contraseña no es válido
+      o ha caducado.
+    new:
+      email: Correo electrónico
+      submit: Enviar instrucciones de restablecimiento
+      title: "¿Olvidaste tu contraseña?"
+    update:
+      mismatch: Las contraseñas no coinciden.
+      success: Tu contraseña se ha restablecido.
+  pundit:
+    not_authorized: No estás autorizado a hacer eso.
+  purchases:
+    cancel:
+      cancelled: Compra cancelada.
+    confirm:
+      confirmed: Compra confirmada.
+    confirm_received:
+      received: Compra confirmada y recibida.
+    create:
+      success: Compra creada.
+    destroy:
+      success: Compra eliminada.
+    edit:
+      title: Editar compra
+    form:
+      add_charge: Añadir gasto
+      add_line: Añadir línea
+      channel: Canal
+      charge_amount: Importe
+      charge_kind: Tipo de gasto
+      charges: Gastos accesorios
+      condition: Condición
+      currency: Moneda
+      description: Descripción
+      expansion_name: Expansión
+      foil: Foil
+      fx_rate: Tipo de cambio
+      fx_rate_hint: frente a %{currency}
+      intent: Intención
+      kind: Tipo
+      language: Idioma
+      line: Línea
+      lines: Líneas
+      notes: Notas
+      ordered_at: Fecha del pedido
+      preview_charges: Gastos
+      preview_subtotal: Subtotal
+      preview_total: Total
+      quantity: Cantidad
+      remove_charge: Quitar
+      remove_line: Quitar
+      search_card: Buscar una carta...
+      seller_ref: Vendedor
+      submit: Guardar
+      title: Título
+      unit_price: Precio unitario
+    index:
+      channel: Canal
+      empty: Todavía no hay compras registradas.
+      status: Estado
+      title: Compras
+      title_column: Título
+      total: Total
+    new:
+      title: Nueva compra
+    receive:
+      received: Compra recibida.
+    show:
+      cancel: Cancelar
+      charge_amount: Importe
+      charge_kind: Tipo
+      charges_total: Gastos accesorios
+      confirm: Confirmar
+      confirm_received: Confirmar y recibir
+      destroy: Eliminar
+      edit: Editar
+      line_description: Carta
+      line_items: Items generados
+      line_quantity: Cantidad
+      line_total: Total de línea
+      line_unit_price: Precio unitario
+      receive: Recibir
+      subtotal: Subtotal
+      total: Total
+      total_base: Costo de adquisición (moneda base)
+    update:
+      success: Compra actualizada.
+  registrations:
+    create:
+      success: "¡Bienvenido! Tu cuenta ha sido creada."
+    disabled: El registro público es actualmente solo por invitación. Si tienes una
+      invitación, revisa tu correo para el enlace.
+    new:
+      account_name: Nombre del espacio de trabajo
+      already_have_account: "¿Ya tienes una cuenta?"
+      country: País
+      email: Correo electrónico
+      name: Nombre
+      password: Contraseña
+      sign_in_link: Iniciar sesión
+      submit: Crear cuenta
+      title: Crea tu cuenta
+  sessions:
+    create:
+      invalid_credentials: Correo electrónico o contraseña incorrectos.
+    new:
+      email: Correo electrónico
+      forgot_password: "¿Olvidaste tu contraseña?"
+      password: Contraseña
+      submit: Iniciar sesión
+      title: Iniciar sesión
+    rate_limited: Inténtalo de nuevo más tarde.

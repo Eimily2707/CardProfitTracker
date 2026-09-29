@@ -1,0 +1,10 @@
+completed_run:
+  status: completed
+  trigger: schedule
+  started_at: <%= 2.hours.ago %>
+  finished_at: <%= 1.hour.ago %>
+  expansions_total: 2
+  expansions_done: 2
+  blueprints_upserted: 100
+  blueprints_removed: 1
+  sync_errors: []

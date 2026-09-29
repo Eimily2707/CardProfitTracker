@@ -1,0 +1,16 @@
+war_of_the_spark:
+  ct_id: 10
+  ct_game_id: 1
+  code: WAR
+  name: "War of the Spark"
+  export_status: ok
+  synced_at: <%= 1.hour.ago %>
+
+removed_expansion:
+  ct_id: 11
+  ct_game_id: 1
+  code: OLD
+  name: "Old Removed Set"
+  export_status: ok
+  synced_at: <%= 2.days.ago %>
+  removed_at: <%= 1.day.ago %>
