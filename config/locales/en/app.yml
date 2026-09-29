@@ -1,0 +1,40 @@
+---
+en:
+  activerecord:
+    attributes:
+      account:
+        base_currency: Base currency
+        country: Country
+        name: Name
+        time_zone: Time zone
+      membership:
+        role: Role
+      user:
+        email: Email
+        time_zone: Time zone
+    errors:
+      models:
+        account:
+          attributes:
+            time_zone:
+              invalid: is not a valid time zone
+        membership:
+          attributes:
+            role:
+              cannot_demote_last_owner: cannot remove the account's last owner
+              owner_already_exists: there can only be one owner per account
+        user:
+          attributes:
+            time_zone:
+              invalid: is not a valid time zone
+  app:
+    name: CardProfitTracker
+  enums:
+    membership:
+      role:
+        admin: Admin
+        operator: Operator
+        owner: Owner
+        viewer: Viewer
+  pundit:
+    not_authorized: You are not authorized to do that.

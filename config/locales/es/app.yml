@@ -1,0 +1,41 @@
+---
+es:
+  activerecord:
+    attributes:
+      account:
+        base_currency: Moneda base
+        country: País
+        name: Nombre
+        time_zone: Zona horaria
+      membership:
+        role: Rol
+      user:
+        email: Correo electrónico
+        time_zone: Zona horaria
+    errors:
+      models:
+        account:
+          attributes:
+            time_zone:
+              invalid: no es una zona horaria válida
+        membership:
+          attributes:
+            role:
+              cannot_demote_last_owner: no se puede eliminar al último propietario
+                de la cuenta
+              owner_already_exists: solo puede haber un propietario por cuenta
+        user:
+          attributes:
+            time_zone:
+              invalid: no es una zona horaria válida
+  app:
+    name: CardProfitTracker
+  enums:
+    membership:
+      role:
+        admin: Administrador
+        operator: Operador
+        owner: Propietario
+        viewer: Visor
+  pundit:
+    not_authorized: No estás autorizado a hacer eso.

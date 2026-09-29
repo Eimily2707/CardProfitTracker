@@ -1,0 +1,20 @@
+base_locale: en
+locales: [it, en, fr, es, de]
+
+data:
+  read:
+    - "config/locales/%{locale}/**/*.yml"
+  write:
+    - ["{devise,kaminari,will_paginate,simple_form}.*", "config/locales/%{locale}/vendor.yml"]
+    - "config/locales/%{locale}/app.yml"
+
+search:
+  paths:
+    - app/
+
+ignore_unused:
+  # Rendered dynamically as "activerecord.errors.models.<model>.attributes.<attr>.<key>"
+  - "activerecord.errors.models.*"
+  - "activerecord.attributes.*"
+  # Membership#role_label looks these up as I18n.t(role, scope: "enums.membership.role")
+  - "enums.membership.role.*"

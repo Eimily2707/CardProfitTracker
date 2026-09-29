@@ -1,0 +1,23 @@
+acme:
+  name: "Acme Cards"
+  base_currency: EUR
+  rebase_status: idle
+  time_zone: Europe/Rome
+  default_locale: it
+  item_identification: fifo
+  csv_separator: semicolon
+  country: IT
+  vat_mode: gross
+  trade_valuation_method: carryover
+
+globex:
+  name: "Globex Trading"
+  base_currency: USD
+  rebase_status: idle
+  time_zone: America/New_York
+  default_locale: en
+  item_identification: fifo
+  csv_separator: comma
+  country: US
+  vat_mode: net
+  trade_valuation_method: carryover

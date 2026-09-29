@@ -21,7 +21,16 @@ module CardProfitTracker
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Timestamps are stored in UTC (timestamptz); users.time_zone and
+    # accounts.time_zone hold the display/report zones instead (spec §2.2).
+    config.time_zone = "UTC"
+
+    # config.i18n.load_path already includes config/locales/**/*.{rb,yml} by
+    # default, which picks up the per-language directories below.
+    config.i18n.available_locales = %i[it en fr es de]
+    config.i18n.default_locale = :en
+    config.i18n.fallbacks = [ :en ]
   end
 end

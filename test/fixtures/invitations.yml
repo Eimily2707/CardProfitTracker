@@ -1,0 +1,7 @@
+acme_pending:
+  account: acme
+  invited_by: elena
+  email: newperson@example.com
+  role: operator
+  token_digest: "1f06a35071ccbdb72538402e005dc5f8f05048e07d84f9d6ea6930802a516266"
+  expires_at: <%= 6.days.from_now %>
