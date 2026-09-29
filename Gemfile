@@ -54,7 +54,10 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# image_processing 2.x no longer bundles the vips backend - it's now a
+# required explicit dependency (LoadError otherwise).
 gem "image_processing", "~> 2.1"
+gem "ruby-vips", "~> 2.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
