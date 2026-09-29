@@ -1,0 +1,306 @@
+---
+en:
+  activerecord:
+    attributes:
+      account:
+        base_currency: Base currency
+        country: Country
+        name: Name
+        time_zone: Time zone
+      membership:
+        role: Role
+      user:
+        email: Email
+        time_zone: Time zone
+    errors:
+      models:
+        account:
+          attributes:
+            time_zone:
+              invalid: is not a valid time zone
+        channel:
+          attributes:
+            base:
+              system_channel_not_deletable: preloaded channels can't be deleted, only
+                deactivated
+        membership:
+          attributes:
+            role:
+              cannot_demote_last_owner: cannot remove the account's last owner
+              owner_already_exists: there can only be one owner per account
+        purchase:
+          attributes:
+            base:
+              no_active_lines: must have at least one active line to be confirmed
+              only_drafts_can_be_deleted: only drafts can be deleted; cancel the purchase
+                instead
+        purchase_charge:
+          attributes:
+            amount_cents:
+              must_be_negative: must be negative for a discount
+              must_be_positive: must be positive
+        user:
+          attributes:
+            time_zone:
+              invalid: is not a valid time zone
+  app:
+    name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: All categories
+      all_expansions: All expansions
+      all_games: All games
+      category: Category
+      empty: No cards found.
+      expansion: Expansion
+      game: Game
+      query: Search for a card...
+      title: Card catalog
+  channels:
+    active: Active
+    create:
+      success: Channel created.
+    credit_timing: Credit timing
+    destroy:
+      success: Channel deleted.
+    edit:
+      title: Edit channel
+    index:
+      active: Active
+      destroy: Delete
+      edit: Edit
+      kind: Kind
+      name: Name
+      'no': 'No'
+      system_badge: Preloaded
+      title: Channels
+      'yes': 'Yes'
+    kind: Kind
+    name: Name
+    new:
+      title: New channel
+    submit: Save
+    update:
+      success: Channel updated.
+    usage: Usage
+  enums:
+    channel:
+      credit_timing:
+        immediate: Immediate
+        manual: To be confirmed
+      kind:
+        fair: Fair
+        marketplace: Marketplace
+        online_shop: Online shop
+        other: Other
+        physical_shop: Physical shop
+        private: Private
+        social: Social
+      usage:
+        both: Purchases and sales
+        purchase: Purchases
+        sale: Sales
+    condition:
+      heavily_played: Heavily played (HP)
+      mint: Mint (MT)
+      moderately_played: Moderately played (MP)
+      near_mint: Near mint (NM)
+      played: Played (PL)
+      poor: Poor (PO)
+      slightly_played: Slightly played (SP)
+    membership:
+      role:
+        admin: Admin
+        operator: Operator
+        owner: Owner
+        viewer: Viewer
+    purchase:
+      status:
+        cancelled: Cancelled
+        draft: Draft
+        ordered: Ordered
+        received: Received
+    purchase_charge:
+      kind:
+        ct_zero_fee: CT Zero fee
+        discount: Discount
+        other: Other
+        payment_fee: Payment fee
+        platform_fee: Platform fee
+        safeguard_fee: Safeguard fee
+        shipping: Shipping
+        tax_duty: Tax/duty
+    purchase_line:
+      intent:
+        crack: To open
+        keep_sealed: To keep sealed
+        personal: Personal collection
+        sell: To sell
+      kind:
+        accessory: Accessory
+        bulk_lot: Bulk lot
+        other: Other
+        sealed: Sealed
+        single: Single
+  invitation_mailer:
+    invite:
+      body: You've been invited to collaborate on %{account} in CardProfitTracker.
+        This invitation expires in 7 days.
+      cta: Accept invitation
+      subject: You've been invited to join %{account} on CardProfitTracker
+      title: You've been invited to join %{account}
+  invitations:
+    accept:
+      already_accepted: This invitation has already been accepted.
+      expired: This invitation has expired.
+      not_found: This invitation link is invalid.
+      success: You've joined %{account}.
+    create:
+      success: Invitation sent.
+    destroy:
+      success: Invitation revoked.
+    index:
+      email: Email
+      empty: No pending invitations.
+      expires_at: Expires
+      invited_by: Invited by
+      revoke: Revoke
+      role: Role
+      title: Pending invitations
+    new:
+      email: Email
+      role: Role
+      submit: Send invitation
+      title: Invite a collaborator
+    show:
+      email: Email
+      existing_user_notice: Sign in with your existing account to accept.
+      name: Name
+      new_user_notice: Create your account to accept the invitation.
+      password: Password
+      sign_in_link: Sign in
+      submit: Accept invitation
+      title: You've been invited to join %{account}
+  layouts:
+    account_switcher:
+      label: Workspace
+  passwords:
+    create:
+      instructions_sent: Password reset instructions sent (if a user with that email
+        address exists).
+    edit:
+      password: New password
+      password_confirmation: Repeat new password
+      submit: Save
+      title: Update your password
+    invalid_or_expired_token: This password reset link is invalid or has expired.
+    new:
+      email: Email
+      submit: Email reset instructions
+      title: Forgot your password?
+    update:
+      mismatch: Passwords did not match.
+      success: Your password has been reset.
+  pundit:
+    not_authorized: You are not authorized to do that.
+  purchases:
+    cancel:
+      cancelled: Purchase cancelled.
+    confirm:
+      confirmed: Purchase confirmed.
+    confirm_received:
+      received: Purchase confirmed and received.
+    create:
+      success: Purchase created.
+    destroy:
+      success: Purchase deleted.
+    edit:
+      title: Edit purchase
+    form:
+      add_charge: Add charge
+      add_line: Add line
+      channel: Channel
+      charge_amount: Amount
+      charge_kind: Charge kind
+      charges: Accessory charges
+      condition: Condition
+      currency: Currency
+      description: Description
+      expansion_name: Expansion
+      foil: Foil
+      fx_rate: Exchange rate
+      fx_rate_hint: against %{currency}
+      intent: Intent
+      kind: Kind
+      language: Language
+      line: Line
+      lines: Lines
+      notes: Notes
+      ordered_at: Order date
+      preview_charges: Charges
+      preview_subtotal: Subtotal
+      preview_total: Total
+      quantity: Quantity
+      remove_charge: Remove
+      remove_line: Remove
+      search_card: Search for a card...
+      seller_ref: Seller
+      submit: Save
+      title: Title
+      unit_price: Unit price
+    index:
+      channel: Channel
+      empty: No purchases recorded yet.
+      status: Status
+      title: Purchases
+      title_column: Title
+      total: Total
+    new:
+      title: New purchase
+    receive:
+      received: Purchase received.
+    show:
+      cancel: Cancel
+      charge_amount: Amount
+      charge_kind: Kind
+      charges_total: Accessory charges
+      confirm: Confirm
+      confirm_received: Confirm and receive
+      destroy: Delete
+      edit: Edit
+      line_description: Card
+      line_items: Items generated
+      line_quantity: Quantity
+      line_total: Line total
+      line_unit_price: Unit price
+      receive: Receive
+      subtotal: Subtotal
+      total: Total
+      total_base: Landed cost (base currency)
+    update:
+      success: Purchase updated.
+  registrations:
+    create:
+      success: Welcome! Your account has been created.
+    disabled: Public sign-up is currently invite-only. If you have an invitation,
+      check your email for the link.
+    new:
+      account_name: Workspace name
+      already_have_account: Already have an account?
+      country: Country
+      email: Email
+      name: Name
+      password: Password
+      sign_in_link: Sign in
+      submit: Create account
+      title: Create your account
+  sessions:
+    create:
+      invalid_credentials: Try another email address or password.
+    new:
+      email: Email
+      forgot_password: Forgot password?
+      password: Password
+      submit: Sign in
+      title: Sign in
+    rate_limited: Try again later.

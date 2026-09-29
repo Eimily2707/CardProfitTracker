@@ -1,0 +1,43 @@
+<%= form_with model: channel, class: "space-y-4" do |f| %>
+  <% if channel.errors.any? %>
+    <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+      <ul class="list-disc list-inside">
+        <% channel.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, t("channels.name"), class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_field :name, required: true,
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <%= f.label :kind, t("channels.kind"), class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :kind, Channel::KINDS.map { |kind| [ I18n.t(kind, scope: "enums.channel.kind"), kind ] }, {},
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <%= f.label :usage, t("channels.usage"), class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :usage, Channel::USAGES.map { |usage| [ I18n.t(usage, scope: "enums.channel.usage"), usage ] }, {},
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div>
+    <%= f.label :credit_timing, t("channels.credit_timing"), class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :credit_timing, Channel::CREDIT_TIMINGS.map { |timing| [ I18n.t(timing, scope: "enums.channel.credit_timing"), timing ] }, {},
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <%= f.check_box :active, class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+    <%= f.label :active, t("channels.active"), class: "text-sm font-medium text-gray-700" %>
+  </div>
+
+  <%= f.submit t("channels.submit"),
+      class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
+<% end %>

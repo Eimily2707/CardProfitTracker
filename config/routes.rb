@@ -1,5 +1,29 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resource :session
+  resources :passwords, param: :token
+  resource :registration, only: %i[new create]
+
+  resources :invitations, only: %i[index new create destroy]
+  get "invitations/:token", to: "invitations#show", as: :invitation_preview
+  post "invitations/:token/accept", to: "invitations#accept", as: :accept_invitation
+
+  post "account_switch", to: "account_switches#create", as: :switch_account
+
+  resources :channels, except: %i[show]
+
+  resources :purchases do
+    member do
+      post :confirm
+      post :confirm_received
+      post :receive
+      post :cancel
+    end
+  end
+
+  get "catalog", to: "catalog#index"
+  namespace :catalog do
+    get "search", to: "search#index"
+  end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -9,6 +33,5 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  root "dashboard#show"
 end

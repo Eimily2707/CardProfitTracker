@@ -13,3 +13,13 @@ production:
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12
+
+  # CardTrader regenerates its export files nightly, a bit after midnight
+  # Italian time (§9.6) - syncing more often than once a day just burns the
+  # shared API budget for no new data. Configurable via env if the export
+  # window ever shifts.
+  sync_cardtrader_catalog:
+    class: Cardtrader::SyncCatalogJob
+    queue: ct_catalog
+    args: [ { trigger: "schedule" } ]
+    schedule: <%= ENV.fetch("CARDTRADER_CATALOG_SYNC_CRON", "0 3 * * * Europe/Rome") %>

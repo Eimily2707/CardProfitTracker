@@ -1,0 +1,37 @@
+base_locale: en
+locales: [it, en, fr, es, de]
+
+data:
+  read:
+    - "config/locales/%{locale}/**/*.yml"
+  write:
+    - ["{devise,kaminari,will_paginate,simple_form}.*", "config/locales/%{locale}/vendor.yml"]
+    - "config/locales/%{locale}/app.yml"
+
+search:
+  paths:
+    - app/
+
+ignore_unused:
+  # Rendered dynamically as "activerecord.errors.models.<model>.attributes.<attr>.<key>"
+  - "activerecord.errors.models.*"
+  - "activerecord.attributes.*"
+  # Membership#role_label looks these up as I18n.t(role, scope: "enums.membership.role")
+  - "enums.membership.role.*"
+  # Rendered dynamically as I18n.t(value, scope: "enums.<namespace>") next to a
+  # Channel/PurchaseLine/PurchaseCharge/Purchase enum's own constant list (views).
+  - "enums.channel.*"
+  - "enums.condition.*"
+  - "enums.purchase.status.*"
+  - "enums.purchase_charge.kind.*"
+  - "enums.purchase_line.*"
+  # t(".success") in InvitationsController#accept_for_existing_user!/accept_with_new_user!
+  # resolves against action_name ("accept"), not the enclosing method name, so the static
+  # scanner can't see this usage.
+  - "invitations.accept.success"
+
+ignore_missing:
+  # False positives from the same relative-scope call above: i18n-tasks guesses the scope
+  # from the enclosing method name instead of the actual action_name at runtime.
+  - "invitations.accept_for_existing_user!.success"
+  - "invitations.accept_with_new_user!.success"

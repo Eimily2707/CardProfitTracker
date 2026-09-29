@@ -1,0 +1,309 @@
+---
+fr:
+  activerecord:
+    attributes:
+      account:
+        base_currency: Devise de base
+        country: Pays
+        name: Nom
+        time_zone: Fuseau horaire
+      membership:
+        role: Rôle
+      user:
+        email: E-mail
+        time_zone: Fuseau horaire
+    errors:
+      models:
+        account:
+          attributes:
+            time_zone:
+              invalid: n'est pas un fuseau horaire valide
+        channel:
+          attributes:
+            base:
+              system_channel_not_deletable: les canaux préchargés ne peuvent pas être
+                supprimés, seulement désactivés
+        membership:
+          attributes:
+            role:
+              cannot_demote_last_owner: impossible de supprimer le dernier propriétaire
+                du compte
+              owner_already_exists: il ne peut y avoir qu'un seul propriétaire par
+                compte
+        purchase:
+          attributes:
+            base:
+              no_active_lines: doit avoir au moins une ligne active pour être confirmé
+              only_drafts_can_be_deleted: seuls les brouillons peuvent être supprimés
+                ; annulez plutôt l'achat
+        purchase_charge:
+          attributes:
+            amount_cents:
+              must_be_negative: doit être négatif pour une remise
+              must_be_positive: doit être positif
+        user:
+          attributes:
+            time_zone:
+              invalid: n'est pas un fuseau horaire valide
+  app:
+    name: CardProfitTracker
+  catalog:
+    index:
+      all_categories: Toutes les catégories
+      all_expansions: Toutes les extensions
+      all_games: Tous les jeux
+      category: Catégorie
+      empty: Aucune carte trouvée.
+      expansion: Extension
+      game: Jeu
+      query: Rechercher une carte...
+      title: Catalogue de cartes
+  channels:
+    active: Actif
+    create:
+      success: Canal créé.
+    credit_timing: Accréditation
+    destroy:
+      success: Canal supprimé.
+    edit:
+      title: Modifier le canal
+    index:
+      active: Actif
+      destroy: Supprimer
+      edit: Modifier
+      kind: Type
+      name: Nom
+      'no': Non
+      system_badge: Préchargé
+      title: Canaux
+      'yes': Oui
+    kind: Type
+    name: Nom
+    new:
+      title: Nouveau canal
+    submit: Enregistrer
+    update:
+      success: Canal mis à jour.
+    usage: Utilisation
+  enums:
+    channel:
+      credit_timing:
+        immediate: Immédiat
+        manual: À confirmer
+      kind:
+        fair: Foire
+        marketplace: Marketplace
+        online_shop: Boutique en ligne
+        other: Autre
+        physical_shop: Boutique physique
+        private: Privé
+        social: Réseau social
+      usage:
+        both: Achats et ventes
+        purchase: Achats
+        sale: Ventes
+    condition:
+      heavily_played: Très jouée (HP)
+      mint: Parfaite (MT)
+      moderately_played: Jouée (MP)
+      near_mint: Presque parfaite (NM)
+      played: Jouée (PL)
+      poor: Mauvaise (PO)
+      slightly_played: Légèrement jouée (SP)
+    membership:
+      role:
+        admin: Administrateur
+        operator: Opérateur
+        owner: Propriétaire
+        viewer: Observateur
+    purchase:
+      status:
+        cancelled: Annulé
+        draft: Brouillon
+        ordered: Commandé
+        received: Reçu
+    purchase_charge:
+      kind:
+        ct_zero_fee: Commission CT Zero
+        discount: Remise
+        other: Autre
+        payment_fee: Frais de paiement
+        platform_fee: Frais de plateforme
+        safeguard_fee: Frais de garantie
+        shipping: Livraison
+        tax_duty: Taxes/douane
+    purchase_line:
+      intent:
+        crack: À ouvrir
+        keep_sealed: À garder scellé
+        personal: Collection personnelle
+        sell: À vendre
+      kind:
+        accessory: Accessoire
+        bulk_lot: Lot en vrac
+        other: Autre
+        sealed: Scellé
+        single: Unité
+  invitation_mailer:
+    invite:
+      body: Vous avez été invité à collaborer sur %{account} dans CardProfitTracker.
+        Cette invitation expire dans 7 jours.
+      cta: Accepter l'invitation
+      subject: Vous avez été invité à rejoindre %{account} sur CardProfitTracker
+      title: Vous avez été invité à rejoindre %{account}
+  invitations:
+    accept:
+      already_accepted: Cette invitation a déjà été acceptée.
+      expired: Cette invitation a expiré.
+      not_found: Ce lien d'invitation n'est pas valide.
+      success: Vous avez rejoint %{account}.
+    create:
+      success: Invitation envoyée.
+    destroy:
+      success: Invitation révoquée.
+    index:
+      email: E-mail
+      empty: Aucune invitation en attente.
+      expires_at: Expire
+      invited_by: Invité par
+      revoke: Révoquer
+      role: Rôle
+      title: Invitations en attente
+    new:
+      email: E-mail
+      role: Rôle
+      submit: Envoyer l'invitation
+      title: Inviter un collaborateur
+    show:
+      email: E-mail
+      existing_user_notice: Connectez-vous avec votre compte existant pour accepter.
+      name: Nom
+      new_user_notice: Créez votre compte pour accepter l'invitation.
+      password: Mot de passe
+      sign_in_link: Se connecter
+      submit: Accepter l'invitation
+      title: Vous avez été invité à rejoindre %{account}
+  layouts:
+    account_switcher:
+      label: Espace de travail
+  passwords:
+    create:
+      instructions_sent: Instructions de réinitialisation envoyées (si un utilisateur
+        avec cet e-mail existe).
+    edit:
+      password: Nouveau mot de passe
+      password_confirmation: Répétez le nouveau mot de passe
+      submit: Enregistrer
+      title: Mettre à jour le mot de passe
+    invalid_or_expired_token: Ce lien de réinitialisation du mot de passe n'est plus
+      valide ou a expiré.
+    new:
+      email: E-mail
+      submit: Envoyer les instructions de réinitialisation
+      title: Mot de passe oublié ?
+    update:
+      mismatch: Les mots de passe ne correspondent pas.
+      success: Votre mot de passe a été réinitialisé.
+  pundit:
+    not_authorized: Vous n'êtes pas autorisé à faire cela.
+  purchases:
+    cancel:
+      cancelled: Achat annulé.
+    confirm:
+      confirmed: Achat confirmé.
+    confirm_received:
+      received: Achat confirmé et reçu.
+    create:
+      success: Achat créé.
+    destroy:
+      success: Achat supprimé.
+    edit:
+      title: Modifier l'achat
+    form:
+      add_charge: Ajouter une dépense
+      add_line: Ajouter une ligne
+      channel: Canal
+      charge_amount: Montant
+      charge_kind: Type de dépense
+      charges: Dépenses accessoires
+      condition: État
+      currency: Devise
+      description: Description
+      expansion_name: Extension
+      foil: Foil
+      fx_rate: Taux de change
+      fx_rate_hint: vers %{currency}
+      intent: Intention
+      kind: Type
+      language: Langue
+      line: Ligne
+      lines: Lignes
+      notes: Notes
+      ordered_at: Date de commande
+      preview_charges: Dépenses
+      preview_subtotal: Sous-total
+      preview_total: Total
+      quantity: Quantité
+      remove_charge: Retirer
+      remove_line: Retirer
+      search_card: Rechercher une carte...
+      seller_ref: Vendeur
+      submit: Enregistrer
+      title: Titre
+      unit_price: Prix unitaire
+    index:
+      channel: Canal
+      empty: Aucun achat enregistré.
+      status: Statut
+      title: Achats
+      title_column: Titre
+      total: Total
+    new:
+      title: Nouvel achat
+    receive:
+      received: Achat reçu.
+    show:
+      cancel: Annuler
+      charge_amount: Montant
+      charge_kind: Type
+      charges_total: Dépenses accessoires
+      confirm: Confirmer
+      confirm_received: Confirmer et recevoir
+      destroy: Supprimer
+      edit: Modifier
+      line_description: Carte
+      line_items: Items générés
+      line_quantity: Quantité
+      line_total: Total de la ligne
+      line_unit_price: Prix unitaire
+      receive: Recevoir
+      subtotal: Sous-total
+      total: Total
+      total_base: Coût de revient (devise de base)
+    update:
+      success: Achat mis à jour.
+  registrations:
+    create:
+      success: Bienvenue ! Votre compte a été créé.
+    disabled: L'inscription publique est actuellement sur invitation uniquement. Si
+      vous avez une invitation, consultez votre e-mail pour le lien.
+    new:
+      account_name: Nom de l'espace de travail
+      already_have_account: Vous avez déjà un compte ?
+      country: Pays
+      email: E-mail
+      name: Nom
+      password: Mot de passe
+      sign_in_link: Se connecter
+      submit: Créer le compte
+      title: Créez votre compte
+  sessions:
+    create:
+      invalid_credentials: E-mail ou mot de passe incorrect.
+    new:
+      email: E-mail
+      forgot_password: Mot de passe oublié ?
+      password: Mot de passe
+      submit: Se connecter
+      title: Connexion
+    rate_limited: Réessayez plus tard.

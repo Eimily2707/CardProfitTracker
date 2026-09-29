@@ -1,0 +1,49 @@
+<% password_digest = BCrypt::Password.create("password") %>
+
+elena:
+  email: elena@example.com
+  password_digest: <%= password_digest %>
+  name: Elena
+  locale: it
+  time_zone: Europe/Rome
+  confirmed_at: <%= 1.day.ago %>
+
+sara:
+  email: sara@example.com
+  password_digest: <%= password_digest %>
+  name: Sara
+  locale: en
+  time_zone: UTC
+  confirmed_at: <%= 1.day.ago %>
+
+marco:
+  email: marco@example.com
+  password_digest: <%= password_digest %>
+  name: Marco
+  locale: it
+  time_zone: Europe/Rome
+  confirmed_at: <%= 1.day.ago %>
+
+guest:
+  email: guest@example.com
+  password_digest: <%= password_digest %>
+  name: Guest
+  locale: en
+  time_zone: UTC
+  confirmed_at: <%= 1.day.ago %>
+
+operator_user:
+  email: operator@example.com
+  password_digest: <%= password_digest %>
+  name: Olga
+  locale: it
+  time_zone: Europe/Rome
+  confirmed_at: <%= 1.day.ago %>
+
+viewer_user:
+  email: viewer@example.com
+  password_digest: <%= password_digest %>
+  name: Vito
+  locale: it
+  time_zone: Europe/Rome
+  confirmed_at: <%= 1.day.ago %>

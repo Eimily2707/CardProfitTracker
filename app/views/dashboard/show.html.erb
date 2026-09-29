@@ -1,0 +1,19 @@
+<% content_for :title, "Dashboard" %>
+
+<div class="w-full max-w-2xl mx-auto space-y-4">
+  <h1 class="text-2xl font-semibold text-gray-900">CardProfitTracker</h1>
+
+  <% if Current.account %>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-sm text-gray-500">Account</p>
+      <p class="text-lg font-medium text-gray-900"><%= Current.account.name %></p>
+      <p class="mt-2 text-sm text-gray-500">
+        Accesso come <%= Current.user.email %> &middot; ruolo <%= Current.membership&.role_label %>
+      </p>
+    </div>
+  <% else %>
+    <p class="text-sm text-gray-500">Nessun account associato a questo utente.</p>
+  <% end %>
+
+  <%= button_to "Esci", session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-900" %>
+</div>
