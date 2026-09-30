@@ -2,6 +2,9 @@ class Purchase < ApplicationRecord
   include TenantScoped
   include HasStateTransitions
 
+  # spec §2.4: field-level audit trail alongside the status-transition log.
+  has_paper_trail
+
   ORIGINS = %w[manual cardtrader_api csv].freeze
   FX_SOURCES = %w[ecb manual].freeze
   # Spec §5.1 has a fuller draft/ordered/in_transit/received/closed/

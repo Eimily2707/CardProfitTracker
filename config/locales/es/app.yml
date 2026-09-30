@@ -40,6 +40,16 @@ es:
             amount_cents:
               must_be_negative: debe ser negativo para un descuento
               must_be_positive: debe ser positivo
+        sale_line:
+          attributes:
+            inventory_item:
+              already_in_an_active_line: ya está en otra línea de venta activa
+        sale_order:
+          attributes:
+            base:
+              no_active_lines: debe tener al menos una línea activa para confirmarse
+              only_drafts_can_be_deleted: solo los borradores se pueden eliminar;
+                cancela la venta en su lugar
         user:
           attributes:
             time_zone:
@@ -143,6 +153,30 @@ es:
         other: Otro
         sealed: Sellado
         single: Individual
+    sale_charge:
+      kind:
+        discount_given: Descuento otorgado
+        other_expense: Otro gasto
+        other_income: Otro ingreso
+        payment_fee: Comisión de pago
+        platform_fee: Comisión de plataforma
+        repurchase_fee: Comisión de recompra
+        shipping_charged: Envío cobrado
+    sale_order:
+      payment_method:
+        bank_transfer: Transferencia bancaria
+        card: Tarjeta
+        cash: Efectivo
+        other: Otro
+        paypal: PayPal
+        platform: Plataforma
+      status:
+        awaiting_payment: Esperando pago
+        cancelled: Cancelada
+        delivered: Entregada
+        draft: Borrador
+        paid: Pagada
+        shipped: Enviada
   invitation_mailer:
     invite:
       body: Has sido invitado a colaborar en %{account} en CardProfitTracker. Esta
@@ -296,6 +330,90 @@ es:
       sign_in_link: Iniciar sesión
       submit: Crear cuenta
       title: Crea tu cuenta
+  sales:
+    cancel:
+      cancelled: Venta cancelada.
+    confirm_payment:
+      paid: Pago confirmado.
+    create:
+      success: Venta creada.
+    deliver:
+      delivered: Venta entregada.
+    destroy:
+      success: Venta eliminada.
+    edit:
+      title: Editar venta
+    form:
+      add_charge: Añadir gasto
+      add_line: Añadir línea
+      buyer_ref: Comprador
+      channel: Canal
+      charge_amount: Importe
+      charge_kind: Tipo de gasto
+      charges: Gastos e ingresos accesorios
+      currency: Moneda
+      description: Descripción
+      fx_rate: Tipo de cambio
+      fx_rate_hint: frente a %{currency}
+      inventory_item: Artículo en inventario
+      line: Línea
+      lines: Líneas
+      notes: Notas
+      payment_method: Método de pago
+      preview_charges: Gastos
+      preview_subtotal: Subtotal
+      preview_total: Total
+      remove_charge: Quitar
+      remove_line: Quitar
+      sold_at: Fecha de venta
+      submit: Guardar
+      unit_price: Precio unitario
+    index:
+      buyer: Comprador
+      channel: Canal
+      empty: Todavía no hay ventas registradas.
+      from: Desde
+      review_required: Requiere revisión
+      status: Estado
+      sync: Sincronizar pedidos
+      sync_one: Importar
+      sync_one_label: Id de pedido de CardTrader
+      sync_one_placeholder: Ej. 123456
+      title: Ventas
+      to: Hasta
+      total: Neto
+    new:
+      title: Nueva venta
+    ship:
+      shipped: Venta enviada.
+    show:
+      cancel: Cancelar
+      charge_amount: Importe
+      charge_kind: Tipo
+      confirm_payment: Confirmar pago
+      deliver: Marcar como entregada
+      destroy: Eliminar
+      edit: Editar
+      expense_total: Gastos
+      income_total: Ingresos accesorios
+      line_description: Descripción
+      line_item: Artículo
+      line_price: Precio
+      net_proceeds: Ingreso neto
+      profit_base: Beneficio (moneda base)
+      review_required: Requiere revisión manual
+      ship: Marcar como enviada
+      submit: Enviar
+      subtotal: Subtotal
+    submit:
+      submitted: Venta enviada.
+    sync:
+      sync_started: Sincronización iniciada.
+    sync_one:
+      missing_order_id: Introduce el id del pedido de CardTrader.
+      sync_started: Importación iniciada.
+    update:
+      success: Venta actualizada.
   sessions:
     create:
       invalid_credentials: Correo electrónico o contraseña incorrectos.

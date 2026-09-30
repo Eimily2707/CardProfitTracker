@@ -41,6 +41,17 @@ de:
             amount_cents:
               must_be_negative: muss für einen Rabatt negativ sein
               must_be_positive: muss positiv sein
+        sale_line:
+          attributes:
+            inventory_item:
+              already_in_an_active_line: ist bereits in einer anderen aktiven Verkaufsposition
+        sale_order:
+          attributes:
+            base:
+              no_active_lines: muss mindestens eine aktive Position haben, um bestätigt
+                zu werden
+              only_drafts_can_be_deleted: nur Entwürfe können gelöscht werden; storniere
+                stattdessen den Verkauf
         user:
           attributes:
             time_zone:
@@ -144,6 +155,30 @@ de:
         other: Sonstiges
         sealed: Versiegelt
         single: Einzeln
+    sale_charge:
+      kind:
+        discount_given: Gewährter Rabatt
+        other_expense: Sonstige Ausgabe
+        other_income: Sonstige Einnahme
+        payment_fee: Zahlungsgebühr
+        platform_fee: Plattformgebühr
+        repurchase_fee: Rückkaufgebühr
+        shipping_charged: Berechneter Versand
+    sale_order:
+      payment_method:
+        bank_transfer: Überweisung
+        card: Karte
+        cash: Bargeld
+        other: Sonstiges
+        paypal: PayPal
+        platform: Plattform
+      status:
+        awaiting_payment: Zahlung ausstehend
+        cancelled: Storniert
+        delivered: Zugestellt
+        draft: Entwurf
+        paid: Bezahlt
+        shipped: Versandt
   invitation_mailer:
     invite:
       body: Du wurdest eingeladen, bei %{account} in CardProfitTracker mitzuarbeiten.
@@ -297,6 +332,90 @@ de:
       sign_in_link: Anmelden
       submit: Konto erstellen
       title: Konto erstellen
+  sales:
+    cancel:
+      cancelled: Verkauf storniert.
+    confirm_payment:
+      paid: Zahlung bestätigt.
+    create:
+      success: Verkauf erstellt.
+    deliver:
+      delivered: Verkauf zugestellt.
+    destroy:
+      success: Verkauf gelöscht.
+    edit:
+      title: Verkauf bearbeiten
+    form:
+      add_charge: Kosten hinzufügen
+      add_line: Position hinzufügen
+      buyer_ref: Käufer
+      channel: Kanal
+      charge_amount: Betrag
+      charge_kind: Kostenart
+      charges: Nebenkosten/-einnahmen
+      currency: Währung
+      description: Beschreibung
+      fx_rate: Wechselkurs
+      fx_rate_hint: gegenüber %{currency}
+      inventory_item: Inventarstück
+      line: Position
+      lines: Positionen
+      notes: Notizen
+      payment_method: Zahlungsmethode
+      preview_charges: Kosten
+      preview_subtotal: Zwischensumme
+      preview_total: Gesamt
+      remove_charge: Entfernen
+      remove_line: Entfernen
+      sold_at: Verkaufsdatum
+      submit: Speichern
+      unit_price: Einzelpreis
+    index:
+      buyer: Käufer
+      channel: Kanal
+      empty: Noch keine Verkäufe erfasst.
+      from: Von
+      review_required: Zu prüfen
+      status: Status
+      sync: Bestellungen synchronisieren
+      sync_one: Importieren
+      sync_one_label: CardTrader-Bestell-ID
+      sync_one_placeholder: z. B. 123456
+      title: Verkäufe
+      to: Bis
+      total: Netto
+    new:
+      title: Neuer Verkauf
+    ship:
+      shipped: Verkauf versandt.
+    show:
+      cancel: Stornieren
+      charge_amount: Betrag
+      charge_kind: Art
+      confirm_payment: Zahlung bestätigen
+      deliver: Als zugestellt markieren
+      destroy: Löschen
+      edit: Bearbeiten
+      expense_total: Kosten
+      income_total: Nebeneinnahmen
+      line_description: Beschreibung
+      line_item: Artikel
+      line_price: Preis
+      net_proceeds: Nettoerlös
+      profit_base: Gewinn (Basiswährung)
+      review_required: Erfordert manuelle Prüfung
+      ship: Als versandt markieren
+      submit: Absenden
+      subtotal: Zwischensumme
+    submit:
+      submitted: Verkauf abgesendet.
+    sync:
+      sync_started: Synchronisierung gestartet.
+    sync_one:
+      missing_order_id: Gib die CardTrader-Bestell-ID ein.
+      sync_started: Import gestartet.
+    update:
+      success: Verkauf aktualisiert.
   sessions:
     create:
       invalid_credentials: E-Mail oder Passwort ist falsch.

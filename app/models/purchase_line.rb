@@ -1,4 +1,6 @@
 class PurchaseLine < ApplicationRecord
+  has_paper_trail
+
   KINDS = %w[single sealed bulk_lot accessory other].freeze
   INTENTS = %w[sell keep_sealed crack personal].freeze
   STATUSES = %w[active cancelled missing_refunded].freeze

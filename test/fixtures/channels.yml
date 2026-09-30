@@ -26,3 +26,13 @@ globex_fair:
   credit_timing: immediate
   allows_bundles: true
   active: true
+
+acme_cardtrader:
+  account: acme
+  name: "CardTrader"
+  kind: marketplace
+  system_key: cardtrader
+  usage: both
+  credit_timing: manual
+  allows_bundles: false
+  active: true
