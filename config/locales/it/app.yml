@@ -94,6 +94,46 @@ it:
     update:
       success: Canale aggiornato.
     usage: Utilizzo
+  dashboard:
+    aging: Anzianità di magazzino
+    aging_bucket: Fascia
+    aging_buckets:
+      '0_30': 0-30 giorni
+      '31_90': 31-90 giorni
+      '91_180': 91-180 giorni
+      over_180: Oltre 180 giorni
+    apply: Applica
+    card: Carta
+    channel_matrix: Da dove compro, dove vendo
+    cost: Costo
+    export_inventory: Esporta inventario (CSV)
+    export_sales: Esporta vendite (CSV)
+    from: Dal
+    invested_capital: Capitale investito
+    no_account: Nessun account associato a questo utente.
+    no_data: Nessun dato per il periodo selezionato.
+    periods:
+      custom: Personalizzato
+      month: Mese
+      quarter: Trimestre
+      year: Anno
+    profit: Profitto
+    profit_by_channel: Profitto per canale
+    profit_by_game: Profitto per gioco
+    purchase_channel: Canale di acquisto
+    quantity: Quantità
+    realized_profit: Profitto realizzato
+    roi: ROI
+    sale_channel: Canale di vendita
+    sign_out: Esci
+    signed_in_as: Accesso come %{email} · ruolo %{role}
+    to: Al
+    top_cards: Carte più redditizie
+    trend: Andamento profitto (ultimi 6 mesi)
+    uncredited: Venduto non accreditato
+    uncredited_count:
+      one: "%{count} ordine"
+      other: "%{count} ordini"
   enums:
     channel:
       credit_timing:
@@ -330,6 +370,9 @@ it:
       sign_in_link: Accedi
       submit: Crea account
       title: Crea il tuo account
+  reports:
+    sales:
+      invalid_dates: Date non valide.
   sales:
     cancel:
       cancelled: Vendita annullata.

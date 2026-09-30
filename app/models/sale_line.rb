@@ -35,6 +35,31 @@ class SaleLine < ApplicationRecord
     sale_order&.account&.base_currency || Money.default_currency.to_s
   end
 
+  # spec §7.4 "Profitto per riga": unit_price_i converted at the order's own
+  # frozen fx_rate (only the allocated "quota" needs the largest-remainder
+  # split done once at confirm_payment - see SaleOrder#freeze_totals!).
+  def unit_price_base_cents
+    return nil if sale_order&.fx_rate.blank?
+
+    (BigDecimal(unit_price_cents * quantity) * sale_order.fx_rate).round(0, BigDecimal::ROUND_HALF_UP).to_i
+  end
+
+  def profit_base_cents
+    return nil if cost_base_cents_snapshot.blank? || unit_price_base_cents.blank?
+
+    unit_price_base_cents + allocated_net_charges_base_cents.to_i - cost_base_cents_snapshot
+  end
+
+  # Not real columns, so `monetize` (which only wraps DB attributes) can't
+  # generate these - wrapped by hand instead.
+  def unit_price_base
+    unit_price_base_cents && Money.new(unit_price_base_cents, account_base_currency)
+  end
+
+  def profit_base
+    profit_base_cents && Money.new(profit_base_cents, account_base_currency)
+  end
+
   private
 
   def inventory_item_not_already_in_an_active_line

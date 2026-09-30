@@ -1,19 +1,190 @@
-<% content_for :title, "Dashboard" %>
+<% content_for :title, t("app.name") %>
 
-<div class="w-full max-w-2xl mx-auto space-y-4">
-  <h1 class="text-2xl font-semibold text-gray-900">CardProfitTracker</h1>
+<div class="w-full max-w-5xl mx-auto space-y-6">
+  <h1 class="text-2xl font-semibold text-gray-900"><%= t("app.name") %></h1>
 
   <% if Current.account %>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex gap-2">
+        <% DashboardController::PERIODS.each do |period| %>
+          <%= link_to t("dashboard.periods.#{period}"), root_path(period: period),
+              class: "rounded-md px-3 py-1.5 text-sm #{period == @period ? 'bg-indigo-600 text-white' : 'border border-gray-300 text-gray-700 hover:bg-gray-50'}" %>
+        <% end %>
+      </div>
+
+      <div class="flex gap-2">
+        <%= link_to t("dashboard.export_sales"), sales_report_path(from: @from, to: @to, format: :csv), class: "text-sm text-indigo-600 hover:text-indigo-900" %>
+        <%= link_to t("dashboard.export_inventory"), inventory_report_path(format: :csv), class: "text-sm text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+
+    <% if @period == "custom" %>
+      <%= form_with url: root_path, method: :get, class: "flex items-end gap-2" do %>
+        <%= hidden_field_tag :period, "custom" %>
+        <div>
+          <label class="block text-xs font-medium text-gray-500"><%= t("dashboard.from") %></label>
+          <%= date_field_tag :from, @from, class: "mt-1 rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500"><%= t("dashboard.to") %></label>
+          <%= date_field_tag :to, @to, class: "mt-1 rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+        <%= submit_tag t("dashboard.apply"), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+      <% end %>
+    <% end %>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase text-gray-500"><%= t("dashboard.invested_capital") %></p>
+        <p class="mt-1 text-xl font-semibold text-gray-900"><%= Money.new(@invested_capital, Current.account.base_currency).format %></p>
+      </div>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase text-gray-500"><%= t("dashboard.realized_profit") %></p>
+        <p class="mt-1 text-xl font-semibold text-gray-900"><%= Money.new(@realized_profit, Current.account.base_currency).format %></p>
+      </div>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase text-gray-500"><%= t("dashboard.roi") %></p>
+        <p class="mt-1 text-xl font-semibold text-gray-900"><%= @roi_percent.nil? ? "---" : "#{@roi_percent}%" %></p>
+      </div>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="text-xs font-medium uppercase text-gray-500"><%= t("dashboard.uncredited") %></p>
+        <p class="mt-1 text-xl font-semibold text-gray-900"><%= Money.new(@uncredited[:net_proceeds_base_cents], Current.account.base_currency).format %></p>
+        <p class="text-xs text-gray-500"><%= t("dashboard.uncredited_count", count: @uncredited[:count]) %></p>
+      </div>
+    </div>
+
     <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <p class="text-sm text-gray-500">Account</p>
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t("dashboard.trend") %></p>
+      <svg viewBox="0 0 300 100" class="w-full h-24" preserveAspectRatio="none">
+        <% values = @monthly_trend.map { |m| m[:profit_base_cents] } %>
+        <% max = [ values.map(&:abs).max, 1 ].max %>
+        <% points = values.each_with_index.map { |v, i| "#{(i * (300.0 / [ values.size - 1, 1 ].max)).round(1)},#{(50 - (v.to_f / max * 45)).round(1)}" } %>
+        <polyline points="<%= points.join(' ') %>" fill="none" stroke="#4f46e5" stroke-width="2" />
+        <line x1="0" y1="50" x2="300" y2="50" stroke="#e5e7eb" stroke-width="1" />
+      </svg>
+      <div class="mt-1 flex justify-between text-xs text-gray-400">
+        <% @monthly_trend.each do |m| %>
+          <span><%= m[:label] %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="mb-2 text-sm font-semibold text-gray-900"><%= t("dashboard.profit_by_channel") %></p>
+        <table class="min-w-full text-sm">
+          <% @profit_by_channel.each do |channel_name, profit_cents| %>
+            <tr>
+              <td class="py-1 text-gray-700"><%= channel_name %></td>
+              <td class="py-1 text-right text-gray-900"><%= Money.new(profit_cents, Current.account.base_currency).format %></td>
+            </tr>
+          <% end %>
+          <% if @profit_by_channel.empty? %>
+            <tr><td class="py-1 text-gray-400"><%= t("dashboard.no_data") %></td></tr>
+          <% end %>
+        </table>
+      </div>
+
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <p class="mb-2 text-sm font-semibold text-gray-900"><%= t("dashboard.profit_by_game") %></p>
+        <table class="min-w-full text-sm">
+          <% @profit_by_game.each do |game_name, profit_cents| %>
+            <tr>
+              <td class="py-1 text-gray-700"><%= game_name %></td>
+              <td class="py-1 text-right text-gray-900"><%= Money.new(profit_cents, Current.account.base_currency).format %></td>
+            </tr>
+          <% end %>
+          <% if @profit_by_game.empty? %>
+            <tr><td class="py-1 text-gray-400"><%= t("dashboard.no_data") %></td></tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t("dashboard.top_cards") %></p>
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs uppercase text-gray-500">
+            <th class="py-1"><%= t("dashboard.card") %></th>
+            <th class="py-1 text-right"><%= t("dashboard.quantity") %></th>
+            <th class="py-1 text-right"><%= t("dashboard.profit") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @top_cards.each do |row| %>
+            <tr>
+              <td class="py-1 text-gray-700"><%= row[:name] %></td>
+              <td class="py-1 text-right text-gray-700"><%= row[:quantity] %></td>
+              <td class="py-1 text-right text-gray-900"><%= Money.new(row[:profit_base_cents], Current.account.base_currency).format %></td>
+            </tr>
+          <% end %>
+          <% if @top_cards.empty? %>
+            <tr><td class="py-1 text-gray-400"><%= t("dashboard.no_data") %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t("dashboard.aging") %></p>
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs uppercase text-gray-500">
+            <th class="py-1"><%= t("dashboard.aging_bucket") %></th>
+            <th class="py-1 text-right"><%= t("dashboard.quantity") %></th>
+            <th class="py-1 text-right"><%= t("dashboard.cost") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @inventory_aging.each do |range, data| %>
+            <tr>
+              <td class="py-1 text-gray-700"><%= t("dashboard.aging_buckets.#{range.end.infinite? ? 'over_180' : "#{range.begin}_#{range.end}"}") %></td>
+              <td class="py-1 text-right text-gray-700"><%= data[:count] %></td>
+              <td class="py-1 text-right text-gray-900"><%= Money.new(data[:cost_base_cents], Current.account.base_currency).format %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t("dashboard.channel_matrix") %></p>
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs uppercase text-gray-500">
+            <th class="py-1"><%= t("dashboard.purchase_channel") %></th>
+            <th class="py-1"><%= t("dashboard.sale_channel") %></th>
+            <th class="py-1 text-right"><%= t("dashboard.quantity") %></th>
+            <th class="py-1 text-right"><%= t("dashboard.profit") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @channel_matrix.each do |row| %>
+            <tr>
+              <td class="py-1 text-gray-700"><%= row[:purchase_channel] %></td>
+              <td class="py-1 text-gray-700"><%= row[:sale_channel] %></td>
+              <td class="py-1 text-right text-gray-700"><%= row[:quantity] %></td>
+              <td class="py-1 text-right text-gray-900"><%= Money.new(row[:profit_base_cents], Current.account.base_currency).format %></td>
+            </tr>
+          <% end %>
+          <% if @channel_matrix.empty? %>
+            <tr><td class="py-1 text-gray-400"><%= t("dashboard.no_data") %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-sm text-gray-500"><%= t("app.name") %></p>
       <p class="text-lg font-medium text-gray-900"><%= Current.account.name %></p>
       <p class="mt-2 text-sm text-gray-500">
-        Accesso come <%= Current.user.email %> &middot; ruolo <%= Current.membership&.role_label %>
+        <%= t("dashboard.signed_in_as", email: Current.user.email, role: Current.membership&.role_label) %>
       </p>
     </div>
   <% else %>
-    <p class="text-sm text-gray-500">Nessun account associato a questo utente.</p>
+    <p class="text-sm text-gray-500"><%= t("dashboard.no_account") %></p>
   <% end %>
 
-  <%= button_to "Esci", session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-900" %>
+  <%= button_to t("dashboard.sign_out"), session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-900" %>
 </div>
