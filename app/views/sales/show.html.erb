@@ -1,0 +1,105 @@
+<% content_for :title, "##{@sale_order.id}" %>
+
+<div class="w-full max-w-3xl mx-auto space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900"><%= @sale_order.channel.name %></h1>
+      <p class="text-sm text-gray-500">
+        <%= I18n.t(@sale_order.status, scope: "enums.sale_order.status") %>
+        <% if @sale_order.review_required? %>
+          &middot; <span class="text-amber-700"><%= t(".review_required") %></span>
+        <% end %>
+      </p>
+    </div>
+
+    <div class="flex gap-2">
+      <% if policy(@sale_order).update? %>
+        <%= link_to t(".edit"), edit_sale_path(@sale_order), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+      <% end %>
+
+      <% if policy(@sale_order).transition? && @sale_order.status == "draft" %>
+        <%= button_to t(".submit"), submit_sale_path(@sale_order), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+        <%= button_to t(".confirm_payment"), confirm_payment_sale_path(@sale_order), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+
+      <% if policy(@sale_order).transition? && @sale_order.status == "awaiting_payment" %>
+        <%= button_to t(".confirm_payment"), confirm_payment_sale_path(@sale_order), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+
+      <% if policy(@sale_order).transition? && @sale_order.status == "paid" %>
+        <%= button_to t(".ship"), ship_sale_path(@sale_order), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+
+      <% if policy(@sale_order).transition? && @sale_order.status == "shipped" %>
+        <%= button_to t(".deliver"), deliver_sale_path(@sale_order), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+
+      <% if policy(@sale_order).transition? && %w[awaiting_payment paid].include?(@sale_order.status) %>
+        <%= button_to t(".cancel"), cancel_sale_path(@sale_order), form: { data: { turbo_confirm: true } }, class: "rounded-md border border-red-300 px-3 py-2 text-sm text-red-700 hover:bg-red-50 cursor-pointer" %>
+      <% end %>
+
+      <% if policy(@sale_order).destroy? %>
+        <%= button_to t(".destroy"), sale_path(@sale_order), method: :delete, form: { data: { turbo_confirm: true } }, class: "rounded-md border border-red-300 px-3 py-2 text-sm text-red-700 hover:bg-red-50 cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if alert %>
+    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
+  <% end %>
+  <% if notice %>
+    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-1 text-sm">
+    <p class="flex justify-between"><span><%= t(".subtotal") %></span> <span><%= @sale_order.items_subtotal.format %></span></p>
+    <p class="flex justify-between"><span><%= t(".income_total") %></span> <span><%= @sale_order.income_total.format %></span></p>
+    <p class="flex justify-between"><span><%= t(".expense_total") %></span> <span><%= @sale_order.expense_total.format %></span></p>
+    <p class="flex justify-between font-semibold"><span><%= t(".net_proceeds") %></span> <span><%= @sale_order.net_proceeds.format %></span></p>
+    <% if @sale_order.profit_base_cents.present? %>
+      <p class="flex justify-between text-gray-500"><span><%= t(".profit_base") %></span> <span><%= @sale_order.profit_base.format %></span></p>
+    <% end %>
+  </div>
+
+  <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".line_description") %></th>
+          <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".line_item") %></th>
+          <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".line_price") %></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @sale_order.sale_lines.each do |line| %>
+          <tr>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-900"><%= line.description %></td>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.inventory_item&.public_ref %></td>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.unit_price.format %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @sale_order.sale_charges.any? %>
+    <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".charge_kind") %></th>
+            <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".charge_amount") %></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @sale_order.sale_charges.each do |charge| %>
+            <tr>
+              <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-900"><%= I18n.t(charge.kind, scope: "enums.sale_charge.kind") %></td>
+              <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= charge.amount.format %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

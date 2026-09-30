@@ -1,0 +1,91 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-4xl mx-auto space-y-4">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
+    <div class="flex gap-2">
+      <% if policy(Cardtrader::OrderSyncRun).create? %>
+        <%= button_to t(".sync"), sync_sales_path, class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+      <% end %>
+      <%= link_to t("sales.new.title"), new_sale_path,
+          class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500" %>
+    </div>
+  </div>
+
+  <%= form_with url: sales_path, method: :get, class: "grid gap-3 sm:grid-cols-4" do %>
+    <div>
+      <label class="sr-only" for="channel_id"><%= t(".channel") %></label>
+      <%= select_tag :channel_id, options_for_select(Current.account.channels.order(:name).pluck(:name, :id), params[:channel_id]),
+          include_blank: t(".channel"), onchange: "this.form.requestSubmit()",
+          class: "block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <label class="sr-only" for="status"><%= t(".status") %></label>
+      <%= select_tag :status, options_for_select(SaleOrder::STATUSES.map { |s| [ I18n.t(s, scope: "enums.sale_order.status"), s ] }, params[:status]),
+          include_blank: t(".status"), onchange: "this.form.requestSubmit()",
+          class: "block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <label class="sr-only" for="from"><%= t(".from") %></label>
+      <%= date_field_tag :from, params[:from], placeholder: t(".from"),
+          class: "block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <label class="sr-only" for="to"><%= t(".to") %></label>
+      <%= date_field_tag :to, params[:to], placeholder: t(".to"),
+          class: "block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+  <% end %>
+
+  <% if policy(Cardtrader::OrderSyncRun).create? %>
+    <%= form_with url: sync_one_sales_path, method: :post, class: "flex items-end gap-2" do |f| %>
+      <div>
+        <%= label_tag :external_order_id, t(".sync_one_label"), class: "block text-xs font-medium text-gray-500" %>
+        <%= text_field_tag :external_order_id, nil, placeholder: t(".sync_one_placeholder"),
+            class: "mt-1 block rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      </div>
+      <%= submit_tag t(".sync_one"), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+    <% end %>
+  <% end %>
+
+  <% if notice %>
+    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
+  <% end %>
+
+  <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".channel") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".buyer") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".status") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".total") %></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @sale_orders.each do |sale_order| %>
+          <tr>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-900">
+              <%= link_to sale_order.channel.name, sale_path(sale_order), class: "text-indigo-600 hover:text-indigo-900" %>
+              <% if sale_order.review_required? %>
+                <span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-700"><%= t(".review_required") %></span>
+              <% end %>
+            </td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= sale_order.buyer_ref %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= I18n.t(sale_order.status, scope: "enums.sale_order.status") %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= sale_order.net_proceeds.format %></td>
+          </tr>
+        <% end %>
+
+        <% if @sale_orders.empty? %>
+          <tr>
+            <td colspan="4" class="px-4 py-10 text-center text-sm text-gray-500"><%= t(".empty") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

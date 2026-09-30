@@ -1,4 +1,6 @@
 class PurchaseCharge < ApplicationRecord
+  has_paper_trail
+
   KINDS = %w[shipping tax_duty platform_fee ct_zero_fee safeguard_fee payment_fee discount other].freeze
 
   belongs_to :purchase

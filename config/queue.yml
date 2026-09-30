@@ -9,6 +9,17 @@ default: &default
       threads: 3
       processes: 1
       polling_interval: 1
+    # ct_user_interactive/ct_user_bulk (§9.1): sales order sync. Separate
+    # pools so a slow bulk import never delays an interactive single-order
+    # sync a user is waiting on.
+    - queues: "ct_user_interactive"
+      threads: 2
+      processes: 1
+      polling_interval: 0.5
+    - queues: "ct_user_bulk"
+      threads: 2
+      processes: 1
+      polling_interval: 1
     - queues: "default"
       threads: 3
       processes: <%= ENV.fetch("JOB_CONCURRENCY", 1) %>

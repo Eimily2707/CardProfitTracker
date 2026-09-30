@@ -20,6 +20,20 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sales do
+    member do
+      post :submit
+      post :confirm_payment
+      post :ship
+      post :deliver
+      post :cancel
+    end
+    collection do
+      post :sync
+      post :sync_one
+    end
+  end
+
   get "catalog", to: "catalog#index"
   namespace :catalog do
     get "search", to: "search#index"

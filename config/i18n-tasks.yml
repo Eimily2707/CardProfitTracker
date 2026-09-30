@@ -25,6 +25,8 @@ ignore_unused:
   - "enums.purchase.status.*"
   - "enums.purchase_charge.kind.*"
   - "enums.purchase_line.*"
+  - "enums.sale_charge.kind.*"
+  - "enums.sale_order.*"
   # t(".success") in InvitationsController#accept_for_existing_user!/accept_with_new_user!
   # resolves against action_name ("accept"), not the enclosing method name, so the static
   # scanner can't see this usage.

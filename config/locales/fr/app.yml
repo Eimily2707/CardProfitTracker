@@ -41,6 +41,16 @@ fr:
             amount_cents:
               must_be_negative: doit être négatif pour une remise
               must_be_positive: doit être positif
+        sale_line:
+          attributes:
+            inventory_item:
+              already_in_an_active_line: est déjà dans une autre ligne de vente active
+        sale_order:
+          attributes:
+            base:
+              no_active_lines: doit avoir au moins une ligne active pour être confirmée
+              only_drafts_can_be_deleted: seuls les brouillons peuvent être supprimés
+                ; annulez plutôt la vente
         user:
           attributes:
             time_zone:
@@ -144,6 +154,30 @@ fr:
         other: Autre
         sealed: Scellé
         single: Unité
+    sale_charge:
+      kind:
+        discount_given: Remise accordée
+        other_expense: Autre dépense
+        other_income: Autre revenu
+        payment_fee: Frais de paiement
+        platform_fee: Frais de plateforme
+        repurchase_fee: Frais de rachat
+        shipping_charged: Livraison facturée
+    sale_order:
+      payment_method:
+        bank_transfer: Virement bancaire
+        card: Carte
+        cash: Espèces
+        other: Autre
+        paypal: PayPal
+        platform: Plateforme
+      status:
+        awaiting_payment: En attente de paiement
+        cancelled: Annulée
+        delivered: Livrée
+        draft: Brouillon
+        paid: Payée
+        shipped: Expédiée
   invitation_mailer:
     invite:
       body: Vous avez été invité à collaborer sur %{account} dans CardProfitTracker.
@@ -297,6 +331,90 @@ fr:
       sign_in_link: Se connecter
       submit: Créer le compte
       title: Créez votre compte
+  sales:
+    cancel:
+      cancelled: Vente annulée.
+    confirm_payment:
+      paid: Paiement confirmé.
+    create:
+      success: Vente créée.
+    deliver:
+      delivered: Vente livrée.
+    destroy:
+      success: Vente supprimée.
+    edit:
+      title: Modifier la vente
+    form:
+      add_charge: Ajouter une dépense
+      add_line: Ajouter une ligne
+      buyer_ref: Acheteur
+      channel: Canal
+      charge_amount: Montant
+      charge_kind: Type de dépense
+      charges: Dépenses et revenus accessoires
+      currency: Devise
+      description: Description
+      fx_rate: Taux de change
+      fx_rate_hint: vers %{currency}
+      inventory_item: Article en stock
+      line: Ligne
+      lines: Lignes
+      notes: Notes
+      payment_method: Mode de paiement
+      preview_charges: Dépenses
+      preview_subtotal: Sous-total
+      preview_total: Total
+      remove_charge: Retirer
+      remove_line: Retirer
+      sold_at: Date de vente
+      submit: Enregistrer
+      unit_price: Prix unitaire
+    index:
+      buyer: Acheteur
+      channel: Canal
+      empty: Aucune vente enregistrée.
+      from: Du
+      review_required: À vérifier
+      status: Statut
+      sync: Synchroniser les commandes
+      sync_one: Importer
+      sync_one_label: Id de commande CardTrader
+      sync_one_placeholder: Ex. 123456
+      title: Ventes
+      to: Au
+      total: Net
+    new:
+      title: Nouvelle vente
+    ship:
+      shipped: Vente expédiée.
+    show:
+      cancel: Annuler
+      charge_amount: Montant
+      charge_kind: Type
+      confirm_payment: Confirmer le paiement
+      deliver: Marquer comme livrée
+      destroy: Supprimer
+      edit: Modifier
+      expense_total: Dépenses
+      income_total: Revenus accessoires
+      line_description: Description
+      line_item: Article
+      line_price: Prix
+      net_proceeds: Revenu net
+      profit_base: Profit (devise de base)
+      review_required: Nécessite une vérification manuelle
+      ship: Marquer comme expédiée
+      submit: Envoyer
+      subtotal: Sous-total
+    submit:
+      submitted: Vente envoyée.
+    sync:
+      sync_started: Synchronisation lancée.
+    sync_one:
+      missing_order_id: Saisissez l'id de la commande CardTrader.
+      sync_started: Import lancé.
+    update:
+      success: Vente mise à jour.
   sessions:
     create:
       invalid_credentials: E-mail ou mot de passe incorrect.

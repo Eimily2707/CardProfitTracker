@@ -1,0 +1,13 @@
+acme_draft:
+  account: acme
+  channel: acme_fair
+  origin: manual
+  currency: EUR
+  status: draft
+
+globex_draft:
+  account: globex
+  channel: globex_fair
+  origin: manual
+  currency: USD
+  status: draft

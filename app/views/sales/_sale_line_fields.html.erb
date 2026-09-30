@@ -1,0 +1,31 @@
+<div class="rounded-md border border-gray-200 p-3 space-y-3" data-nested-form-target="item" data-controller="sale-line-item">
+  <div class="flex items-center justify-between">
+    <span class="text-xs font-medium uppercase tracking-wide text-gray-400"><%= t("sales.form.line") %></span>
+    <button type="button" data-action="nested-form#remove" class="text-xs text-red-600 hover:text-red-900 cursor-pointer">
+      <%= t("sales.form.remove_line") %>
+    </button>
+  </div>
+
+  <%= f.hidden_field :_destroy %>
+
+  <% item_options = available_inventory_items_for(f.object).map { |item| [ "#{item.public_ref} - #{item.name} (#{item.cost_base.format})", item.id, { data: { name: item.name } } ] } %>
+  <div>
+    <%= f.label :inventory_item_id, t("sales.form.inventory_item"), class: "block text-xs font-medium text-gray-500" %>
+    <%= f.select :inventory_item_id, options_for_select(item_options, f.object.inventory_item_id), { include_blank: true },
+        data: { sale_line_item_target: "item", action: "change->sale-line-item#fill" },
+        class: "mt-1 block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+  </div>
+
+  <div>
+    <%= f.label :description, t("sales.form.description"), class: "block text-xs font-medium text-gray-500" %>
+    <%= f.text_field :description, required: true, data: { sale_line_item_target: "description" },
+        class: "mt-1 block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+  </div>
+
+  <div>
+    <%= f.label :unit_price, t("sales.form.unit_price"), class: "block text-xs font-medium text-gray-500" %>
+    <%= f.text_field :unit_price, required: true, inputmode: "decimal",
+        data: { sale_totals_target: "unitPrice", action: "input->sale-totals#recompute" },
+        class: "mt-1 block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+  </div>
+</div>

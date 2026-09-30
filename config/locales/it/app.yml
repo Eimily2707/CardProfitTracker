@@ -40,6 +40,16 @@ it:
             amount_cents:
               must_be_negative: deve essere negativo per uno sconto
               must_be_positive: deve essere positivo
+        sale_line:
+          attributes:
+            inventory_item:
+              already_in_an_active_line: è già in un'altra riga di vendita attiva
+        sale_order:
+          attributes:
+            base:
+              no_active_lines: deve avere almeno una riga attiva per essere confermata
+              only_drafts_can_be_deleted: solo le bozze possono essere eliminate;
+                annulla la vendita invece
         user:
           attributes:
             time_zone:
@@ -143,6 +153,30 @@ it:
         other: Altro
         sealed: Sigillato
         single: Singola
+    sale_charge:
+      kind:
+        discount_given: Sconto concesso
+        other_expense: Altra spesa
+        other_income: Altro ricavo
+        payment_fee: Commissione di pagamento
+        platform_fee: Commissione piattaforma
+        repurchase_fee: Commissione di riacquisto
+        shipping_charged: Spedizione addebitata
+    sale_order:
+      payment_method:
+        bank_transfer: Bonifico
+        card: Carta
+        cash: Contanti
+        other: Altro
+        paypal: PayPal
+        platform: Piattaforma
+      status:
+        awaiting_payment: In attesa di pagamento
+        cancelled: Annullata
+        delivered: Consegnata
+        draft: Bozza
+        paid: Pagata
+        shipped: Spedita
   invitation_mailer:
     invite:
       body: Sei stato invitato a collaborare su %{account} in CardProfitTracker. Questo
@@ -296,6 +330,90 @@ it:
       sign_in_link: Accedi
       submit: Crea account
       title: Crea il tuo account
+  sales:
+    cancel:
+      cancelled: Vendita annullata.
+    confirm_payment:
+      paid: Pagamento confermato.
+    create:
+      success: Vendita creata.
+    deliver:
+      delivered: Vendita consegnata.
+    destroy:
+      success: Vendita eliminata.
+    edit:
+      title: Modifica vendita
+    form:
+      add_charge: Aggiungi spesa
+      add_line: Aggiungi riga
+      buyer_ref: Acquirente
+      channel: Canale
+      charge_amount: Importo
+      charge_kind: Tipo di spesa
+      charges: Spese e ricavi accessori
+      currency: Valuta
+      description: Descrizione
+      fx_rate: Tasso di cambio
+      fx_rate_hint: verso %{currency}
+      inventory_item: Pezzo in inventario
+      line: Riga
+      lines: Righe
+      notes: Note
+      payment_method: Metodo di pagamento
+      preview_charges: Spese
+      preview_subtotal: Subtotale
+      preview_total: Totale
+      remove_charge: Rimuovi
+      remove_line: Rimuovi
+      sold_at: Data vendita
+      submit: Salva
+      unit_price: Prezzo unitario
+    index:
+      buyer: Acquirente
+      channel: Canale
+      empty: Nessuna vendita registrata.
+      from: Dal
+      review_required: Da rivedere
+      status: Stato
+      sync: Sincronizza ordini
+      sync_one: Importa
+      sync_one_label: ID ordine CardTrader
+      sync_one_placeholder: Es. 123456
+      title: Vendite
+      to: Al
+      total: Netto
+    new:
+      title: Nuova vendita
+    ship:
+      shipped: Vendita spedita.
+    show:
+      cancel: Annulla
+      charge_amount: Importo
+      charge_kind: Tipo
+      confirm_payment: Conferma pagamento
+      deliver: Segna consegnata
+      destroy: Elimina
+      edit: Modifica
+      expense_total: Spese
+      income_total: Ricavi accessori
+      line_description: Descrizione
+      line_item: Pezzo
+      line_price: Prezzo
+      net_proceeds: Ricavo netto
+      profit_base: Profitto (valuta base)
+      review_required: Richiede una revisione manuale
+      ship: Segna spedita
+      submit: Invia
+      subtotal: Subtotale
+    submit:
+      submitted: Vendita inviata.
+    sync:
+      sync_started: Sincronizzazione avviata.
+    sync_one:
+      missing_order_id: Inserisci l'id dell'ordine CardTrader.
+      sync_started: Importazione avviata.
+    update:
+      success: Vendita aggiornata.
   sessions:
     create:
       invalid_credentials: Email o password non validi.

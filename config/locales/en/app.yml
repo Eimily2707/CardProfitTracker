@@ -39,6 +39,16 @@ en:
             amount_cents:
               must_be_negative: must be negative for a discount
               must_be_positive: must be positive
+        sale_line:
+          attributes:
+            inventory_item:
+              already_in_an_active_line: is already in another active sale line
+        sale_order:
+          attributes:
+            base:
+              no_active_lines: must have at least one active line to be confirmed
+              only_drafts_can_be_deleted: only drafts can be deleted; cancel the sale
+                instead
         user:
           attributes:
             time_zone:
@@ -142,6 +152,30 @@ en:
         other: Other
         sealed: Sealed
         single: Single
+    sale_charge:
+      kind:
+        discount_given: Discount given
+        other_expense: Other expense
+        other_income: Other income
+        payment_fee: Payment fee
+        platform_fee: Platform fee
+        repurchase_fee: Repurchase fee
+        shipping_charged: Shipping charged
+    sale_order:
+      payment_method:
+        bank_transfer: Bank transfer
+        card: Card
+        cash: Cash
+        other: Other
+        paypal: PayPal
+        platform: Platform
+      status:
+        awaiting_payment: Awaiting payment
+        cancelled: Cancelled
+        delivered: Delivered
+        draft: Draft
+        paid: Paid
+        shipped: Shipped
   invitation_mailer:
     invite:
       body: You've been invited to collaborate on %{account} in CardProfitTracker.
@@ -294,6 +328,90 @@ en:
       sign_in_link: Sign in
       submit: Create account
       title: Create your account
+  sales:
+    cancel:
+      cancelled: Sale cancelled.
+    confirm_payment:
+      paid: Payment confirmed.
+    create:
+      success: Sale created.
+    deliver:
+      delivered: Sale delivered.
+    destroy:
+      success: Sale deleted.
+    edit:
+      title: Edit sale
+    form:
+      add_charge: Add charge
+      add_line: Add line
+      buyer_ref: Buyer
+      channel: Channel
+      charge_amount: Amount
+      charge_kind: Charge kind
+      charges: Accessory charges/income
+      currency: Currency
+      description: Description
+      fx_rate: Exchange rate
+      fx_rate_hint: against %{currency}
+      inventory_item: Inventory item
+      line: Line
+      lines: Lines
+      notes: Notes
+      payment_method: Payment method
+      preview_charges: Charges
+      preview_subtotal: Subtotal
+      preview_total: Total
+      remove_charge: Remove
+      remove_line: Remove
+      sold_at: Sale date
+      submit: Save
+      unit_price: Unit price
+    index:
+      buyer: Buyer
+      channel: Channel
+      empty: No sales recorded yet.
+      from: From
+      review_required: Needs review
+      status: Status
+      sync: Sync orders
+      sync_one: Import
+      sync_one_label: CardTrader order id
+      sync_one_placeholder: e.g. 123456
+      title: Sales
+      to: To
+      total: Net
+    new:
+      title: New sale
+    ship:
+      shipped: Sale shipped.
+    show:
+      cancel: Cancel
+      charge_amount: Amount
+      charge_kind: Kind
+      confirm_payment: Confirm payment
+      deliver: Mark delivered
+      destroy: Delete
+      edit: Edit
+      expense_total: Expenses
+      income_total: Accessory income
+      line_description: Description
+      line_item: Item
+      line_price: Price
+      net_proceeds: Net proceeds
+      profit_base: Profit (base currency)
+      review_required: Needs manual review
+      ship: Mark shipped
+      submit: Submit
+      subtotal: Subtotal
+    submit:
+      submitted: Sale submitted.
+    sync:
+      sync_started: Sync started.
+    sync_one:
+      missing_order_id: Enter the CardTrader order id.
+      sync_started: Import started.
+    update:
+      success: Sale updated.
   sessions:
     create:
       invalid_credentials: Try another email address or password.
