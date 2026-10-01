@@ -22,6 +22,8 @@ class Account < ApplicationRecord
   has_many :inventory_items, dependent: :restrict_with_error
   has_many :sale_orders, dependent: :restrict_with_error
   has_many :cardtrader_order_sync_runs, class_name: "Cardtrader::OrderSyncRun", dependent: :destroy
+  has_one :cardtrader_connection, dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   after_create -> { Channel.seed_defaults_for!(self) }
 

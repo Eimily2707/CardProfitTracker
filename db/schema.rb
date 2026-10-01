@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_30_100006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -32,6 +32,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
     t.string "trade_valuation_method", default: "carryover", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cardtrader_connections", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "auth_method", default: "personal_token", null: false
+    t.text "access_token", null: false
+    t.text "shared_secret"
+    t.string "webhook_token", null: false
+    t.datetime "webhook_registered_at"
+    t.string "status", default: "pending_verification", null: false
+    t.string "ct_username"
+    t.integer "ct_user_id"
+    t.datetime "last_verified_at"
+    t.text "last_error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_cardtrader_connections_on_account_id", unique: true
+    t.index ["webhook_token"], name: "index_cardtrader_connections_on_webhook_token", unique: true
   end
 
   create_table "cardtrader_order_sync_runs", force: :cascade do |t|
@@ -207,6 +225,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
+  create_table "pending_order_syncs", force: :cascade do |t|
+    t.bigint "connection_id", null: false
+    t.string "ct_order_id", null: false
+    t.string "status", default: "queued", null: false
+    t.datetime "requested_at", null: false
+    t.integer "attempts", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["connection_id", "ct_order_id"], name: "index_pending_order_syncs_on_connection_and_order_while_active", unique: true, where: "((status)::text = ANY ((ARRAY['queued'::character varying, 'running'::character varying])::text[]))"
+    t.index ["connection_id"], name: "index_pending_order_syncs_on_connection_id"
+  end
+
   create_table "purchase_charges", force: :cascade do |t|
     t.bigint "purchase_id", null: false
     t.string "kind", null: false
@@ -328,6 +358,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "channel_id", "external_order_id"], name: "idx_on_account_id_channel_id_external_order_id_55658c2e4f", unique: true
+    t.index ["account_id", "credited_at"], name: "index_sale_orders_on_account_id_and_credited_at"
     t.index ["account_id", "status"], name: "index_sale_orders_on_account_id_and_status"
     t.index ["account_id"], name: "index_sale_orders_on_account_id"
     t.index ["channel_id"], name: "index_sale_orders_on_channel_id"
@@ -531,6 +562,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
     t.index ["record_type", "record_id", "occurred_at"], name: "idx_on_record_type_record_id_occurred_at_592847f3f1"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "kind", null: false
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.string "priority", null: false
+    t.string "status", default: "open", null: false
+    t.bigint "assignee_id"
+    t.datetime "snoozed_until"
+    t.date "due_on"
+    t.datetime "resolved_at"
+    t.string "resolution"
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_tasks_on_account_id_and_status"
+    t.index ["account_id"], name: "index_tasks_on_account_id"
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
+    t.index ["subject_type", "subject_id", "kind"], name: "index_tasks_on_subject_and_kind_while_open", unique: true, where: "((status)::text = ANY ((ARRAY['open'::character varying, 'snoozed'::character varying])::text[]))"
+    t.index ["subject_type", "subject_id"], name: "index_tasks_on_subject"
+  end
+
   create_table "users", force: :cascade do |t|
     t.citext "email", null: false
     t.string "password_digest", null: false
@@ -552,9 +605,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
     t.string "item_type", null: false
     t.string "event", null: false
     t.text "object"
+    t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "webhook_events", force: :cascade do |t|
+    t.bigint "connection_id", null: false
+    t.string "ct_object_id", null: false
+    t.string "cause"
+    t.string "mode", null: false
+    t.datetime "event_time", null: false
+    t.string "status", default: "received", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["connection_id"], name: "index_webhook_events_on_connection_id"
+  end
+
+  add_foreign_key "cardtrader_connections", "accounts"
   add_foreign_key "cardtrader_order_sync_runs", "accounts"
   add_foreign_key "cardtrader_order_sync_runs", "users", column: "triggered_by_id"
   add_foreign_key "catalog_sync_runs", "users", column: "triggered_by_id"
@@ -567,6 +634,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
   add_foreign_key "invitations", "users", column: "invited_by_id"
   add_foreign_key "memberships", "accounts"
   add_foreign_key "memberships", "users"
+  add_foreign_key "pending_order_syncs", "cardtrader_connections", column: "connection_id"
   add_foreign_key "purchase_charges", "purchases"
   add_foreign_key "purchase_lines", "ct_blueprints"
   add_foreign_key "purchase_lines", "purchases"
@@ -590,4 +658,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_100004) do
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "state_transitions", "users", column: "actor_user_id"
+  add_foreign_key "tasks", "accounts"
+  add_foreign_key "tasks", "users", column: "assignee_id"
+  add_foreign_key "webhook_events", "cardtrader_connections", column: "connection_id"
 end

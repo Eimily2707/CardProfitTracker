@@ -57,6 +57,38 @@ fr:
               invalid: n'est pas un fuseau horaire valide
   app:
     name: CardProfitTracker
+  audit_logs:
+    show:
+      changes: Modifications
+      empty: Aucune modification enregistrée.
+      event: Événement
+      not_found: Élément introuvable.
+      system: Système
+      title: Historique des modifications
+      when: Quand
+      whodunnit: Utilisateur
+  cardtrader_connections:
+    access_token: Jeton API personnel
+    access_token_hint: Laisser vide pour ne pas le modifier
+    create:
+      success: Connexion créée.
+    ct_username: Nom d'utilisateur CardTrader
+    destroy:
+      success: Connexion déconnectée.
+    disconnect: Déconnecter
+    edit:
+      title: Connexion CardTrader
+    nav_title: CardTrader
+    new:
+      title: Connecter CardTrader
+    status: Statut
+    submit: Enregistrer
+    update:
+      success: Connexion mise à jour.
+    verify:
+      success: Connexion vérifiée.
+    verify_button: Vérifier la connexion
+    webhook_url: URL du webhook
   catalog:
     index:
       all_categories: Toutes les catégories
@@ -136,6 +168,17 @@ fr:
       one: "%{count} commande"
       other: "%{count} commandes"
   enums:
+    audit_log:
+      event:
+        create: Création
+        destroy: Suppression
+        update: Modification
+    cardtrader_connection:
+      status:
+        active: Active
+        disconnected: Déconnectée
+        invalid: Non valide
+        pending_verification: À vérifier
     channel:
       credit_timing:
         immediate: Immédiat
@@ -218,6 +261,32 @@ fr:
         draft: Brouillon
         paid: Payée
         shipped: Expédiée
+    task:
+      kind:
+        box_delivery_review: Livraison de box à vérifier
+        catch_up_failed: Rattrapage échoué
+        confirm_copy: Confirmer la copie
+        connection_invalid: Connexion non valide
+        credit_pending: Crédit en attente
+        ct0_contestation: Contestation CT Zero
+        estimated_amount: Montant estimé
+        grading_overdue: Envoi en grading en retard
+        import_failed: Importation échouée
+        import_review: Importation à vérifier
+        link_proposal: Proposition de liaison
+        open_cost_pool: Pool de coûts ouvert
+        pending_arrival_overdue: Arrivée en retard
+        recurring_expense: Dépense récurrente
+        sale_conflict: Conflit de vente
+      priority:
+        high: Haute
+        low: Basse
+        normal: Normale
+      status:
+        dismissed: Ignorée
+        open: Ouverte
+        resolved: Résolue
+        snoozed: Reportée
   invitation_mailer:
     invite:
       body: Vous avez été invité à collaborer sur %{account} dans CardProfitTracker.
@@ -337,6 +406,7 @@ fr:
     receive:
       received: Achat reçu.
     show:
+      audit_log: Historique des modifications
       cancel: Annuler
       charge_amount: Montant
       charge_kind: Type
@@ -431,6 +501,7 @@ fr:
     ship:
       shipped: Vente expédiée.
     show:
+      audit_log: Historique des modifications
       cancel: Annuler
       charge_amount: Montant
       charge_kind: Type
@@ -468,3 +539,19 @@ fr:
       submit: Se connecter
       title: Connexion
     rate_limited: Réessayez plus tard.
+  tasks:
+    dismiss:
+      success: Tâche ignorée.
+    index:
+      dismiss: Ignorer
+      empty: Aucune tâche à traiter.
+      kind: Type
+      priority: Priorité
+      snooze: Reporter
+      status: Statut
+      title: À traiter
+      unsnooze: Rouvrir
+    snooze:
+      success: Tâche reportée d'une semaine.
+    unsnooze:
+      success: Tâche rouverte.

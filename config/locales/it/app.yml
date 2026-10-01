@@ -56,6 +56,38 @@ it:
               invalid: non è un fuso orario valido
   app:
     name: CardProfitTracker
+  audit_logs:
+    show:
+      changes: Modifiche
+      empty: Nessuna modifica registrata.
+      event: Evento
+      not_found: Elemento non trovato.
+      system: Sistema
+      title: Cronologia modifiche
+      when: Quando
+      whodunnit: Utente
+  cardtrader_connections:
+    access_token: Token API personale
+    access_token_hint: Lascia vuoto per non modificarlo
+    create:
+      success: Connessione creata.
+    ct_username: Utente CardTrader
+    destroy:
+      success: Connessione disconnessa.
+    disconnect: Disconnetti
+    edit:
+      title: Connessione CardTrader
+    nav_title: CardTrader
+    new:
+      title: Collega CardTrader
+    status: Stato
+    submit: Salva
+    update:
+      success: Connessione aggiornata.
+    verify:
+      success: Connessione verificata.
+    verify_button: Verifica connessione
+    webhook_url: URL webhook
   catalog:
     index:
       all_categories: Tutte le categorie
@@ -135,6 +167,17 @@ it:
       one: "%{count} ordine"
       other: "%{count} ordini"
   enums:
+    audit_log:
+      event:
+        create: Creazione
+        destroy: Cancellazione
+        update: Modifica
+    cardtrader_connection:
+      status:
+        active: Attiva
+        disconnected: Disconnessa
+        invalid: Non valida
+        pending_verification: Da verificare
     channel:
       credit_timing:
         immediate: Immediato
@@ -217,6 +260,32 @@ it:
         draft: Bozza
         paid: Pagata
         shipped: Spedita
+    task:
+      kind:
+        box_delivery_review: Consegna box da rivedere
+        catch_up_failed: Recupero fallito
+        confirm_copy: Conferma copia
+        connection_invalid: Connessione non valida
+        credit_pending: Accredito in sospeso
+        ct0_contestation: Contestazione CT Zero
+        estimated_amount: Importo stimato
+        grading_overdue: Invio in grading in ritardo
+        import_failed: Importazione fallita
+        import_review: Importazione da rivedere
+        link_proposal: Proposta di collegamento
+        open_cost_pool: Pool di costo aperto
+        pending_arrival_overdue: Arrivo in ritardo
+        recurring_expense: Spesa ricorrente
+        sale_conflict: Conflitto di vendita
+      priority:
+        high: Alta
+        low: Bassa
+        normal: Normale
+      status:
+        dismissed: Ignorata
+        open: Aperta
+        resolved: Risolta
+        snoozed: Rimandata
   invitation_mailer:
     invite:
       body: Sei stato invitato a collaborare su %{account} in CardProfitTracker. Questo
@@ -336,6 +405,7 @@ it:
     receive:
       received: Acquisto ricevuto.
     show:
+      audit_log: Cronologia modifiche
       cancel: Annulla
       charge_amount: Importo
       charge_kind: Tipo
@@ -430,6 +500,7 @@ it:
     ship:
       shipped: Vendita spedita.
     show:
+      audit_log: Cronologia modifiche
       cancel: Annulla
       charge_amount: Importo
       charge_kind: Tipo
@@ -467,3 +538,19 @@ it:
       submit: Accedi
       title: Accedi
     rate_limited: Riprova più tardi.
+  tasks:
+    dismiss:
+      success: Attività ignorata.
+    index:
+      dismiss: Ignora
+      empty: Nessuna attività da sistemare.
+      kind: Tipo
+      priority: Priorità
+      snooze: Rimanda
+      status: Stato
+      title: Da sistemare
+      unsnooze: Riapri
+    snooze:
+      success: Attività rimandata di una settimana.
+    unsnooze:
+      success: Attività riaperta.

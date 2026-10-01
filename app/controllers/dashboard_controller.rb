@@ -8,6 +8,8 @@ class DashboardController < ApplicationController
   def show
     return unless Current.account
 
+    Tasks::CreditPendingCheck.new(Current.account).call!
+
     @period = PERIODS.include?(params[:period]) ? params[:period] : "month"
     @from, @to = period_range(@period)
 

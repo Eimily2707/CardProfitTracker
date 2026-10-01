@@ -41,6 +41,10 @@
       <% if policy(@sale_order).destroy? %>
         <%= button_to t(".destroy"), sale_path(@sale_order), method: :delete, form: { data: { turbo_confirm: true } }, class: "rounded-md border border-red-300 px-3 py-2 text-sm text-red-700 hover:bg-red-50 cursor-pointer" %>
       <% end %>
+
+      <% if Current.membership&.admin? || Current.membership&.owner? %>
+        <%= link_to t(".audit_log"), audit_log_path(type: "SaleOrder", id: @sale_order.id), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+      <% end %>
     </div>
   </div>
 

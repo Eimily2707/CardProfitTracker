@@ -1,0 +1,36 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-md mx-auto space-y-4">
+  <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
+
+  <% if notice %>
+    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
+  <% end %>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-1 text-sm">
+    <p class="flex justify-between"><span><%= t("cardtrader_connections.status") %></span> <span><%= I18n.t(@cardtrader_connection.status, scope: "enums.cardtrader_connection.status") %></span></p>
+    <% if @cardtrader_connection.ct_username %>
+      <p class="flex justify-between"><span><%= t("cardtrader_connections.ct_username") %></span> <span><%= @cardtrader_connection.ct_username %></span></p>
+    <% end %>
+    <p class="flex justify-between"><span><%= t("cardtrader_connections.webhook_url") %></span> <span class="truncate"><%= cardtrader_webhook_url(webhook_token: @cardtrader_connection.webhook_token) %></span></p>
+  </div>
+
+  <%= button_to t("cardtrader_connections.verify_button"), verify_cardtrader_connection_path, class: "rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+
+  <%= form_with model: @cardtrader_connection, url: cardtrader_connection_path, class: "space-y-4" do |f| %>
+    <div>
+      <%= f.label :access_token, t("cardtrader_connections.access_token"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.password_field :access_token, autocomplete: "off", placeholder: t("cardtrader_connections.access_token_hint"),
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <%= f.submit t("cardtrader_connections.submit"),
+        class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
+  <% end %>
+
+  <%= button_to t("cardtrader_connections.disconnect"), cardtrader_connection_path, method: :delete,
+      form: { data: { turbo_confirm: true } }, class: "text-sm text-red-600 hover:text-red-900 bg-transparent p-0 font-normal cursor-pointer" %>
+</div>

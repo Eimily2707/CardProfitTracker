@@ -56,6 +56,38 @@ es:
               invalid: no es una zona horaria válida
   app:
     name: CardProfitTracker
+  audit_logs:
+    show:
+      changes: Cambios
+      empty: No se han registrado cambios.
+      event: Evento
+      not_found: Elemento no encontrado.
+      system: Sistema
+      title: Historial de cambios
+      when: Cuándo
+      whodunnit: Usuario
+  cardtrader_connections:
+    access_token: Token de API personal
+    access_token_hint: Déjalo en blanco para no modificarlo
+    create:
+      success: Conexión creada.
+    ct_username: Usuario de CardTrader
+    destroy:
+      success: Conexión desconectada.
+    disconnect: Desconectar
+    edit:
+      title: Conexión con CardTrader
+    nav_title: CardTrader
+    new:
+      title: Conectar CardTrader
+    status: Estado
+    submit: Guardar
+    update:
+      success: Conexión actualizada.
+    verify:
+      success: Conexión verificada.
+    verify_button: Verificar conexión
+    webhook_url: URL del webhook
   catalog:
     index:
       all_categories: Todas las categorías
@@ -135,6 +167,17 @@ es:
       one: "%{count} pedido"
       other: "%{count} pedidos"
   enums:
+    audit_log:
+      event:
+        create: Creación
+        destroy: Eliminación
+        update: Modificación
+    cardtrader_connection:
+      status:
+        active: Activa
+        disconnected: Desconectada
+        invalid: No válida
+        pending_verification: Por verificar
     channel:
       credit_timing:
         immediate: Inmediato
@@ -217,6 +260,32 @@ es:
         draft: Borrador
         paid: Pagada
         shipped: Enviada
+    task:
+      kind:
+        box_delivery_review: Entrega de box por revisar
+        catch_up_failed: Recuperación fallida
+        confirm_copy: Confirmar copia
+        connection_invalid: Conexión no válida
+        credit_pending: Abono pendiente
+        ct0_contestation: Disputa CT Zero
+        estimated_amount: Importe estimado
+        grading_overdue: Envío a grading atrasado
+        import_failed: Importación fallida
+        import_review: Importación por revisar
+        link_proposal: Propuesta de vinculación
+        open_cost_pool: Pool de costes abierto
+        pending_arrival_overdue: Llegada atrasada
+        recurring_expense: Gasto recurrente
+        sale_conflict: Conflicto de venta
+      priority:
+        high: Alta
+        low: Baja
+        normal: Normal
+      status:
+        dismissed: Descartada
+        open: Abierta
+        resolved: Resuelta
+        snoozed: Pospuesta
   invitation_mailer:
     invite:
       body: Has sido invitado a colaborar en %{account} en CardProfitTracker. Esta
@@ -336,6 +405,7 @@ es:
     receive:
       received: Compra recibida.
     show:
+      audit_log: Historial de cambios
       cancel: Cancelar
       charge_amount: Importe
       charge_kind: Tipo
@@ -430,6 +500,7 @@ es:
     ship:
       shipped: Venta enviada.
     show:
+      audit_log: Historial de cambios
       cancel: Cancelar
       charge_amount: Importe
       charge_kind: Tipo
@@ -467,3 +538,19 @@ es:
       submit: Iniciar sesión
       title: Iniciar sesión
     rate_limited: Inténtalo de nuevo más tarde.
+  tasks:
+    dismiss:
+      success: Tarea descartada.
+    index:
+      dismiss: Descartar
+      empty: No hay tareas pendientes.
+      kind: Tipo
+      priority: Prioridad
+      snooze: Posponer
+      status: Estado
+      title: Por resolver
+      unsnooze: Reabrir
+    snooze:
+      success: Tarea pospuesta una semana.
+    unsnooze:
+      success: Tarea reabierta.

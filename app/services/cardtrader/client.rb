@@ -78,6 +78,13 @@ module Cardtrader
       get("/orders/#{id}")
     end
 
+    # spec §8.7: identifies the connection (ct_user_id/username) and, for a
+    # personal-token connection, returns the shared_secret used to verify
+    # webhook signatures.
+    def info
+      get("/info")
+    end
+
     private
 
     def get(path, params = {}, read_timeout: DEFAULT_READ_TIMEOUT)

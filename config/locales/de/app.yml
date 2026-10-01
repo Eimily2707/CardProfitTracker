@@ -58,6 +58,38 @@ de:
               invalid: ist keine gültige Zeitzone
   app:
     name: CardProfitTracker
+  audit_logs:
+    show:
+      changes: Änderungen
+      empty: Keine Änderungen erfasst.
+      event: Ereignis
+      not_found: Eintrag nicht gefunden.
+      system: System
+      title: Änderungsverlauf
+      when: Wann
+      whodunnit: Benutzer
+  cardtrader_connections:
+    access_token: Persönliches API-Token
+    access_token_hint: Leer lassen, um es unverändert zu lassen
+    create:
+      success: Verbindung erstellt.
+    ct_username: CardTrader-Benutzername
+    destroy:
+      success: Verbindung getrennt.
+    disconnect: Trennen
+    edit:
+      title: CardTrader-Verbindung
+    nav_title: CardTrader
+    new:
+      title: CardTrader verbinden
+    status: Status
+    submit: Speichern
+    update:
+      success: Verbindung aktualisiert.
+    verify:
+      success: Verbindung überprüft.
+    verify_button: Verbindung überprüfen
+    webhook_url: Webhook-URL
   catalog:
     index:
       all_categories: Alle Kategorien
@@ -137,6 +169,17 @@ de:
       one: "%{count} Bestellung"
       other: "%{count} Bestellungen"
   enums:
+    audit_log:
+      event:
+        create: Erstellt
+        destroy: Gelöscht
+        update: Geändert
+    cardtrader_connection:
+      status:
+        active: Aktiv
+        disconnected: Getrennt
+        invalid: Ungültig
+        pending_verification: Zu überprüfen
     channel:
       credit_timing:
         immediate: Sofort
@@ -219,6 +262,32 @@ de:
         draft: Entwurf
         paid: Bezahlt
         shipped: Versandt
+    task:
+      kind:
+        box_delivery_review: Box-Lieferung zu prüfen
+        catch_up_failed: Nachholsynchronisierung fehlgeschlagen
+        confirm_copy: Kopie bestätigen
+        connection_invalid: Verbindung ungültig
+        credit_pending: Gutschrift ausstehend
+        ct0_contestation: CT-Zero-Einspruch
+        estimated_amount: Geschätzter Betrag
+        grading_overdue: Grading-Einsendung überfällig
+        import_failed: Import fehlgeschlagen
+        import_review: Import zu prüfen
+        link_proposal: Verknüpfungsvorschlag
+        open_cost_pool: Offener Kostenpool
+        pending_arrival_overdue: Ankunft überfällig
+        recurring_expense: Wiederkehrende Ausgabe
+        sale_conflict: Verkaufskonflikt
+      priority:
+        high: Hoch
+        low: Niedrig
+        normal: Normal
+      status:
+        dismissed: Verworfen
+        open: Offen
+        resolved: Gelöst
+        snoozed: Zurückgestellt
   invitation_mailer:
     invite:
       body: Du wurdest eingeladen, bei %{account} in CardProfitTracker mitzuarbeiten.
@@ -338,6 +407,7 @@ de:
     receive:
       received: Einkauf erhalten.
     show:
+      audit_log: Änderungsverlauf
       cancel: Stornieren
       charge_amount: Betrag
       charge_kind: Art
@@ -432,6 +502,7 @@ de:
     ship:
       shipped: Verkauf versandt.
     show:
+      audit_log: Änderungsverlauf
       cancel: Stornieren
       charge_amount: Betrag
       charge_kind: Art
@@ -469,3 +540,19 @@ de:
       submit: Anmelden
       title: Anmelden
     rate_limited: Bitte versuche es später erneut.
+  tasks:
+    dismiss:
+      success: Aufgabe verworfen.
+    index:
+      dismiss: Verwerfen
+      empty: Keine zu bearbeitenden Aufgaben.
+      kind: Art
+      priority: Priorität
+      snooze: Zurückstellen
+      status: Status
+      title: Zu bearbeiten
+      unsnooze: Wieder öffnen
+    snooze:
+      success: Aufgabe eine Woche zurückgestellt.
+    unsnooze:
+      success: Aufgabe wieder geöffnet.
