@@ -464,6 +464,9 @@ it:
   layouts:
     account_switcher:
       label: Spazio di lavoro
+    locale_switcher:
+      label: Lingua
+    menu_toggle: Apri il menu
   passwords:
     create:
       instructions_sent: Istruzioni per il reset inviate (se esiste un utente con
@@ -674,6 +677,9 @@ it:
       submit: Accedi
       title: Accedi
     rate_limited: Riprova più tardi.
+  shared:
+    dismiss: Chiudi
+    processing: Elaborazione in corso…
   tasks:
     dismiss:
       success: Attività ignorata.

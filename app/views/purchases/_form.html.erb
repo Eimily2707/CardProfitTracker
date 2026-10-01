@@ -101,6 +101,6 @@
     <p class="flex justify-between font-semibold"><span><%= t("purchases.form.preview_total") %></span> <span data-purchase-totals-target="total">-</span></p>
   </div>
 
-  <%= f.submit t("purchases.form.submit"),
+  <%= f.submit t("purchases.form.submit"), data: { turbo_submits_with: t("shared.processing") },
       class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
 <% end %>

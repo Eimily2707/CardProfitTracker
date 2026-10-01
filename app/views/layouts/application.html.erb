@@ -25,27 +25,42 @@
 
   <body>
     <% if Current.user %>
-      <header class="border-b border-gray-200 bg-white">
-        <div class="container mx-auto flex items-center justify-between px-5 py-3">
-          <%= link_to t("app.name"), root_path, class: "text-sm font-semibold text-gray-900" %>
-          <div class="flex items-center gap-4">
+      <header class="border-b border-gray-200 bg-white" data-controller="mobile-menu">
+        <div class="container mx-auto flex items-center justify-between gap-4 px-5 py-3">
+          <div class="flex min-w-0 items-center gap-3">
+            <%= link_to t("app.name"), root_path, class: "shrink-0 text-sm font-semibold text-gray-900" %>
             <%= render "shared/account_switcher" %>
-            <%= link_to t("catalog.index.title"), catalog_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to t("purchases.index.title"), purchases_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to t("inventory_items.index.title"), inventory_items_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to t("sales.index.title"), sales_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to t("channels.index.title"), channels_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to t("tasks.index.title"), tasks_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <% if Current.membership&.admin? || Current.membership&.owner? %>
-              <%= link_to t("invitations.index.title"), invitations_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-              <%= link_to t("cardtrader_connections.nav_title"),
-                  Current.account.cardtrader_connection ? edit_cardtrader_connection_path : new_cardtrader_connection_path,
-                  class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <% end %>
           </div>
+
+          <nav class="hidden items-center gap-4 sm:flex" aria-label="<%= t("app.name") %>">
+            <%= render "shared/nav_links" %>
+            <%= render "shared/locale_switcher" %>
+            <%= button_to t("dashboard.sign_out"), session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-900 cursor-pointer" %>
+          </nav>
+
+          <button type="button" class="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 sm:hidden"
+                  data-action="mobile-menu#toggle" aria-controls="mobile-nav-panel" aria-expanded="false"
+                  aria-label="<%= t("layouts.menu_toggle") %>">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+            </svg>
+          </button>
         </div>
+
+        <nav id="mobile-nav-panel" data-mobile-menu-target="panel" hidden
+             data-action="keydown.esc@window->mobile-menu#closeOnEscape"
+             class="flex flex-col gap-1 border-t border-gray-200 px-5 py-3 sm:hidden"
+             aria-label="<%= t("app.name") %>">
+          <%= render "shared/nav_links", link_class: "block rounded-md px-2 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+          <div class="mt-2 flex items-center justify-between border-t border-gray-100 pt-2">
+            <%= render "shared/locale_switcher" %>
+            <%= button_to t("dashboard.sign_out"), session_path, method: :delete, class: "text-sm text-red-600 hover:text-red-900 cursor-pointer" %>
+          </div>
+        </nav>
       </header>
     <% end %>
+
+    <%= render "shared/toasts" %>
 
     <main class="container mx-auto mt-16 px-5 flex">
       <%= yield %>

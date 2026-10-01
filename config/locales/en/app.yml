@@ -463,6 +463,9 @@ en:
   layouts:
     account_switcher:
       label: Workspace
+    locale_switcher:
+      label: Language
+    menu_toggle: Open menu
   passwords:
     create:
       instructions_sent: Password reset instructions sent (if a user with that email
@@ -672,6 +675,9 @@ en:
       submit: Sign in
       title: Sign in
     rate_limited: Try again later.
+  shared:
+    dismiss: Dismiss
+    processing: Processing…
   tasks:
     dismiss:
       success: Task dismissed.

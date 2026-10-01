@@ -3,9 +3,6 @@
 <div class="w-full max-w-md mx-auto space-y-6">
   <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title", account: @invitation.account.name) %></h1>
 
-  <% if alert %>
-    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
-  <% end %>
 
   <% if Current.user %>
     <p class="text-sm text-gray-600"><%= @invitation.email %></p>
