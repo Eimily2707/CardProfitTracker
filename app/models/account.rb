@@ -20,6 +20,8 @@ class Account < ApplicationRecord
   has_many :channels, dependent: :delete_all
   has_many :purchases, dependent: :restrict_with_error
   has_many :inventory_items, dependent: :restrict_with_error
+  has_many :cost_pools, dependent: :restrict_with_error
+  has_many :write_offs, dependent: :restrict_with_error
   has_many :sale_orders, dependent: :restrict_with_error
   has_many :cardtrader_order_sync_runs, class_name: "Cardtrader::OrderSyncRun", dependent: :destroy
   has_one :cardtrader_connection, dependent: :destroy

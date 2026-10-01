@@ -1,0 +1,136 @@
+<% content_for :title, @pool.source_item.name %>
+
+<div class="w-full max-w-3xl mx-auto space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title", name: @pool.source_item.name) %></h1>
+      <p class="text-sm text-gray-500"><%= I18n.t(@pool.status, scope: "enums.cost_pool.status") %></p>
+    </div>
+    <%= link_to t(".view_item"), inventory_item_path(@pool.source_item), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+  </div>
+
+  <% if alert %>
+    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
+  <% end %>
+  <% if notice %>
+    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase text-gray-500"><%= t(".total") %></p>
+      <p class="mt-1 text-lg font-semibold text-gray-900"><%= @pool.total_base.format %></p>
+    </div>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase text-gray-500"><%= t(".allocated") %></p>
+      <p class="mt-1 text-lg font-semibold text-gray-900"><%= @pool.allocated_base.format %></p>
+    </div>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase text-gray-500"><%= t(".residual") %></p>
+      <p class="mt-1 text-lg font-semibold text-gray-900"><%= @pool.residual_base.format %></p>
+    </div>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-medium uppercase text-gray-500"><%= t(".recovery") %></p>
+      <p class="mt-1 text-lg font-semibold text-gray-900"><%= @pool.recovery_percent.nil? ? "---" : "#{@pool.recovery_percent}%" %></p>
+    </div>
+  </div>
+
+  <% if policy(@pool).update? %>
+    <%= form_with url: cost_pool_path(@pool), method: :patch, class: "flex items-end gap-2" do %>
+      <div>
+        <label class="block text-xs font-medium text-gray-500"><%= t(".allocation_method") %></label>
+        <%= select_tag :allocation_method,
+            options_for_select(CostPool::ALLOCATION_METHODS.map { |m| [ I18n.t(m, scope: "enums.cost_pool.allocation_method"), m ] }, @pool.allocation_method),
+            class: "mt-1 block rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      </div>
+      <%= submit_tag t(".change_method"), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+    <% end %>
+  <% end %>
+
+  <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".item") %></th>
+          <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".status") %></th>
+          <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".source") %></th>
+          <th class="px-4 py-2 text-right text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".cost") %></th>
+          <th class="px-4 py-2"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @extracted_items.each do |item| %>
+          <tr>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-900">
+              <%= link_to item.name, inventory_item_path(item), class: "text-indigo-600 hover:text-indigo-900" %>
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= I18n.t(item.status, scope: "enums.inventory_item.status") %></td>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= I18n.t(item.cost_source, scope: "enums.inventory_item.cost_source") %></td>
+            <td class="whitespace-nowrap px-4 py-2 text-right text-sm text-gray-700">
+              <% if policy(@pool).update? && item.status != "sold" && @pool.allocation_method.in?(%w[manual hybrid]) %>
+                <%= form_with url: cost_pool_item_path(@pool, item), method: :patch, class: "flex items-center justify-end gap-1" do %>
+                  <%= number_field_tag :cost, item.cost_base_cents / 100.0, step: "0.01", class: "w-24 rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+                  <%= submit_tag t(".save"), class: "rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+                <% end %>
+              <% else %>
+                <%= item.cost_base.format %>
+              <% end %>
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-right text-sm">
+              <% if policy(@pool).update? && item.status != "sold" %>
+                <%= button_to t(".remove"), cost_pool_item_path(@pool, item), method: :delete,
+                    form: { data: { turbo_confirm: true } }, class: "rounded-md border border-red-300 px-2 py-1 text-xs text-red-700 hover:bg-red-50 cursor-pointer" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if @extracted_items.empty? %>
+          <tr>
+            <td colspan="5" class="px-4 py-6 text-center text-sm text-gray-500"><%= t(".no_items") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if policy(@pool).update? %>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t(".add_item") %></p>
+      <%= form_with url: cost_pool_items_path(@pool), method: :post, class: "grid gap-2 sm:grid-cols-6" do %>
+        <%= text_field_tag :name, nil, placeholder: t(".item_name"), class: "sm:col-span-2 rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= select_tag :kind, options_for_select(InventoryItem::KINDS.map { |k| [ I18n.t(k, scope: "enums.purchase_line.kind"), k ] }, "single"),
+            class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= number_field_tag :quantity, 1, min: 1, class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= number_field_tag :reference_value, nil, step: "0.01", placeholder: t(".reference_value"), class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= number_field_tag :manual_cost, nil, step: "0.01", placeholder: t(".manual_cost"), class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= submit_tag t(".add"), class: "sm:col-span-6 rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if policy(@pool).close? %>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t(".close_pool") %></p>
+      <%= form_with url: close_cost_pool_path(@pool), method: :post, class: "grid gap-2 sm:grid-cols-4" do %>
+        <%= select_tag :close_action, options_for_select(
+              CostPools::CloseService::ACTIONS.map { |a| [ t(".close_actions.#{a}"), a ] }),
+            class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= select_tag :reason, options_for_select(WriteOff::REASONS.map { |r| [ I18n.t(r, scope: "enums.write_off.reason"), r ] }),
+            class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= date_field_tag :occurred_on, Date.current, class: "rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= submit_tag t(".close"), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if policy(@pool).reopen? %>
+    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <p class="mb-2 text-sm font-semibold text-gray-900"><%= t(".reopen_pool") %></p>
+      <%= form_with url: reopen_cost_pool_path(@pool), method: :post, class: "flex items-end gap-2" do %>
+        <%= text_field_tag :reason, nil, placeholder: t(".reopen_reason"), class: "flex-1 rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+        <%= submit_tag t(".reopen"), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

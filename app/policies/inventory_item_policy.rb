@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Read-only this tranche - InventoryItem rows are only ever created as a
-# side effect of Purchase transitions (spec §2.1 "Consultare inventario e
-# report": every role, including viewer, may look).
+# Browsing is read-only for every role (spec §2.1 "Consultare inventario e
+# report"); opening a sealed/bulk_lot item is a financial action (US-3.1),
+# restricted like any other transition (operator-or-above).
 class InventoryItemPolicy < ApplicationPolicy
   def index?
     membership.present?
@@ -10,6 +10,10 @@ class InventoryItemPolicy < ApplicationPolicy
 
   def show?
     membership.present?
+  end
+
+  def open?
+    operator_or_above?
   end
 
   class Scope < Scope

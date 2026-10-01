@@ -39,6 +39,25 @@ module Profits
       assert_equal 0, @service.invested_capital_base_cents
     end
 
+    test "invested_capital_base_cents includes the residual of still-open cost pools" do
+      sealed = @account.inventory_items.create!(
+        kind: "sealed", name: "Booster Box", intent: "crack", status: "in_stock", cost_source: "manual",
+        acquired_on: Date.current, public_ref: InventoryItem.generate_public_ref(@account),
+        acquisition_cost_base_cents: 10_000, cost_base_cents: 10_000
+      )
+      pool = CostPools::OpenService.new(sealed).call!
+      pool.update!(allocation_method: "manual")
+
+      assert_equal 10_000, @service.invested_capital_base_cents
+
+      # splitting the pool's cost between an allocated item (4000) and its
+      # still-open residual (6000) must not change the account-wide total.
+      CostPools::ExtractItemsService.new(pool).call!(name: "Card", kind: "single", quantity: 1, manual_cost_cents: 4_000)
+
+      assert_equal 10_000, @service.invested_capital_base_cents
+      assert_kind_of Integer, @service.invested_capital_base_cents
+    end
+
     test "realized_profit_base_cents only counts credited orders" do
       items = buy_two_teferis(unit_price_cents: 500)
       sale = sell(items, unit_price_cents: 1000, shipping_cents: 200, fee_cents: 100)
