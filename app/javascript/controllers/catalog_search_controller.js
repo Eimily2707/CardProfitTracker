@@ -9,6 +9,7 @@ export default class extends Controller {
 
   connect() {
     this.debounceTimer = null
+    this.requestId = 0
     this.fetch()
   }
 
@@ -34,6 +35,12 @@ export default class extends Controller {
     if (this.hasCategoryTarget && this.categoryTarget.value) params.set("ct_category_id", this.categoryTarget.value)
     if (this.hasExpansionTarget && this.expansionTarget.value) params.set("ct_expansion_id", this.expansionTarget.value)
 
+    // The initial unfiltered load (connect()) and a fast-typed query can
+    // both be in flight at once; only the response for the most recently
+    // started request should ever reach the screen, regardless of which
+    // one's network round-trip happens to finish last.
+    const requestId = ++this.requestId
+
     let response
     try {
       response = await fetch(`${this.urlValue}?${params}`, { headers: { Accept: "application/json" } })
@@ -41,7 +48,7 @@ export default class extends Controller {
       return
     }
 
-    if (!response.ok) return
+    if (!response.ok || requestId !== this.requestId) return
 
     this.render(await response.json())
   }

@@ -39,6 +39,17 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     page.execute_script("arguments[0].click()", element.native)
   end
 
+  # window.resize_to sizes the OUTER browser window, so the resulting
+  # viewport (clientWidth) varies with the OS/CI runner's own chrome/DPI
+  # scaling - unreliable for testing an exact breakpoint like the spec's
+  # 375px. CDP's device metrics override sets the actual viewport directly,
+  # independent of the host's window chrome.
+  def resize_viewport_to(width, height)
+    page.driver.browser.execute_cdp(
+      "Emulation.setDeviceMetricsOverride", width: width, height: height, deviceScaleFactor: 1, mobile: true
+    )
+  end
+
   # Same unreliability as js_click/press_key above, for plain text/number
   # fields: setting .value directly and dispatching "input" is what the
   # page's own JS (recompute, autocomplete) listens for, and is what a real

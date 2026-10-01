@@ -4,7 +4,7 @@ require "application_system_test_case"
 # that width, so it collapses behind a hamburger toggle instead.
 class MobileMenuTest < ApplicationSystemTestCase
   test "the hamburger toggle reveals the nav panel and navigates" do
-    page.driver.browser.manage.window.resize_to(375, 800)
+    resize_viewport_to(375, 800)
     user = users(:elena)
     sign_in_as(user)
 

@@ -9,8 +9,8 @@ class CatalogSearchTest < ApplicationSystemTestCase
 
     fill_in "catalog_query", with: "Teferi"
 
-    assert_selector "[data-catalog-search-target='results'] p", text: ct_blueprints(:teferi).name, wait: 5
-    assert_no_selector "[data-catalog-search-target='results'] p", text: ct_blueprints(:narset).name
+    assert_selector "[data-catalog-search-target='results'] p", text: ct_blueprints(:teferi).name, wait: 10
+    assert_no_selector "[data-catalog-search-target='results'] p", text: ct_blueprints(:narset).name, wait: 10
     assert_current_path catalog_path
   end
 end

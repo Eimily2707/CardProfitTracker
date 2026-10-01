@@ -5,21 +5,21 @@
 
   <% if Current.account %>
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <% DashboardController::PERIODS.each do |period| %>
           <%= link_to t("dashboard.periods.#{period}"), root_path(period: period),
               class: "rounded-md px-3 py-1.5 text-sm #{period == @period ? 'bg-indigo-600 text-white' : 'border border-gray-300 text-gray-700 hover:bg-gray-50'}" %>
         <% end %>
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <%= link_to t("dashboard.export_sales"), sales_report_path(from: @from, to: @to, format: :csv), class: "text-sm text-indigo-600 hover:text-indigo-900" %>
         <%= link_to t("dashboard.export_inventory"), inventory_report_path(format: :csv), class: "text-sm text-indigo-600 hover:text-indigo-900" %>
       </div>
     </div>
 
     <% if @period == "custom" %>
-      <%= form_with url: root_path, method: :get, class: "flex items-end gap-2" do %>
+      <%= form_with url: root_path, method: :get, class: "flex flex-wrap items-end gap-2" do %>
         <%= hidden_field_tag :period, "custom" %>
         <div>
           <label class="block text-xs font-medium text-gray-500"><%= t("dashboard.from") %></label>
