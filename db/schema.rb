@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_30_100006) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_01_100004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -102,6 +102,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_30_100006) do
     t.index ["account_id"], name: "index_channels_on_account_id"
   end
 
+  create_table "cost_pools", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "source_item_id", null: false
+    t.bigint "total_base_cents", default: 0, null: false
+    t.bigint "allocated_base_cents", default: 0, null: false
+    t.bigint "written_off_base_cents", default: 0, null: false
+    t.string "allocation_method", default: "equal", null: false
+    t.string "status", default: "open", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_cost_pools_on_account_id_and_status"
+    t.index ["account_id"], name: "index_cost_pools_on_account_id"
+    t.index ["source_item_id"], name: "index_cost_pools_on_source_item_id", unique: true
+  end
+
   create_table "ct_blueprints", force: :cascade do |t|
     t.integer "ct_id", null: false
     t.string "name", null: false
@@ -190,11 +205,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_30_100006) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "origin_item_id"
+    t.bigint "cost_pool_id"
+    t.bigint "reference_value_cents"
+    t.string "reference_value_currency", limit: 3
+    t.index ["account_id", "acquired_on"], name: "index_inventory_items_on_account_id_and_acquired_on"
+    t.index ["account_id", "kind"], name: "index_inventory_items_on_account_id_and_kind"
     t.index ["account_id", "public_ref"], name: "index_inventory_items_on_account_id_and_public_ref", unique: true
     t.index ["account_id", "status"], name: "index_inventory_items_on_account_id_and_status"
     t.index ["account_id"], name: "index_inventory_items_on_account_id"
+    t.index ["cost_pool_id"], name: "index_inventory_items_on_cost_pool_id"
     t.index ["ct_blueprint_id"], name: "index_inventory_items_on_ct_blueprint_id"
     t.index ["ct_game_id"], name: "index_inventory_items_on_ct_game_id"
+    t.index ["origin_item_id"], name: "index_inventory_items_on_origin_item_id"
     t.index ["purchase_line_id"], name: "index_inventory_items_on_purchase_line_id"
   end
 
@@ -621,14 +644,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_30_100006) do
     t.index ["connection_id"], name: "index_webhook_events_on_connection_id"
   end
 
+  create_table "write_offs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "cost_pool_id"
+    t.bigint "inventory_item_id"
+    t.bigint "amount_base_cents", null: false
+    t.string "reason", null: false
+    t.date "occurred_on", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_write_offs_on_account_id"
+    t.index ["cost_pool_id"], name: "index_write_offs_on_cost_pool_id"
+    t.index ["inventory_item_id"], name: "index_write_offs_on_inventory_item_id"
+  end
+
   add_foreign_key "cardtrader_connections", "accounts"
   add_foreign_key "cardtrader_order_sync_runs", "accounts"
   add_foreign_key "cardtrader_order_sync_runs", "users", column: "triggered_by_id"
   add_foreign_key "catalog_sync_runs", "users", column: "triggered_by_id"
   add_foreign_key "channels", "accounts"
+  add_foreign_key "cost_pools", "accounts"
+  add_foreign_key "cost_pools", "inventory_items", column: "source_item_id"
   add_foreign_key "inventory_items", "accounts"
+  add_foreign_key "inventory_items", "cost_pools"
   add_foreign_key "inventory_items", "ct_blueprints"
   add_foreign_key "inventory_items", "ct_games"
+  add_foreign_key "inventory_items", "inventory_items", column: "origin_item_id"
   add_foreign_key "inventory_items", "purchase_lines"
   add_foreign_key "invitations", "accounts"
   add_foreign_key "invitations", "users", column: "invited_by_id"
@@ -661,4 +702,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_30_100006) do
   add_foreign_key "tasks", "accounts"
   add_foreign_key "tasks", "users", column: "assignee_id"
   add_foreign_key "webhook_events", "cardtrader_connections", column: "connection_id"
+  add_foreign_key "write_offs", "accounts"
+  add_foreign_key "write_offs", "cost_pools"
+  add_foreign_key "write_offs", "inventory_items"
 end

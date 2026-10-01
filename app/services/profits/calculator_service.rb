@@ -7,12 +7,13 @@ module Profits
   # the per-order/per-line ones SaleOrder/SaleLine already store at
   # confirm_payment (Tranche 4). This service only reads those.
   #
-  # KPIs that depend on features not yet built are intentionally not
-  # implemented here: box recovery % and open pool residuals (§7.6, cost
-  # pools/unboxing - deferred since Tranche 3), write-offs (§7.10 - no
-  # WriteOff model yet), and general expenses (§7.13 - no Expense model yet,
-  # M10). #operating_profit_base_cents below is realized profit alone,
-  # without subtracting general expenses, for the same reason.
+  # Box recovery % lives on CostPool#recovery_percent instead (spec §7.6
+  # frames it "per un item aperto", i.e. per pool, not as an account-wide
+  # aggregate). KPIs that still depend on features not yet built: write-offs
+  # by reason (§7.10 - WriteOff exists but only for pool residuals so far)
+  # and general expenses (§7.13 - no Expense model yet, M10) -
+  # #realized_profit_base_cents below is realized profit alone, without
+  # subtracting general expenses, for the same reason.
   class CalculatorService
     AGING_BUCKETS = [ (0..30), (31..90), (91..180), (181..Float::INFINITY) ].freeze
 
@@ -20,10 +21,21 @@ module Profits
       @account = account
     end
 
-    # spec §7.7: cost of items not yet sold/written off. personal_collection
-    # is excluded per spec, but isn't a status this app has reached yet.
+    # spec §7.7: cost of items not yet sold/written off, plus the residual of
+    # any still-open cost pool (its cost hasn't left the "pool" bucket yet).
+    # personal_collection is excluded per spec, but isn't a status this app
+    # has reached yet.
     def invested_capital_base_cents
-      account.inventory_items.where(status: %w[pending_arrival in_stock reserved]).sum(:cost_base_cents)
+      items_total = account.inventory_items.where(status: %w[pending_arrival in_stock reserved]).sum(:cost_base_cents)
+      items_total + open_pool_residual_base_cents
+    end
+
+    # spec §7.7 "residui aperti pool". Raw SQL sum() comes back as BigDecimal
+    # from Postgres even though every operand is bigint - cents must stay
+    # Integer (spec §7: never floats), so cast explicitly.
+    def open_pool_residual_base_cents
+      account.cost_pools.where.not(status: "closed")
+             .sum("total_base_cents - allocated_base_cents - written_off_base_cents").to_i
     end
 
     # spec §7.4/§6.7: recognized at credited_at, not at confirm_payment.

@@ -1,0 +1,105 @@
+<% content_for :title, @item.name %>
+
+<div class="w-full max-w-3xl mx-auto space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900"><%= @item.name %></h1>
+      <p class="text-sm text-gray-500"><%= @item.public_ref %> &middot; <%= I18n.t(@item.status, scope: "enums.inventory_item.status") %></p>
+    </div>
+
+    <% if policy(@item).open? && @item.status == "in_stock" && @item.kind.in?(%w[sealed bulk_lot]) %>
+      <%= button_to t(".open"), open_inventory_item_path(@item), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+    <% end %>
+    <% if @item.cost_pool %>
+      <%= link_to t(".view_pool"), cost_pool_path(@item.cost_pool), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+    <% end %>
+  </div>
+
+  <% if alert %>
+    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
+  <% end %>
+  <% if notice %>
+    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
+  <% end %>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-1 text-sm">
+    <p class="flex justify-between"><span><%= t(".kind") %></span> <span><%= I18n.t(@item.kind, scope: "enums.purchase_line.kind") %></span></p>
+    <p class="flex justify-between"><span><%= t(".location") %></span> <span><%= @item.location.presence || "-" %></span></p>
+    <p class="flex justify-between"><span><%= t(".acquired_on") %></span> <span><%= l(@item.acquired_on, format: :short) %></span></p>
+    <p class="flex justify-between font-semibold"><span><%= t(".cost") %></span> <span><%= @item.cost_base.format %></span></p>
+  </div>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-2 text-sm">
+    <p class="font-semibold text-gray-900"><%= t(".cost_chain") %></p>
+    <% if @item.purchase_line %>
+      <p>
+        <%= t(".from_purchase") %>
+        <%= link_to @item.purchase_line.purchase.title, purchase_path(@item.purchase_line.purchase), class: "text-indigo-600 hover:text-indigo-900" %>
+      </p>
+    <% end %>
+    <% if @item.origin_item %>
+      <p>
+        <%= t(".from_opened_item") %>
+        <%= link_to @item.origin_item.name, inventory_item_path(@item.origin_item), class: "text-indigo-600 hover:text-indigo-900" %>
+      </p>
+    <% end %>
+    <% if @item.extracted_items.any? %>
+      <p><%= t(".extracted_count", count: @item.extracted_items.count) %></p>
+    <% end %>
+    <% if @item.purchase_line.nil? && @item.origin_item.nil? %>
+      <p class="text-gray-400"><%= t(".no_chain") %></p>
+    <% end %>
+  </div>
+
+  <% if @item.sale_lines.any? %>
+    <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".sale") %></th>
+            <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".sale_status") %></th>
+            <th class="px-4 py-2 text-right text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".sale_price") %></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @item.sale_lines.each do |line| %>
+            <tr>
+              <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-900">
+                <%= link_to "##{line.sale_order.id}", sale_path(line.sale_order), class: "text-indigo-600 hover:text-indigo-900" %>
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= I18n.t(line.sale_order.status, scope: "enums.sale_order.status") %></td>
+              <td class="whitespace-nowrap px-4 py-2 text-right text-sm text-gray-700"><%= line.unit_price.format %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".event") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".when") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".whodunnit") %></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @versions.each do |version| %>
+          <tr>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-900"><%= I18n.t(version.event, scope: "enums.audit_log.event", default: version.event) %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= l(version.created_at, format: :short) %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= User.find_by(id: version.whodunnit)&.email || t(".system") %></td>
+          </tr>
+        <% end %>
+
+        <% if @versions.empty? %>
+          <tr>
+            <td colspan="3" class="px-4 py-10 text-center text-sm text-gray-500"><%= t(".no_history") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

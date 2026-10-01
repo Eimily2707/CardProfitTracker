@@ -34,6 +34,18 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :inventory_items, only: %i[index show] do
+    member { post :open }
+  end
+
+  resources :cost_pools, only: %i[show update] do
+    member do
+      post :close
+      post :reopen
+    end
+    resources :items, only: %i[create update destroy], controller: "cost_pool_items"
+  end
+
   get "catalog", to: "catalog#index"
   namespace :catalog do
     get "search", to: "search#index"

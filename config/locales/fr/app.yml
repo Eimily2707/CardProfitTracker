@@ -23,6 +23,10 @@ fr:
             base:
               system_channel_not_deletable: les canaux préchargés ne peuvent pas être
                 supprimés, seulement désactivés
+        cost_pool:
+          attributes:
+            base:
+              residual_negative: le résidu ne peut pas être négatif
         membership:
           attributes:
             role:
@@ -55,6 +59,10 @@ fr:
           attributes:
             time_zone:
               invalid: n'est pas un fuseau horaire valide
+        write_off:
+          attributes:
+            base:
+              missing_target: doit être rattaché à un pool de coûts ou à un item
   app:
     name: CardProfitTracker
   audit_logs:
@@ -127,6 +135,51 @@ fr:
     update:
       success: Canal mis à jour.
     usage: Utilisation
+  cost_pool_items:
+    create:
+      success: Items ajoutés au pool.
+    destroy:
+      success: Item retiré du pool.
+    update:
+      success: Coût mis à jour.
+  cost_pools:
+    close:
+      closed: Pool fermé.
+    reopen:
+      missing_reason: Indiquez le motif de la réouverture.
+      reopened: Pool rouvert.
+    show:
+      add: Ajouter
+      add_item: Ajouter un item extrait
+      allocated: Attribué
+      allocation_method: Méthode de répartition
+      change_method: Changer de méthode
+      close: Fermer
+      close_actions:
+        absorb_bulk_lot: Créer un item bulk qui absorbe le résidu
+        distribute: Répartir avec la méthode actuelle
+        write_off: Déprécier le résidu
+      close_pool: Fermer le pool
+      cost: Coût
+      item: Item
+      item_name: Nom de la carte
+      manual_cost: Coût manuel
+      no_items: Aucun item extrait.
+      recovery: Récupération du box
+      reference_value: Valeur de référence
+      remove: Retirer
+      reopen: Rouvrir
+      reopen_pool: Rouvrir le pool
+      reopen_reason: Motif de la réouverture
+      residual: Résidu
+      save: Enregistrer
+      source: Origine du coût
+      status: Statut
+      title: Ouverture de %{name}
+      total: Total du pool
+      view_item: Voir l'item scellé
+    update:
+      success: Méthode de répartition mise à jour.
   dashboard:
     aging: Ancienneté du stock
     aging_bucket: Tranche
@@ -203,6 +256,31 @@ fr:
       played: Jouée (PL)
       poor: Mauvaise (PO)
       slightly_played: Légèrement jouée (SP)
+    cost_pool:
+      allocation_method:
+        equal: Parts égales
+        hybrid: Hybride
+        manual: Manuelle
+        proportional: Proportionnelle à la valeur
+      status:
+        allocated: Attribué
+        closed: Fermé
+        open: Ouvert
+    inventory_item:
+      cost_source:
+        manual: Manuel
+        pool_equal: Pool (parts égales)
+        pool_manual: Pool (manuel)
+        pool_proportional: Pool (proportionnel)
+        purchase_split: Répartition d'achat
+      status:
+        in_stock: En stock
+        opened: Ouvert
+        pending_arrival: En attente
+        reserved: Réservé
+        sold: Vendu
+        voided: Annulé
+        written_off: Déprécié
     membership:
       role:
         admin: Administrateur
@@ -287,6 +365,64 @@ fr:
         open: Ouverte
         resolved: Résolue
         snoozed: Reportée
+    write_off:
+      reason:
+        bulk_waste: Déchet bulk
+        counterfeit: Contrefait
+        damaged: Endommagé
+        lost: Perdu
+        missing: Manquant
+        other: Autre
+        retained_by_buyer: Retenu par l'acheteur
+        stolen: Volé
+        unallocated_residual: Résidu non attribué
+  inventory_items:
+    index:
+      acquired_on: Acquis le
+      apply: Appliquer
+      cost: Coût
+      cost_max: Coût max
+      cost_min: Coût min
+      empty: Aucun item en inventaire.
+      export_csv: Exporter CSV
+      from: Du
+      kind: Type
+      location: Emplacement
+      name: Nom
+      next: Suivant
+      open: Ouvrir
+      previous: Précédent
+      search: Rechercher par nom ou extension...
+      status: Statut
+      title: Inventaire
+      to: Au
+      total_count:
+        one: "%{count} item"
+        other: "%{count} items"
+    open:
+      opened: 'Item scellé ouvert : pool de coûts créé.'
+    show:
+      acquired_on: Acquis le
+      cost: Coût
+      cost_chain: Chaîne de coût
+      event: Événement
+      extracted_count:
+        one: "%{count} item extrait"
+        other: "%{count} items extraits"
+      from_opened_item: Extrait de l'ouverture de
+      from_purchase: Provient de l'achat
+      kind: Type
+      location: Emplacement
+      no_chain: Aucune origine tracée.
+      no_history: Aucune modification enregistrée.
+      open: Ouvrir
+      sale: Vente
+      sale_price: Prix
+      sale_status: Statut de vente
+      system: Système
+      view_pool: Voir le pool de coûts
+      when: Quand
+      whodunnit: Utilisateur
   invitation_mailer:
     invite:
       body: Vous avez été invité à collaborer sur %{account} dans CardProfitTracker.

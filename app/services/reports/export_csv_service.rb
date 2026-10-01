@@ -30,12 +30,16 @@ module Reports
 
     # Current inventory valuation: every item not yet sold/written off, at
     # its tracked cost (spec §7.7's invested-capital figure, broken out per
-    # item rather than just the total).
-    def inventory_valuation_csv
+    # item rather than just the total). `scope` lets InventoryItemsController
+    # export exactly the filtered set the user is looking at (US-4.1);
+    # without one, the dashboard's plain export keeps its original default.
+    def inventory_valuation_csv(scope: nil)
+      scope ||= account.inventory_items.where(status: %w[pending_arrival in_stock reserved])
+
       CSV.generate do |csv|
         csv << %w[public_ref name status kind acquired_on days_in_stock cost_base currency]
 
-        account.inventory_items.where(status: %w[pending_arrival in_stock reserved]).order(:acquired_on).find_each do |item|
+        scope.reorder(:acquired_on).find_each do |item|
           csv << [
             item.public_ref, item.name, item.status, item.kind, item.acquired_on,
             (Date.current - item.acquired_on).to_i, item.cost_base.format, account.base_currency

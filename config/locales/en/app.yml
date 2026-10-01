@@ -23,6 +23,10 @@ en:
             base:
               system_channel_not_deletable: preloaded channels can't be deleted, only
                 deactivated
+        cost_pool:
+          attributes:
+            base:
+              residual_negative: the residual cannot be negative
         membership:
           attributes:
             role:
@@ -53,6 +57,10 @@ en:
           attributes:
             time_zone:
               invalid: is not a valid time zone
+        write_off:
+          attributes:
+            base:
+              missing_target: must be attached to a cost pool or an item
   app:
     name: CardProfitTracker
   audit_logs:
@@ -125,6 +133,51 @@ en:
     update:
       success: Channel updated.
     usage: Usage
+  cost_pool_items:
+    create:
+      success: Items added to the pool.
+    destroy:
+      success: Item removed from the pool.
+    update:
+      success: Cost updated.
+  cost_pools:
+    close:
+      closed: Pool closed.
+    reopen:
+      missing_reason: Enter a reason for reopening it.
+      reopened: Pool reopened.
+    show:
+      add: Add
+      add_item: Add an extracted item
+      allocated: Allocated
+      allocation_method: Allocation method
+      change_method: Change method
+      close: Close
+      close_actions:
+        absorb_bulk_lot: Create a bulk item that absorbs the residual
+        distribute: Distribute with the current method
+        write_off: Write off the residual
+      close_pool: Close the pool
+      cost: Cost
+      item: Item
+      item_name: Card name
+      manual_cost: Manual cost
+      no_items: No items extracted yet.
+      recovery: Box recovery
+      reference_value: Reference value
+      remove: Remove
+      reopen: Reopen
+      reopen_pool: Reopen the pool
+      reopen_reason: Reason for reopening
+      residual: Residual
+      save: Save
+      source: Cost source
+      status: Status
+      title: Opening %{name}
+      total: Pool total
+      view_item: View sealed item
+    update:
+      success: Allocation method updated.
   dashboard:
     aging: Inventory aging
     aging_bucket: Range
@@ -201,6 +254,31 @@ en:
       played: Played (PL)
       poor: Poor (PO)
       slightly_played: Slightly played (SP)
+    cost_pool:
+      allocation_method:
+        equal: Equal parts
+        hybrid: Hybrid
+        manual: Manual
+        proportional: Proportional to value
+      status:
+        allocated: Allocated
+        closed: Closed
+        open: Open
+    inventory_item:
+      cost_source:
+        manual: Manual
+        pool_equal: Pool (equal parts)
+        pool_manual: Pool (manual)
+        pool_proportional: Pool (proportional)
+        purchase_split: Purchase split
+      status:
+        in_stock: In stock
+        opened: Opened
+        pending_arrival: Arriving
+        reserved: Reserved
+        sold: Sold
+        voided: Voided
+        written_off: Written off
     membership:
       role:
         admin: Admin
@@ -285,6 +363,64 @@ en:
         open: Open
         resolved: Resolved
         snoozed: Snoozed
+    write_off:
+      reason:
+        bulk_waste: Bulk waste
+        counterfeit: Counterfeit
+        damaged: Damaged
+        lost: Lost
+        missing: Missing
+        other: Other
+        retained_by_buyer: Retained by buyer
+        stolen: Stolen
+        unallocated_residual: Unallocated residual
+  inventory_items:
+    index:
+      acquired_on: Acquired on
+      apply: Apply
+      cost: Cost
+      cost_max: Max cost
+      cost_min: Min cost
+      empty: No items in inventory.
+      export_csv: Export CSV
+      from: From
+      kind: Kind
+      location: Location
+      name: Name
+      next: Next
+      open: Open
+      previous: Previous
+      search: Search by name or expansion...
+      status: Status
+      title: Inventory
+      to: To
+      total_count:
+        one: "%{count} item"
+        other: "%{count} items"
+    open:
+      opened: 'Sealed item opened: cost pool created.'
+    show:
+      acquired_on: Acquired on
+      cost: Cost
+      cost_chain: Cost chain
+      event: Event
+      extracted_count:
+        one: "%{count} item extracted"
+        other: "%{count} items extracted"
+      from_opened_item: Extracted from opening
+      from_purchase: Comes from purchase
+      kind: Kind
+      location: Location
+      no_chain: No origin tracked.
+      no_history: No changes recorded.
+      open: Open
+      sale: Sale
+      sale_price: Price
+      sale_status: Sale status
+      system: System
+      view_pool: View cost pool
+      when: When
+      whodunnit: User
   invitation_mailer:
     invite:
       body: You've been invited to collaborate on %{account} in CardProfitTracker.
