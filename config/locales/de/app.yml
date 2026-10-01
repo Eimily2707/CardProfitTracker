@@ -467,6 +467,9 @@ de:
   layouts:
     account_switcher:
       label: Arbeitsbereich
+    locale_switcher:
+      label: Sprache
+    menu_toggle: Menü öffnen
   passwords:
     create:
       instructions_sent: Anweisungen zum Zurücksetzen wurden gesendet (falls ein Nutzer
@@ -677,6 +680,9 @@ de:
       submit: Anmelden
       title: Anmelden
     rate_limited: Bitte versuche es später erneut.
+  shared:
+    dismiss: Schließen
+    processing: Wird verarbeitet…
   tasks:
     dismiss:
       success: Aufgabe verworfen.

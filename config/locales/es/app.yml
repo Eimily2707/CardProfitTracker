@@ -464,6 +464,9 @@ es:
   layouts:
     account_switcher:
       label: Espacio de trabajo
+    locale_switcher:
+      label: Idioma
+    menu_toggle: Abrir el menú
   passwords:
     create:
       instructions_sent: Instrucciones de restablecimiento enviadas (si existe un
@@ -674,6 +677,9 @@ es:
       submit: Iniciar sesión
       title: Iniciar sesión
     rate_limited: Inténtalo de nuevo más tarde.
+  shared:
+    dismiss: Cerrar
+    processing: Procesando…
   tasks:
     dismiss:
       success: Tarea descartada.

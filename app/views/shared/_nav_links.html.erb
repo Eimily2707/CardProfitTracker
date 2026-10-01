@@ -1,0 +1,4 @@
+<% link_class ||= "text-sm text-gray-600 hover:text-gray-900" %>
+<% main_nav_links.each do |text, path| %>
+  <%= link_to text, path, class: link_class %>
+<% end %>

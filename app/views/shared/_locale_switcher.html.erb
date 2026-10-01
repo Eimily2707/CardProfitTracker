@@ -1,0 +1,11 @@
+<% if Current.user %>
+  <%= form_with url: locale_path, method: :patch, data: { controller: "locale-switcher" }, class: "inline-block" do %>
+    <label for="locale" class="sr-only"><%= t("layouts.locale_switcher.label") %></label>
+    <select name="locale" id="locale" data-action="change->locale-switcher#submit"
+            class="rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+      <% ApplicationHelper::LOCALE_NAMES.each do |code, name| %>
+        <option value="<%= code %>" <%= "selected" if I18n.locale.to_s == code %>><%= name %></option>
+      <% end %>
+    </select>
+  <% end %>
+<% end %>

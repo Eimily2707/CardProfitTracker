@@ -1,4 +1,5 @@
-<div class="rounded-md border border-gray-200 p-3 space-y-3" data-nested-form-target="item">
+<div class="rounded-md border border-gray-200 p-3 space-y-3" data-nested-form-target="item"
+     data-controller="purchase-line-search" data-purchase-line-search-url-value="<%= catalog_search_path %>">
   <div class="flex items-center justify-between">
     <span class="text-xs font-medium uppercase tracking-wide text-gray-400"><%= t("purchases.form.line") %></span>
     <button type="button" data-action="nested-form#remove" class="text-xs text-red-600 hover:text-red-900 cursor-pointer">
@@ -8,18 +9,19 @@
 
   <%= f.hidden_field :_destroy %>
 
-  <div class="relative" data-controller="purchase-line-search" data-purchase-line-search-url-value="<%= catalog_search_path %>">
+  <div class="relative">
     <%= f.hidden_field :ct_blueprint_id, data: { purchase_line_search_target: "blueprintId" } %>
 
     <label class="block text-xs font-medium text-gray-500"><%= t("purchases.form.search_card") %></label>
-    <input type="text" placeholder="<%= t("purchases.form.search_card") %>" autocomplete="off"
-           data-purchase-line-search-target="query" data-action="input->purchase-line-search#search"
+    <input type="text" placeholder="<%= t("purchases.form.search_card") %>" autocomplete="off" role="combobox" aria-expanded="false"
+           data-purchase-line-search-target="query"
+           data-action="input->purchase-line-search#search keydown->purchase-line-search#navigate"
            class="mt-1 block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-    <div data-purchase-line-search-target="results"
+    <div data-purchase-line-search-target="results" role="listbox"
          class="absolute z-10 mt-1 hidden w-full max-h-56 overflow-y-auto rounded-md border border-gray-200 bg-white shadow-lg"></div>
   </div>
 
-  <div class="grid grid-cols-2 gap-3">
+  <div class="grid gap-3 sm:grid-cols-2">
     <div>
       <%= f.label :description, t("purchases.form.description"), class: "block text-xs font-medium text-gray-500" %>
       <%= f.text_field :description, required: true, data: { purchase_line_search_target: "description" },
@@ -32,7 +34,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-3">
+  <div class="grid gap-3 sm:grid-cols-2">
     <div>
       <%= f.label :kind, t("purchases.form.kind"), class: "block text-xs font-medium text-gray-500" %>
       <%= f.select :kind, PurchaseLine::KINDS.map { |kind| [ I18n.t(kind, scope: "enums.purchase_line.kind"), kind ] }, {},
@@ -46,7 +48,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-3">
+  <div class="grid gap-3 sm:grid-cols-2">
     <div>
       <%= f.label :quantity, t("purchases.form.quantity"), class: "block text-xs font-medium text-gray-500" %>
       <%= f.number_field :quantity, min: 1, required: true, data: { purchase_totals_target: "quantity", action: "input->purchase-totals#recompute" },
@@ -60,7 +62,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-3 gap-3">
+  <div class="grid gap-3 sm:grid-cols-3">
     <div>
       <%= f.label "properties_condition", t("purchases.form.condition"), class: "block text-xs font-medium text-gray-500" %>
       <%= f.select "properties[condition]", PurchaseLine::CONDITIONS.map { |c| [ I18n.t(c, scope: "enums.condition"), c ] },

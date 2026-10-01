@@ -48,13 +48,6 @@
     <% end %>
   <% end %>
 
-  <% if notice %>
-    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
-  <% end %>
-  <% if alert %>
-    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
-  <% end %>
-
   <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
@@ -75,14 +68,16 @@
               <% end %>
             </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= sale_order.buyer_ref %></td>
-            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= I18n.t(sale_order.status, scope: "enums.sale_order.status") %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm"><%= status_badge(sale_order.status, scope: "sale_order.status") %></td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= sale_order.net_proceeds.format %></td>
           </tr>
         <% end %>
 
         <% if @sale_orders.empty? %>
           <tr>
-            <td colspan="4" class="px-4 py-10 text-center text-sm text-gray-500"><%= t(".empty") %></td>
+            <td colspan="4" class="px-0 py-0">
+              <%= render "shared/empty_state", title: t(".empty"), cta_text: t("sales.new.title"), cta_path: new_sale_path %>
+            </td>
           </tr>
         <% end %>
       </tbody>

@@ -465,6 +465,9 @@ fr:
   layouts:
     account_switcher:
       label: Espace de travail
+    locale_switcher:
+      label: Langue
+    menu_toggle: Ouvrir le menu
   passwords:
     create:
       instructions_sent: Instructions de réinitialisation envoyées (si un utilisateur
@@ -675,6 +678,9 @@ fr:
       submit: Se connecter
       title: Connexion
     rate_limited: Réessayez plus tard.
+  shared:
+    dismiss: Fermer
+    processing: Traitement en cours…
   tasks:
     dismiss:
       success: Tâche ignorée.

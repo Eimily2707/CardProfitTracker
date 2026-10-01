@@ -7,13 +7,6 @@
         class: "text-sm text-indigo-600 hover:text-indigo-900" %>
   </div>
 
-  <% if notice %>
-    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
-  <% end %>
-  <% if alert %>
-    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
-  <% end %>
-
   <%= form_with url: inventory_items_path, method: :get, class: "grid gap-3 sm:grid-cols-3 lg:grid-cols-6" do %>
     <div class="lg:col-span-2">
       <label class="sr-only" for="q"><%= t(".search") %></label>
@@ -71,7 +64,7 @@
               <%= link_to item.name, inventory_item_path(item), class: "text-indigo-600 hover:text-indigo-900" %>
             </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= I18n.t(item.kind, scope: "enums.purchase_line.kind") %></td>
-            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= I18n.t(item.status, scope: "enums.inventory_item.status") %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm"><%= status_badge(item.status, scope: "inventory_item.status") %></td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= item.location %></td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= l(item.acquired_on, format: :short) %></td>
             <td class="whitespace-nowrap px-4 py-3 text-right text-sm text-gray-700"><%= item.cost_base.format %></td>
@@ -85,7 +78,9 @@
 
         <% if @items.empty? %>
           <tr>
-            <td colspan="7" class="px-4 py-10 text-center text-sm text-gray-500"><%= t(".empty") %></td>
+            <td colspan="7" class="px-0 py-0">
+              <%= render "shared/empty_state", title: t(".empty") %>
+            </td>
           </tr>
         <% end %>
       </tbody>

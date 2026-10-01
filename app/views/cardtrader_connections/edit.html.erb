@@ -3,15 +3,8 @@
 <div class="w-full max-w-md mx-auto space-y-4">
   <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
 
-  <% if notice %>
-    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
-  <% end %>
-  <% if alert %>
-    <p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-800"><%= alert %></p>
-  <% end %>
-
   <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-1 text-sm">
-    <p class="flex justify-between"><span><%= t("cardtrader_connections.status") %></span> <span><%= I18n.t(@cardtrader_connection.status, scope: "enums.cardtrader_connection.status") %></span></p>
+    <p class="flex justify-between"><span><%= t("cardtrader_connections.status") %></span> <span><%= status_badge(@cardtrader_connection.status, scope: "cardtrader_connection.status") %></span></p>
     <% if @cardtrader_connection.ct_username %>
       <p class="flex justify-between"><span><%= t("cardtrader_connections.ct_username") %></span> <span><%= @cardtrader_connection.ct_username %></span></p>
     <% end %>

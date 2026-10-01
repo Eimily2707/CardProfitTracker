@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post "invitations/:token/accept", to: "invitations#accept", as: :accept_invitation
 
   post "account_switch", to: "account_switches#create", as: :switch_account
+  patch "locale", to: "locales#update", as: :locale
 
   resources :channels, except: %i[show]
 

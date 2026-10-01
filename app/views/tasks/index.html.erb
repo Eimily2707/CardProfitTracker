@@ -3,10 +3,6 @@
 <div class="w-full max-w-3xl mx-auto space-y-4">
   <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
 
-  <% if notice %>
-    <p class="rounded-md bg-green-50 px-4 py-2 text-sm text-green-800"><%= notice %></p>
-  <% end %>
-
   <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
@@ -21,8 +17,8 @@
         <% @tasks.each do |task| %>
           <tr>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-900"><%= I18n.t(task.kind, scope: "enums.task.kind") %></td>
-            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= I18n.t(task.priority, scope: "enums.task.priority") %></td>
-            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= I18n.t(task.status, scope: "enums.task.status") %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm"><%= status_badge(task.priority, scope: "task.priority") %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm"><%= status_badge(task.status, scope: "task.status") %></td>
             <td class="whitespace-nowrap px-4 py-3 text-right text-sm space-x-3">
               <% if policy(task).update? %>
                 <% if task.status == "snoozed" %>
@@ -38,7 +34,9 @@
 
         <% if @tasks.empty? %>
           <tr>
-            <td colspan="4" class="px-4 py-10 text-center text-sm text-gray-500"><%= t(".empty") %></td>
+            <td colspan="4" class="px-0 py-0">
+              <%= render "shared/empty_state", title: t(".empty") %>
+            </td>
           </tr>
         <% end %>
       </tbody>
