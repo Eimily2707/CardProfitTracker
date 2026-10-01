@@ -82,12 +82,21 @@ class PurchasesController < ApplicationController
   private
 
   def set_purchase
-    @purchase = Current.account.purchases.find(params[:id])
+    @purchase = find_purchase_scope.find(params[:id])
     # confirm/confirm_received/receive/cancel authorize explicitly against
     # :transition? in their own action - Pundit's implicit action-name
     # lookup would otherwise look for confirm?/receive?/... methods that
     # don't exist.
     authorize @purchase unless %w[confirm confirm_received receive cancel].include?(action_name)
+  end
+
+  # show iterates every line's inventory_items.count and reads charges/channel -
+  # eager load them there to avoid a query per line/charge (index already does
+  # its own .includes(:channel)).
+  def find_purchase_scope
+    return Current.account.purchases unless action_name == "show"
+
+    Current.account.purchases.includes(:channel, :purchase_charges, purchase_lines: :inventory_items)
   end
 
   def transition_error_message(error)

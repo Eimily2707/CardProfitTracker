@@ -27,6 +27,10 @@
       <% if policy(@purchase).destroy? %>
         <%= button_to t(".destroy"), purchase_path(@purchase), method: :delete, form: { data: { turbo_confirm: true } }, class: "rounded-md border border-red-300 px-3 py-2 text-sm text-red-700 hover:bg-red-50 cursor-pointer" %>
       <% end %>
+
+      <% if Current.membership&.admin? || Current.membership&.owner? %>
+        <%= link_to t(".audit_log"), audit_log_path(type: "Purchase", id: @purchase.id), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+      <% end %>
     </div>
   </div>
 
@@ -64,7 +68,7 @@
             <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.quantity %></td>
             <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.unit_price.format %></td>
             <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.line_total.format %></td>
-            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.inventory_items.count %></td>
+            <td class="whitespace-nowrap px-4 py-2 text-sm text-gray-700"><%= line.inventory_items.size %></td>
           </tr>
         <% end %>
       </tbody>

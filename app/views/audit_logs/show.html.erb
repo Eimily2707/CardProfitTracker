@@ -1,0 +1,39 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-3xl mx-auto space-y-4">
+  <h1 class="text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
+  <p class="text-sm text-gray-500"><%= params[:type] %> ##<%= params[:id] %></p>
+
+  <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".event") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".whodunnit") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".when") %></th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"><%= t(".changes") %></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @versions.each do |version| %>
+          <tr>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-900"><%= I18n.t(version.event, scope: "enums.audit_log.event", default: version.event) %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= User.find_by(id: version.whodunnit)&.email || t(".system") %></td>
+            <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-700"><%= l(version.created_at, format: :short) %></td>
+            <td class="px-4 py-3 text-sm text-gray-700">
+              <% version.changeset.except("id", "created_at", "updated_at").each do |field, (before, after)| %>
+                <div><span class="font-medium"><%= field %>:</span> <%= before.inspect %> &rarr; <%= after.inspect %></div>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if @versions.empty? %>
+          <tr>
+            <td colspan="4" class="px-4 py-10 text-center text-sm text-gray-500"><%= t(".empty") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

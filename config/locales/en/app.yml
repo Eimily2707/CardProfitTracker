@@ -55,6 +55,38 @@ en:
               invalid: is not a valid time zone
   app:
     name: CardProfitTracker
+  audit_logs:
+    show:
+      changes: Changes
+      empty: No changes recorded.
+      event: Event
+      not_found: Record not found.
+      system: System
+      title: Change history
+      when: When
+      whodunnit: User
+  cardtrader_connections:
+    access_token: Personal API token
+    access_token_hint: Leave blank to keep it unchanged
+    create:
+      success: Connection created.
+    ct_username: CardTrader username
+    destroy:
+      success: Connection disconnected.
+    disconnect: Disconnect
+    edit:
+      title: CardTrader connection
+    nav_title: CardTrader
+    new:
+      title: Connect CardTrader
+    status: Status
+    submit: Save
+    update:
+      success: Connection updated.
+    verify:
+      success: Connection verified.
+    verify_button: Verify connection
+    webhook_url: Webhook URL
   catalog:
     index:
       all_categories: All categories
@@ -134,6 +166,17 @@ en:
       one: "%{count} order"
       other: "%{count} orders"
   enums:
+    audit_log:
+      event:
+        create: Created
+        destroy: Deleted
+        update: Updated
+    cardtrader_connection:
+      status:
+        active: Active
+        disconnected: Disconnected
+        invalid: Invalid
+        pending_verification: Pending verification
     channel:
       credit_timing:
         immediate: Immediate
@@ -216,6 +259,32 @@ en:
         draft: Draft
         paid: Paid
         shipped: Shipped
+    task:
+      kind:
+        box_delivery_review: Box delivery to review
+        catch_up_failed: Catch-up failed
+        confirm_copy: Confirm copy
+        connection_invalid: Invalid connection
+        credit_pending: Credit pending
+        ct0_contestation: CT Zero dispute
+        estimated_amount: Estimated amount
+        grading_overdue: Grading submission overdue
+        import_failed: Import failed
+        import_review: Import to review
+        link_proposal: Link proposal
+        open_cost_pool: Open cost pool
+        pending_arrival_overdue: Arrival overdue
+        recurring_expense: Recurring expense
+        sale_conflict: Sale conflict
+      priority:
+        high: High
+        low: Low
+        normal: Normal
+      status:
+        dismissed: Dismissed
+        open: Open
+        resolved: Resolved
+        snoozed: Snoozed
   invitation_mailer:
     invite:
       body: You've been invited to collaborate on %{account} in CardProfitTracker.
@@ -334,6 +403,7 @@ en:
     receive:
       received: Purchase received.
     show:
+      audit_log: Change history
       cancel: Cancel
       charge_amount: Amount
       charge_kind: Kind
@@ -428,6 +498,7 @@ en:
     ship:
       shipped: Sale shipped.
     show:
+      audit_log: Change history
       cancel: Cancel
       charge_amount: Amount
       charge_kind: Kind
@@ -465,3 +536,19 @@ en:
       submit: Sign in
       title: Sign in
     rate_limited: Try again later.
+  tasks:
+    dismiss:
+      success: Task dismissed.
+    index:
+      dismiss: Dismiss
+      empty: No tasks to handle.
+      kind: Kind
+      priority: Priority
+      snooze: Snooze
+      status: Status
+      title: To handle
+      unsnooze: Reopen
+    snooze:
+      success: Task snoozed for a week.
+    unsnooze:
+      success: Task reopened.

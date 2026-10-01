@@ -42,9 +42,25 @@ Rails.application.routes.draw do
   get "reports/sales", to: "reports#sales", as: :sales_report, defaults: { format: :csv }
   get "reports/inventory", to: "reports#inventory", as: :inventory_report, defaults: { format: :csv }
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  post "webhooks/cardtrader/:webhook_token", to: "webhooks/cardtrader#create", as: :cardtrader_webhook
+
+  resource :cardtrader_connection, only: %i[new create edit update destroy] do
+    post :verify, on: :member
+  end
+
+  resources :tasks, only: %i[index] do
+    member do
+      post :snooze
+      post :dismiss
+      post :unsnooze
+    end
+  end
+
+  get "audit_logs", to: "audit_logs#show", as: :audit_log
+
+  # /up: 200 only if the app boots AND Postgres/Solid Queue are healthy (Tranche 6
+  # polish, replacing Rails' default boot-only check - see HealthController).
+  get "up" => "health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

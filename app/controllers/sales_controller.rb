@@ -121,11 +121,20 @@ class SalesController < ApplicationController
   private
 
   def set_sale
-    @sale_order = Current.account.sale_orders.find(params[:id])
+    @sale_order = find_sale_scope.find(params[:id])
     # submit/confirm_payment/ship/deliver/cancel authorize explicitly against
     # :transition? in their own action - Pundit's implicit action-name
     # lookup would otherwise look for submit?/ship?/... methods that don't exist.
     authorize @sale_order unless %w[submit confirm_payment ship deliver cancel].include?(action_name)
+  end
+
+  # show reads each line's inventory_item and every charge/the channel - eager
+  # load them there to avoid a query per line/charge (index already does its
+  # own .includes(:channel)).
+  def find_sale_scope
+    return Current.account.sale_orders unless action_name == "show"
+
+    Current.account.sale_orders.includes(:channel, :sale_charges, sale_lines: :inventory_item)
   end
 
   def transition_error_message(error)

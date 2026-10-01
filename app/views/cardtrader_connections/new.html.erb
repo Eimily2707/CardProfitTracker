@@ -1,0 +1,26 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-md mx-auto">
+  <h1 class="mb-6 text-2xl font-semibold text-gray-900"><%= t(".title") %></h1>
+
+  <%= form_with model: @cardtrader_connection, url: cardtrader_connection_path, class: "space-y-4" do |f| %>
+    <% if @cardtrader_connection.errors.any? %>
+      <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+        <ul class="list-disc list-inside">
+          <% @cardtrader_connection.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :access_token, t("cardtrader_connections.access_token"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.password_field :access_token, required: true, autocomplete: "off",
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <%= f.submit t("cardtrader_connections.submit"),
+        class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
+  <% end %>
+</div>
