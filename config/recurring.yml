@@ -23,3 +23,10 @@ production:
     queue: ct_catalog
     args: [ { trigger: "schedule" } ]
     schedule: <%= ENV.fetch("CARDTRADER_CATALOG_SYNC_CRON", "0 3 * * * Europe/Rome") %>
+
+  # spec §6.10 US-10.1: a confirmed recurring expense proposes its next
+  # period's draft once that period arrives.
+  generate_recurring_expense_drafts:
+    class: Expenses::GenerateRecurringDraftsJob
+    queue: default
+    schedule: every day at 4am

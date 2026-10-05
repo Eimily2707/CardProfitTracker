@@ -27,6 +27,15 @@ en:
           attributes:
             base:
               residual_negative: the residual cannot be negative
+        expense:
+          attributes:
+            base:
+              only_drafts_can_be_deleted: only drafts can be deleted
+        expense_category:
+          attributes:
+            base:
+              system_category_not_deletable: preloaded categories can't be deleted,
+                only deactivated
         membership:
           attributes:
             role:
@@ -190,12 +199,14 @@ en:
     card: Card
     channel_matrix: Where I buy, where I sell
     cost: Cost
+    expenses_total: 'Expenses: %{amount}'
     export_inventory: Export inventory (CSV)
     export_sales: Export sales (CSV)
     from: From
     invested_capital: Invested capital
     no_account: No account is associated with this user.
     no_data: No data for the selected period.
+    operating_profit: Operating profit
     periods:
       custom: Custom
       month: Month
@@ -264,6 +275,14 @@ en:
         allocated: Allocated
         closed: Closed
         open: Open
+    expense:
+      recurrence:
+        monthly: Monthly
+        none: None
+        yearly: Yearly
+      status:
+        confirmed: Confirmed
+        draft: Draft
     inventory_item:
       cost_source:
         manual: Manual
@@ -374,6 +393,79 @@ en:
         retained_by_buyer: Retained by buyer
         stolen: Stolen
         unallocated_residual: Unallocated residual
+  expense_categories:
+    active: Active
+    create:
+      success: Category created.
+    destroy:
+      success: Category deleted.
+    edit:
+      title: Edit expense category
+    index:
+      active: Active
+      destroy: Delete
+      edit: Edit
+      name: Name
+      'no': 'No'
+      system_badge: Preloaded
+      title: Expense categories
+      'yes': 'Yes'
+    name: Name
+    new:
+      title: New expense category
+    submit: Save
+    update:
+      success: Category updated.
+  expenses:
+    confirm:
+      confirmed: Expense confirmed.
+    create:
+      success: Expense created.
+    destroy:
+      success: Expense deleted.
+    edit:
+      title: Edit expense
+    form:
+      amount: Amount
+      amount_hint: Negative for refunds or credit notes
+      channel: Channel
+      currency: Currency
+      current_receipt: 'Current attachment: %{filename}'
+      description: Description
+      expense_category: Category
+      fx_rate: Exchange rate
+      fx_rate_hint: against %{currency}
+      incurred_on: Date incurred
+      receipt: Attachment
+      recurrence: Recurrence
+      submit: Save
+      supplier_ref: Supplier
+    index:
+      amount: Amount
+      category: Category
+      channel: Channel
+      empty: No expenses recorded yet.
+      from: From
+      incurred_on: Date
+      status: Status
+      title: Expenses
+      to: To
+    new:
+      title: New expense
+    show:
+      amount: Amount
+      amount_base: Amount (base currency)
+      audit_log: Change history
+      channel: Channel
+      confirm: Confirm
+      destroy: Delete
+      edit: Edit
+      incurred_on: Date incurred
+      receipt: Attachment
+      recurrence: Recurrence
+      supplier_ref: Supplier
+    update:
+      success: Expense updated.
   inventory_items:
     index:
       acquired_on: Acquired on

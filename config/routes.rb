@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   patch "locale", to: "locales#update", as: :locale
 
   resources :channels, except: %i[show]
+  resources :expense_categories, except: %i[show]
+
+  resources :expenses do
+    member { post :confirm }
+  end
 
   resources :purchases do
     member do

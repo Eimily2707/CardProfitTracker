@@ -1,0 +1,79 @@
+<%= form_with model: expense, class: "space-y-6" do |f| %>
+  <% if expense.errors.any? %>
+    <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+      <ul class="list-disc list-inside">
+        <% expense.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= f.label :expense_category_id, t("expenses.form.expense_category"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.collection_select :expense_category_id, Current.account.expense_categories.active.order(:name), :id, :name, { include_blank: true },
+          required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :channel_id, t("expenses.form.channel"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.collection_select :channel_id, Current.account.channels.active.order(:name), :id, :name, { include_blank: true },
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :description, t("expenses.form.description"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :description,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :supplier_ref, t("expenses.form.supplier_ref"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :supplier_ref,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :incurred_on, t("expenses.form.incurred_on"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :incurred_on, required: true,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :recurrence, t("expenses.form.recurrence"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :recurrence, Expense::RECURRENCES.map { |r| [ I18n.t(r, scope: "enums.expense.recurrence"), r ] }, {},
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :currency, t("expenses.form.currency"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :currency, maxlength: 3,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm uppercase" %>
+    </div>
+
+    <div>
+      <%= f.label :amount, t("expenses.form.amount"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :amount, required: true, inputmode: "decimal", placeholder: t("expenses.form.amount_hint"),
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :fx_rate, t("expenses.form.fx_rate"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :fx_rate, inputmode: "decimal", placeholder: t("expenses.form.fx_rate_hint", currency: Current.account.base_currency),
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :receipt, t("expenses.form.receipt"), class: "block text-sm font-medium text-gray-700" %>
+      <%= f.file_field :receipt,
+          class: "mt-1 block w-full text-sm text-gray-700 file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm" %>
+      <% if expense.persisted? && expense.receipt.attached? %>
+        <p class="mt-1 text-xs text-gray-500"><%= t("expenses.form.current_receipt", filename: expense.receipt.filename) %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= f.submit t("expenses.form.submit"), data: { turbo_submits_with: t("shared.processing") },
+      class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 cursor-pointer" %>
+<% end %>

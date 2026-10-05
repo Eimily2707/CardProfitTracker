@@ -27,6 +27,15 @@ de:
           attributes:
             base:
               residual_negative: der Restbetrag darf nicht negativ sein
+        expense:
+          attributes:
+            base:
+              only_drafts_can_be_deleted: nur Entwürfe können gelöscht werden
+        expense_category:
+          attributes:
+            base:
+              system_category_not_deletable: vorinstallierte Kategorien können nicht
+                gelöscht, nur deaktiviert werden
         membership:
           attributes:
             role:
@@ -194,12 +203,14 @@ de:
     card: Karte
     channel_matrix: Wo ich kaufe, wo ich verkaufe
     cost: Kosten
+    expenses_total: 'Ausgaben: %{amount}'
     export_inventory: Inventar exportieren (CSV)
     export_sales: Verkäufe exportieren (CSV)
     from: Von
     invested_capital: Investiertes Kapital
     no_account: Diesem Benutzer ist kein Konto zugeordnet.
     no_data: Keine Daten für den gewählten Zeitraum.
+    operating_profit: Operativer Gewinn
     periods:
       custom: Benutzerdefiniert
       month: Monat
@@ -268,6 +279,14 @@ de:
         allocated: Zugewiesen
         closed: Geschlossen
         open: Offen
+    expense:
+      recurrence:
+        monthly: Monatlich
+        none: Keine
+        yearly: Jährlich
+      status:
+        confirmed: Bestätigt
+        draft: Entwurf
     inventory_item:
       cost_source:
         manual: Manuell
@@ -378,6 +397,79 @@ de:
         retained_by_buyer: Vom Käufer einbehalten
         stolen: Gestohlen
         unallocated_residual: Nicht zugewiesener Restbetrag
+  expense_categories:
+    active: Aktiv
+    create:
+      success: Kategorie erstellt.
+    destroy:
+      success: Kategorie gelöscht.
+    edit:
+      title: Ausgabenkategorie bearbeiten
+    index:
+      active: Aktiv
+      destroy: Löschen
+      edit: Bearbeiten
+      name: Name
+      'no': Nein
+      system_badge: Vorinstalliert
+      title: Ausgabenkategorien
+      'yes': Ja
+    name: Name
+    new:
+      title: Neue Ausgabenkategorie
+    submit: Speichern
+    update:
+      success: Kategorie aktualisiert.
+  expenses:
+    confirm:
+      confirmed: Ausgabe bestätigt.
+    create:
+      success: Ausgabe erstellt.
+    destroy:
+      success: Ausgabe gelöscht.
+    edit:
+      title: Ausgabe bearbeiten
+    form:
+      amount: Betrag
+      amount_hint: Negativ für Erstattungen oder Gutschriften
+      channel: Kanal
+      currency: Währung
+      current_receipt: 'Aktueller Anhang: %{filename}'
+      description: Beschreibung
+      expense_category: Kategorie
+      fx_rate: Wechselkurs
+      fx_rate_hint: gegenüber %{currency}
+      incurred_on: Datum der Zugehörigkeit
+      receipt: Anhang
+      recurrence: Wiederholung
+      submit: Speichern
+      supplier_ref: Lieferant
+    index:
+      amount: Betrag
+      category: Kategorie
+      channel: Kanal
+      empty: Noch keine Ausgaben erfasst.
+      from: Von
+      incurred_on: Datum
+      status: Status
+      title: Ausgaben
+      to: Bis
+    new:
+      title: Neue Ausgabe
+    show:
+      amount: Betrag
+      amount_base: Betrag (Basiswährung)
+      audit_log: Änderungsverlauf
+      channel: Kanal
+      confirm: Bestätigen
+      destroy: Löschen
+      edit: Bearbeiten
+      incurred_on: Datum der Zugehörigkeit
+      receipt: Anhang
+      recurrence: Wiederholung
+      supplier_ref: Lieferant
+    update:
+      success: Ausgabe aktualisiert.
   inventory_items:
     index:
       acquired_on: Erworben am

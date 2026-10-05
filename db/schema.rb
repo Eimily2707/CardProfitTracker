@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_100004) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_01_100007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -32,6 +32,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_100004) do
     t.string "trade_valuation_method", default: "carryover", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "cardtrader_connections", force: :cascade do |t|
@@ -181,6 +209,46 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_100004) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ct_id"], name: "index_ct_games_on_ct_id", unique: true
+  end
+
+  create_table "expense_categories", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "system_key"
+    t.string "name", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_expense_categories_on_account_id_and_name", unique: true
+    t.index ["account_id", "system_key"], name: "index_expense_categories_on_account_id_and_system_key", unique: true
+    t.index ["account_id"], name: "index_expense_categories_on_account_id"
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "expense_category_id", null: false
+    t.bigint "channel_id"
+    t.bigint "created_by_id"
+    t.bigint "source_expense_id"
+    t.string "description"
+    t.string "supplier_ref"
+    t.date "incurred_on", null: false
+    t.string "currency", limit: 3, null: false
+    t.bigint "amount_cents", null: false
+    t.decimal "fx_rate", precision: 20, scale: 10
+    t.date "fx_rate_date"
+    t.string "fx_source", default: "manual", null: false
+    t.bigint "amount_base_cents"
+    t.string "recurrence", default: "none", null: false
+    t.string "status", default: "draft", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "incurred_on"], name: "index_expenses_on_account_id_and_incurred_on"
+    t.index ["account_id", "status"], name: "index_expenses_on_account_id_and_status"
+    t.index ["account_id"], name: "index_expenses_on_account_id"
+    t.index ["channel_id"], name: "index_expenses_on_channel_id"
+    t.index ["created_by_id"], name: "index_expenses_on_created_by_id"
+    t.index ["expense_category_id"], name: "index_expenses_on_expense_category_id"
+    t.index ["source_expense_id"], name: "index_expenses_on_source_expense_id"
   end
 
   create_table "inventory_items", force: :cascade do |t|
@@ -658,6 +726,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_100004) do
     t.index ["inventory_item_id"], name: "index_write_offs_on_inventory_item_id"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cardtrader_connections", "accounts"
   add_foreign_key "cardtrader_order_sync_runs", "accounts"
   add_foreign_key "cardtrader_order_sync_runs", "users", column: "triggered_by_id"
@@ -665,6 +735,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_100004) do
   add_foreign_key "channels", "accounts"
   add_foreign_key "cost_pools", "accounts"
   add_foreign_key "cost_pools", "inventory_items", column: "source_item_id"
+  add_foreign_key "expense_categories", "accounts"
+  add_foreign_key "expenses", "accounts"
+  add_foreign_key "expenses", "channels"
+  add_foreign_key "expenses", "expense_categories"
+  add_foreign_key "expenses", "expenses", column: "source_expense_id"
+  add_foreign_key "expenses", "users", column: "created_by_id"
   add_foreign_key "inventory_items", "accounts"
   add_foreign_key "inventory_items", "cost_pools"
   add_foreign_key "inventory_items", "ct_blueprints"

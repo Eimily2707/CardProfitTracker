@@ -7,6 +7,7 @@ module ApplicationHelper
       [ t("purchases.index.title"), purchases_path ],
       [ t("inventory_items.index.title"), inventory_items_path ],
       [ t("sales.index.title"), sales_path ],
+      [ t("expenses.index.title"), expenses_path ],
       [ t("channels.index.title"), channels_path ],
       [ t("tasks.index.title"), tasks_path ]
     ]

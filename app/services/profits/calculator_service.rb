@@ -10,10 +10,7 @@ module Profits
   # Box recovery % lives on CostPool#recovery_percent instead (spec §7.6
   # frames it "per un item aperto", i.e. per pool, not as an account-wide
   # aggregate). KPIs that still depend on features not yet built: write-offs
-  # by reason (§7.10 - WriteOff exists but only for pool residuals so far)
-  # and general expenses (§7.13 - no Expense model yet, M10) -
-  # #realized_profit_base_cents below is realized profit alone, without
-  # subtracting general expenses, for the same reason.
+  # by reason (§7.10 - WriteOff exists but only for pool residuals so far).
   class CalculatorService
     AGING_BUCKETS = [ (0..30), (31..90), (91..180), (181..Float::INFINITY) ].freeze
 
@@ -65,6 +62,28 @@ module Profits
 
     def profit_by_channel(from: nil, to: nil)
       credited_orders(from: from, to: to).joins(:channel).group("channels.name").sum(:profit_base_cents)
+    end
+
+    # spec §7.13: confirmed general expenses with incurred_on in the period
+    # (never the purchase/sale ROI or item cost - "Le spese non modificano
+    # il costo degli item né il ROI delle singole vendite").
+    def expenses_base_cents(from: nil, to: nil)
+      confirmed_expenses(from: from, to: to).sum(:amount_base_cents)
+    end
+
+    def operating_profit_base_cents(from: nil, to: nil)
+      realized_profit_base_cents(from: from, to: to) - expenses_base_cents(from: from, to: to)
+    end
+
+    # spec §7.13 "Le spese imputate a un canale entrano anche nella
+    # redditività di quel canale": Σ profitto vendite del canale − Σ spese
+    # del canale. Unattributed expenses (no channel) are excluded here -
+    # they still count in the account-wide #operating_profit_base_cents.
+    def operating_profit_by_channel(from: nil, to: nil)
+      sales = profit_by_channel(from: from, to: to)
+      expenses = confirmed_expenses(from: from, to: to).joins(:channel).group("channels.name").sum(:amount_base_cents)
+
+      (sales.keys | expenses.keys).index_with { |name| sales[name].to_i - expenses[name].to_i }
     end
 
     # spec §7.4 "Profitto per riga": profit_i = unit_price_base_i +
@@ -134,6 +153,13 @@ module Profits
       scope = account.sale_orders.where.not(credited_at: nil)
       scope = scope.where(credited_at: from.beginning_of_day..) if from
       scope = scope.where(credited_at: ..to.end_of_day) if to
+      scope
+    end
+
+    def confirmed_expenses(from: nil, to: nil)
+      scope = account.expenses.confirmed
+      scope = scope.where(incurred_on: from..) if from
+      scope = scope.where(incurred_on: ..to) if to
       scope
     end
 
