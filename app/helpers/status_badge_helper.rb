@@ -27,7 +27,8 @@ module StatusBadgeHelper
     },
     "task.status" => { "open" => :amber, "snoozed" => :gray, "resolved" => :green, "dismissed" => :gray },
     "task.priority" => { "high" => :red, "normal" => :gray, "low" => :gray },
-    "cost_pool.status" => { "open" => :amber, "allocated" => :blue, "closed" => :green }
+    "cost_pool.status" => { "open" => :amber, "allocated" => :blue, "closed" => :green },
+    "expense.status" => { "draft" => :amber, "confirmed" => :green }
   }.freeze
 
   def status_badge(value, scope:)

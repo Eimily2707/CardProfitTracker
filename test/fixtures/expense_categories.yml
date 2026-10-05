@@ -1,0 +1,22 @@
+acme_fair:
+  account: acme
+  system_key: fair
+  name: "Fiera"
+  active: true
+
+acme_software:
+  account: acme
+  system_key: software
+  name: "Software"
+  active: true
+
+acme_custom:
+  account: acme
+  name: "Spesa personalizzata"
+  active: true
+
+globex_fair:
+  account: globex
+  system_key: fair
+  name: "Fair"
+  active: true

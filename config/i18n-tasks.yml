@@ -25,6 +25,7 @@ ignore_unused:
   - "enums.channel.*"
   - "enums.condition.*"
   - "enums.cost_pool.*"
+  - "enums.expense.*"
   - "enums.inventory_item.*"
   - "enums.purchase.status.*"
   - "enums.task.*"

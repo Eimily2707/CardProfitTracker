@@ -18,6 +18,8 @@ class Account < ApplicationRecord
   # account from losing a channel it needs, not to block tearing the whole
   # account down.
   has_many :channels, dependent: :delete_all
+  has_many :expense_categories, dependent: :delete_all
+  has_many :expenses, dependent: :restrict_with_error
   has_many :purchases, dependent: :restrict_with_error
   has_many :inventory_items, dependent: :restrict_with_error
   has_many :cost_pools, dependent: :restrict_with_error
@@ -28,6 +30,7 @@ class Account < ApplicationRecord
   has_many :tasks, dependent: :destroy
 
   after_create -> { Channel.seed_defaults_for!(self) }
+  after_create -> { ExpenseCategory.seed_defaults_for!(self) }
 
   validates :name, presence: true
   validates :base_currency, presence: true, length: { is: 3 }

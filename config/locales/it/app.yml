@@ -27,6 +27,15 @@ it:
           attributes:
             base:
               residual_negative: il residuo non può essere negativo
+        expense:
+          attributes:
+            base:
+              only_drafts_can_be_deleted: solo le bozze possono essere eliminate
+        expense_category:
+          attributes:
+            base:
+              system_category_not_deletable: le categorie precaricate non si possono
+                eliminare, solo disattivare
         membership:
           attributes:
             role:
@@ -191,12 +200,14 @@ it:
     card: Carta
     channel_matrix: Da dove compro, dove vendo
     cost: Costo
+    expenses_total: 'Spese: %{amount}'
     export_inventory: Esporta inventario (CSV)
     export_sales: Esporta vendite (CSV)
     from: Dal
     invested_capital: Capitale investito
     no_account: Nessun account associato a questo utente.
     no_data: Nessun dato per il periodo selezionato.
+    operating_profit: Profitto operativo
     periods:
       custom: Personalizzato
       month: Mese
@@ -265,6 +276,14 @@ it:
         allocated: Attribuito
         closed: Chiuso
         open: Aperto
+    expense:
+      recurrence:
+        monthly: Mensile
+        none: Nessuna
+        yearly: Annuale
+      status:
+        confirmed: Confermata
+        draft: Bozza
     inventory_item:
       cost_source:
         manual: Manuale
@@ -375,6 +394,79 @@ it:
         retained_by_buyer: Trattenuto dall'acquirente
         stolen: Rubato
         unallocated_residual: Residuo non attribuito
+  expense_categories:
+    active: Attiva
+    create:
+      success: Categoria creata.
+    destroy:
+      success: Categoria eliminata.
+    edit:
+      title: Modifica categoria di spesa
+    index:
+      active: Attiva
+      destroy: Elimina
+      edit: Modifica
+      name: Nome
+      'no': 'No'
+      system_badge: Precaricata
+      title: Categorie di spesa
+      'yes': Sì
+    name: Nome
+    new:
+      title: Nuova categoria di spesa
+    submit: Salva
+    update:
+      success: Categoria aggiornata.
+  expenses:
+    confirm:
+      confirmed: Spesa confermata.
+    create:
+      success: Spesa creata.
+    destroy:
+      success: Spesa eliminata.
+    edit:
+      title: Modifica spesa
+    form:
+      amount: Importo
+      amount_hint: Negativo per rimborsi o note di credito
+      channel: Canale
+      currency: Valuta
+      current_receipt: 'Allegato attuale: %{filename}'
+      description: Descrizione
+      expense_category: Categoria
+      fx_rate: Tasso di cambio
+      fx_rate_hint: verso %{currency}
+      incurred_on: Data di competenza
+      receipt: Allegato
+      recurrence: Ricorrenza
+      submit: Salva
+      supplier_ref: Fornitore
+    index:
+      amount: Importo
+      category: Categoria
+      channel: Canale
+      empty: Nessuna spesa registrata.
+      from: Dal
+      incurred_on: Data
+      status: Stato
+      title: Spese
+      to: Al
+    new:
+      title: Nuova spesa
+    show:
+      amount: Importo
+      amount_base: Importo (valuta base)
+      audit_log: Cronologia modifiche
+      channel: Canale
+      confirm: Conferma
+      destroy: Elimina
+      edit: Modifica
+      incurred_on: Data di competenza
+      receipt: Allegato
+      recurrence: Ricorrenza
+      supplier_ref: Fornitore
+    update:
+      success: Spesa aggiornata.
   inventory_items:
     index:
       acquired_on: Acquisito il

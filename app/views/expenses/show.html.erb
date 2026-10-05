@@ -1,0 +1,52 @@
+<% content_for :title, @expense.description.presence || @expense.expense_category.name %>
+
+<div class="w-full max-w-2xl mx-auto space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900"><%= @expense.description.presence || @expense.expense_category.name %></h1>
+      <p class="mt-1 flex items-center gap-2 text-sm text-gray-500">
+        <%= @expense.expense_category.name %>
+        <%= status_badge(@expense.status, scope: "expense.status") %>
+      </p>
+    </div>
+
+    <div class="flex gap-2">
+      <% if policy(@expense).update? %>
+        <%= link_to t(".edit"), edit_expense_path(@expense), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+      <% end %>
+
+      <% if policy(@expense).transition? && @expense.status == "draft" %>
+        <%= button_to t(".confirm"), confirm_expense_path(@expense), class: "rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-500 cursor-pointer" %>
+      <% end %>
+
+      <% if policy(@expense).destroy? %>
+        <%= button_to t(".destroy"), expense_path(@expense), method: :delete, form: { data: { turbo_confirm: true } }, class: "rounded-md border border-red-300 px-3 py-2 text-sm text-red-700 hover:bg-red-50 cursor-pointer" %>
+      <% end %>
+
+      <% if Current.membership&.admin? || Current.membership&.owner? %>
+        <%= link_to t(".audit_log"), audit_log_path(type: "Expense", id: @expense.id), class: "rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-1 text-sm">
+    <% if @expense.channel %>
+      <p class="flex justify-between"><span><%= t(".channel") %></span> <span><%= @expense.channel.name %></span></p>
+    <% end %>
+    <% if @expense.supplier_ref.present? %>
+      <p class="flex justify-between"><span><%= t(".supplier_ref") %></span> <span><%= @expense.supplier_ref %></span></p>
+    <% end %>
+    <p class="flex justify-between"><span><%= t(".incurred_on") %></span> <span><%= l(@expense.incurred_on, format: :short) %></span></p>
+    <p class="flex justify-between"><span><%= t(".recurrence") %></span> <span><%= I18n.t(@expense.recurrence, scope: "enums.expense.recurrence") %></span></p>
+    <p class="flex justify-between font-semibold"><span><%= t(".amount") %></span> <span><%= @expense.amount.format %></span></p>
+    <% if @expense.amount_base_cents.present? %>
+      <p class="flex justify-between text-gray-500"><span><%= t(".amount_base") %></span> <span><%= @expense.amount_base.format %></span></p>
+    <% end %>
+    <% if @expense.receipt.attached? %>
+      <p class="flex justify-between">
+        <span><%= t(".receipt") %></span>
+        <%= link_to @expense.receipt.filename, rails_blob_path(@expense.receipt, disposition: "attachment"), class: "text-indigo-600 hover:text-indigo-900" %>
+      </p>
+    <% end %>
+  </div>
+</div>

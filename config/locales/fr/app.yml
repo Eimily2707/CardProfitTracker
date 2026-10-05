@@ -27,6 +27,15 @@ fr:
           attributes:
             base:
               residual_negative: le résidu ne peut pas être négatif
+        expense:
+          attributes:
+            base:
+              only_drafts_can_be_deleted: seuls les brouillons peuvent être supprimés
+        expense_category:
+          attributes:
+            base:
+              system_category_not_deletable: les catégories préchargées ne peuvent
+                pas être supprimées, seulement désactivées
         membership:
           attributes:
             role:
@@ -192,12 +201,14 @@ fr:
     card: Carte
     channel_matrix: Où j'achète, où je vends
     cost: Coût
+    expenses_total: 'Dépenses : %{amount}'
     export_inventory: Exporter l'inventaire (CSV)
     export_sales: Exporter les ventes (CSV)
     from: Du
     invested_capital: Capital investi
     no_account: Aucun compte associé à cet utilisateur.
     no_data: Aucune donnée pour la période sélectionnée.
+    operating_profit: Profit opérationnel
     periods:
       custom: Personnalisé
       month: Mois
@@ -266,6 +277,14 @@ fr:
         allocated: Attribué
         closed: Fermé
         open: Ouvert
+    expense:
+      recurrence:
+        monthly: Mensuelle
+        none: Aucune
+        yearly: Annuelle
+      status:
+        confirmed: Confirmée
+        draft: Brouillon
     inventory_item:
       cost_source:
         manual: Manuel
@@ -376,6 +395,79 @@ fr:
         retained_by_buyer: Retenu par l'acheteur
         stolen: Volé
         unallocated_residual: Résidu non attribué
+  expense_categories:
+    active: Active
+    create:
+      success: Catégorie créée.
+    destroy:
+      success: Catégorie supprimée.
+    edit:
+      title: Modifier la catégorie de dépense
+    index:
+      active: Active
+      destroy: Supprimer
+      edit: Modifier
+      name: Nom
+      'no': Non
+      system_badge: Préchargée
+      title: Catégories de dépenses
+      'yes': Oui
+    name: Nom
+    new:
+      title: Nouvelle catégorie de dépense
+    submit: Enregistrer
+    update:
+      success: Catégorie mise à jour.
+  expenses:
+    confirm:
+      confirmed: Dépense confirmée.
+    create:
+      success: Dépense créée.
+    destroy:
+      success: Dépense supprimée.
+    edit:
+      title: Modifier la dépense
+    form:
+      amount: Montant
+      amount_hint: Négatif pour les remboursements ou avoirs
+      channel: Canal
+      currency: Devise
+      current_receipt: 'Pièce jointe actuelle : %{filename}'
+      description: Description
+      expense_category: Catégorie
+      fx_rate: Taux de change
+      fx_rate_hint: vers %{currency}
+      incurred_on: Date de rattachement
+      receipt: Pièce jointe
+      recurrence: Récurrence
+      submit: Enregistrer
+      supplier_ref: Fournisseur
+    index:
+      amount: Montant
+      category: Catégorie
+      channel: Canal
+      empty: Aucune dépense enregistrée.
+      from: Du
+      incurred_on: Date
+      status: Statut
+      title: Dépenses
+      to: Au
+    new:
+      title: Nouvelle dépense
+    show:
+      amount: Montant
+      amount_base: Montant (devise de base)
+      audit_log: Historique des modifications
+      channel: Canal
+      confirm: Confirmer
+      destroy: Supprimer
+      edit: Modifier
+      incurred_on: Date de rattachement
+      receipt: Pièce jointe
+      recurrence: Récurrence
+      supplier_ref: Fournisseur
+    update:
+      success: Dépense mise à jour.
   inventory_items:
     index:
       acquired_on: Acquis le

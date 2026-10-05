@@ -8,7 +8,8 @@ class AuditLogsController < ApplicationController
   # actual Class objects rather than reflection over arbitrary user input.
   AUDITABLE_TYPES = {
     "Purchase" => Purchase, "PurchaseLine" => PurchaseLine, "PurchaseCharge" => PurchaseCharge,
-    "InventoryItem" => InventoryItem, "SaleOrder" => SaleOrder, "SaleLine" => SaleLine, "SaleCharge" => SaleCharge
+    "InventoryItem" => InventoryItem, "SaleOrder" => SaleOrder, "SaleLine" => SaleLine, "SaleCharge" => SaleCharge,
+    "Expense" => Expense
   }.freeze
 
   def show

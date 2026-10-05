@@ -16,6 +16,8 @@ class DashboardController < ApplicationController
     @calculator = Profits::CalculatorService.new(Current.account)
     @invested_capital = @calculator.invested_capital_base_cents
     @realized_profit = @calculator.realized_profit_base_cents(from: @from, to: @to)
+    @expenses_total = @calculator.expenses_base_cents(from: @from, to: @to)
+    @operating_profit = @calculator.operating_profit_base_cents(from: @from, to: @to)
     @cogs = @calculator.cogs_base_cents(from: @from, to: @to)
     @roi_percent = @calculator.roi_percent(from: @from, to: @to)
     @uncredited = @calculator.uncredited_summary

@@ -159,6 +159,49 @@ module Profits
       assert_equal 1100, row[:profit_base_cents]
     end
 
+    # spec §7.13: ProfittoOperativo = ProfittoRealizzato - Σ spese confermate
+    # con incurred_on nel periodo.
+    test "expenses_base_cents sums only confirmed expenses within the period" do
+      category = expense_categories(:acme_fair)
+      confirmed = @account.expenses.create!(expense_category: category, incurred_on: Date.current, currency: "EUR", amount_cents: 3_000)
+      confirmed.confirm!
+      @account.expenses.create!(expense_category: category, incurred_on: Date.current, currency: "EUR", amount_cents: 5_000) # draft
+      @account.expenses.create!(expense_category: category, incurred_on: 1.year.ago.to_date, currency: "EUR", amount_cents: 7_000).confirm!
+
+      assert_equal 3_000, @service.expenses_base_cents(from: Date.current.beginning_of_month, to: Date.current.end_of_month)
+    end
+
+    test "operating_profit_base_cents subtracts confirmed expenses from realized profit" do
+      items = buy_two_teferis(unit_price_cents: 500)
+      sale = sell(items)
+      sale.mark_credited!
+      @account.expenses.create!(
+        expense_category: expense_categories(:acme_fair), incurred_on: Date.current, currency: "EUR", amount_cents: 400
+      ).confirm!
+
+      assert_equal 1100, @service.realized_profit_base_cents
+      assert_equal 400, @service.expenses_base_cents
+      assert_equal 700, @service.operating_profit_base_cents
+    end
+
+    test "operating_profit_by_channel nets each channel's sales profit against its own expenses" do
+      items = buy_two_teferis(unit_price_cents: 500)
+      sale = sell(items)
+      sale.mark_credited!
+      @account.expenses.create!(
+        expense_category: expense_categories(:acme_fair), channel: channels(:acme_cardtrader),
+        incurred_on: Date.current, currency: "EUR", amount_cents: 300
+      ).confirm!
+      @account.expenses.create!(
+        expense_category: expense_categories(:acme_fair), channel: channels(:acme_fair),
+        incurred_on: Date.current, currency: "EUR", amount_cents: 1_000
+      ).confirm!
+
+      result = @service.operating_profit_by_channel
+      assert_equal 800, result["CardTrader"]
+      assert_equal(-1_000, result["Fiera"])
+    end
+
     test "does not leak another account's data" do
       items = buy_two_teferis(unit_price_cents: 500)
       sale = sell(items)
