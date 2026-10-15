@@ -18,7 +18,13 @@ class PurchasesDynamicLinesTest < ApplicationSystemTestCase
     first_line = all("[data-nested-form-target='item']").first
     within first_line do
       query = find("input[data-purchase-line-search-target='query']")
-      query.fill_in with: "Teferi"
+      # Selenium's native typing path for fill_in is the same unreliable one
+      # js_fill_in/press_key already work around elsewhere in this file - it
+      # can skip firing the "input" event for the final keystroke, which
+      # leaves the Stimulus controller's debounced search() never called and
+      # the results dropdown never populated (flaky independent of browser
+      # driver version).
+      js_fill_in(query, with: "Teferi")
 
       assert_selector "[data-purchase-line-search-target='results'] button", wait: 10
       press_key(query, "ArrowDown")
