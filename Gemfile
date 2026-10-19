@@ -5,7 +5,7 @@ gem "rails", "~> 8.1.4"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use PostgreSQL as the database for Active Record - same DB in every environment (spec §3)
-gem "pg", "~> 1.5"
+gem "pg", "~> 1.7"
 # Bundled gem, not a default one, since Ruby 3.4 (used for report CSV exports, §6.7)
 gem "csv"
 # Use the Puma web server [https://github.com/puma/puma]

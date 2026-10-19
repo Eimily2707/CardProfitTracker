@@ -10,12 +10,15 @@ class MobileMenuTest < ApplicationSystemTestCase
 
     assert_no_selector "#mobile-nav-panel:not([hidden])"
 
-    find("button[aria-controls='mobile-nav-panel']").click
+    # Selenium's coordinate-based native click intermittently never reaches
+    # headless Chrome in CI (see js_click) - affects this hamburger
+    # toggle/nav link exactly like it affects buttons elsewhere.
+    js_click(find("button[aria-controls='mobile-nav-panel']"))
     assert_selector "#mobile-nav-panel:not([hidden])"
 
     inventory_title = I18n.with_locale(user.locale) { I18n.t("inventory_items.index.title") }
     within "#mobile-nav-panel" do
-      click_on inventory_title
+      js_click(inventory_title)
     end
 
     assert_selector "h1", text: inventory_title
