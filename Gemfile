@@ -24,7 +24,7 @@ gem "jbuilder"
 # Pin to the 2.x series: json 3.x drops the two-argument JSON.parse(source, opts)
 # form that Rails' session cookie decryption (ActiveSupport::JSON.decode) still calls,
 # which breaks every request that round-trips a session cookie.
-gem "json", "~> 3.0"
+gem "json", "~> 3.1"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
